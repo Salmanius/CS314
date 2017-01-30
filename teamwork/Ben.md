@@ -1,5 +1,3 @@
-INTJ
-
 1. I'm hoping to learn how to work effectively as a team since every class I've taken has been individual work so far.
 
 2. My main one is to learn how to use Github so that I can understand how to use cooperative tools for coding.
