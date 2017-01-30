@@ -1,3 +1,5 @@
+Personality type: ENFP
+
 1.What are your expectations about what your team will accomplish this semester?
 
 I expect that our team will be able to accomplish all the work that is assigned to us.
