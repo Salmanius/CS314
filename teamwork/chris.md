@@ -1,3 +1,5 @@
+Personality Type: INFP AKA Luke Skywalker
+
 1. I expect we will create a solid product that does all the required tasks.
 
 2. I want to make sure to communicate if I have problems or issues that I think need to be address. 
