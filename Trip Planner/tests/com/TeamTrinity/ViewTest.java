@@ -8,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Created by Benas on 2/14/2017.
  */
-class ModelTest {
+class ViewTest {
     @Test
-    void getMessage() {
+    void display() {
 
     }
 
