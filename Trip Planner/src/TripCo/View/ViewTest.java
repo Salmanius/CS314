@@ -1,21 +1,27 @@
-package com.TeamTrinity;
+package TripCo.View;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 /**
- * Created by Benas on 2/14/2017.
+ * Created by mjdun on 2/16/2017.
  */
-class ViewTest {
-    @Test
-    void display() {
+public class ViewTest {
+    @Before
+    public void setUp() throws Exception {
 
     }
 
-    @BeforeEach
-    void setUp() {
+    @After
+    public void tearDown() throws Exception {
+
+    }
+
+    @Test
+    public void display() throws Exception {
 
     }
 
