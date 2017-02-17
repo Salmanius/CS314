@@ -1,4 +1,5 @@
 package TripCo.Presenter;
+
 import TripCo.Model.Model;
 import TripCo.View.View;
 
@@ -17,3 +18,5 @@ public class Presenter {
         view.display (result);
     }
 }
+
+
