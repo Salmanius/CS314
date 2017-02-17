@@ -1,4 +1,4 @@
-package com.TeamTrinity;
+package TripCo.View;
 
 /**
  * Created by mjdun on 2/13/2017.

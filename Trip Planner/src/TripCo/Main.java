@@ -1,4 +1,7 @@
-package com.TeamTrinity;
+package TripCo;
+import TripCo.Presenter.Presenter;
+import TripCo.View.View;
+import TripCo.Model.Model;
 
 public class Main {
 
