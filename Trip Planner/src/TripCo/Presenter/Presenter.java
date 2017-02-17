@@ -1,4 +1,6 @@
-package com.TeamTrinity;
+package TripCo.Presenter;
+import TripCo.Model.Model;
+import TripCo.View.View;
 
 /**
  * Created by mjdun on 2/13/2017.
