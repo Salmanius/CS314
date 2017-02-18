@@ -3,7 +3,7 @@ public class Trip {
     private ArrayList<Leg> Legs;
 
     public Trip(){
-        Legs = ArrayList<Leg>():
+        Legs = new ArrayList<Leg>():
     }
 
     public void addLeg(Leg L){
@@ -17,6 +17,10 @@ public class Trip {
     //We should never need this, but I added incase needed for debugging.
     public void deleteLeg(int index){
         Leg.remove(index);
+    }
+    //Same as above.
+    public void clear(){
+        Leg.clear();
     }
 
 }
