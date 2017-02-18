@@ -3,33 +3,61 @@ package TripCo;
 
 public class Coordinates {
 
-    private int degrees;
-    private int minutes;
-    private int seconds;
-    private char direction;
+    private int latDegrees;
+    private int latMinutes;
+    private int latSeconds;
+    private char latDirection;
 
+    private int longDegrees;
+    private int longMinutes;
+    private int longSeconds;
+    private char longDirection;
 
-    public Coordinates(int d, int m, int s, char dir){
-        this.degrees = d;
-        this.minutes = m;
-        this.seconds = s;
-        this.direction = dir;
-    }
-    
-    public int getDegrees() {
-        return degrees;
-    }
+    public Coordinates(int latd, int latm, int lats, char latdir, int longd, int longm, int longs, char longdir){
+        this.latDegrees = latd;
+        this.latMinutes = latm;
+        this.latSeconds =lats;
+        this.latDirection = latdir;
+        this.longDegrees = longd;
+        this.longMinutes = longm;
+        this.longSeconds = longs;
+        this.longDirection = longdir;
 
-    public int getMinutes() {
-        return minutes;
-    }
-
-    public int getSeconds() {
-        return seconds;
     }
 
-    public char getDirection() {
-        return direction;
+    public int getLatDegrees() {
+        return latDegrees;
     }
+
+    public int getLatMinutes() {
+        return latMinutes;
+    }
+
+    public int getLatSeconds() {
+        return latSeconds;
+    }
+
+    public char getLatDirection() {
+        return latDirection;
+    }
+
+    public int getLongDegrees() {
+        return longDegrees;
+    }
+
+    public int getLongMinutes() {
+        return longMinutes;
+    }
+
+    public int getLongSeconds() {
+        return longSeconds;
+    }
+
+    public char getLongDirection() {
+        return longDirection;
+    }
+
+
+
 
 }
