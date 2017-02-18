@@ -1,26 +1,38 @@
+package TripCo;
+
+import java.util.ArrayList;
+
 public class Trip {
 
     private ArrayList<Leg> Legs;
+    private boolean nameFlag;
+    private boolean idFlag;
+    private boolean mileageFLag;
 
-    public Trip(){
-        Legs = new ArrayList<Leg>():
+
+    public Trip(boolean bName, boolean bID, boolean bMileage){
+        Legs = new ArrayList<Leg>();
+        nameFlag = bName;
+        idFlag = bID;
+        mileageFLag = bMileage;
+
     }
 
     public void addLeg(Leg L){
-        Leg.add(L);
+        Legs.add(L);
     }
 
     public Leg getLeg(int index){
-        return Leg.get(i);
+        return Legs.get(index);
     }
 
     //We should never need this, but I added incase needed for debugging.
     public void deleteLeg(int index){
-        Leg.remove(index);
+        Legs.remove(index);
     }
     //Same as above.
     public void clear(){
-        Leg.clear();
+        Legs.clear();
     }
 
 }
