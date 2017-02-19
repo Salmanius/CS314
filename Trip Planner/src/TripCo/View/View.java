@@ -1,13 +1,17 @@
 package TripCo.View;
 
-/**
- * Created by mjdun on 2/16/2017.
- */
 public class View {
-    public View() {
+    public View(String[] args) {
+        CommandParser(args);
     }
     public void display(String text) {
         System.out.println(text);
+    }
+
+    /* parses the arguments from the command line and stores them locally */
+    private void CommandParser(String[] args) {
+        int argsLength = args.length;
+
     }
 
     /* inserts the borders into the svg file */

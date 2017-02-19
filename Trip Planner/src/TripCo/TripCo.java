@@ -10,7 +10,7 @@ public class TripCo {
         // write your code here
         // argument handling?
         Model model = new Model();
-        View view = new View();
+        View view = new View(args);
         Presenter presenter = new Presenter(view, model);
         presenter.start();
     }
