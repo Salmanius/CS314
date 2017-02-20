@@ -1,7 +1,5 @@
 package TripCo.Model;
 
-import TripCo.Trip;
-
 import java.util.ArrayList;
 
 /**
