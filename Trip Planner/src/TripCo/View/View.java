@@ -39,17 +39,25 @@ public class View {
     private int CommandParser(String[] args) {
         int argsLength = args.length;
 
+        //checks if there is just the program name in arguments
+        //if there is, it throws an error and requests the file name
         if (argsLength == 1) {
-            System.out.println("ERROR: The input file name must be included as an argument!");
+            System.out.println("The input file name must be included as an argument.");
+            System.out.println("Correct usage of the command line is: TripCo.java -flags inputfile.csv");
+            System.out.println("Recognized flags are:\n-m for adding mileages to the map\n-i for adding IDs to the map\n-n for adding Names to the map");
             return -1;
         }
 
+        //checks if there is more than just the program name in arguments
         char flag;
         if (argsLength > 2) {
+            //takes the next argument and saves it as the flags String
             for(int i = 1; i < argsLength-1; i++) {
                 String flags = args[i];
+                //goes through each character in the flags String after the '-'
                 for(int j = 1; j < flags.length(); j++) {
                     flag = flags.charAt(j);
+                    //sets the appropriate boolean to true if the correct flag is present
                     switch (flag) {
                         case 'm':
                             showMileage = true;
@@ -61,13 +69,16 @@ public class View {
                             showName = true;
                             break;
                         default:
-                            System.out.println("ERROR: The flag " + flags + " is not a valid flag!");
+                            System.out.println("The flag " + flags + " is not a valid flag!");
+                            System.out.println("Correct usage of the command line is: TripCo.java -flags inputfile.csv");
+                            System.out.println("Recognized flags are:\n-m for adding mileages to the map\n-i for adding IDs to the map\n-n for adding Names to the map");
                             break;
                     }
                 }
             }
         }
 
+        //takes the last argument and saves it as the filename
         filename = args[argsLength - 1];
         return 0;
     }
