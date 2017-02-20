@@ -1,7 +1,5 @@
 package TripCo.Model;
 
-import TripCo.Coordinates;
-
 /**
  * Created by mjdun on 2/19/2017.
  */
