@@ -11,14 +11,14 @@ public class Trip {
     private ArrayList<Leg> Legs;
     private boolean nameFlag;
     private boolean idFlag;
-    private boolean mileageFLag;
+    private boolean mileageFlag;
 
 
     public Trip(boolean bName, boolean bID, boolean bMileage){
         Legs = new ArrayList<Leg>();
         nameFlag = bName;
         idFlag = bID;
-        mileageFLag = bMileage;
+        mileageFlag = bMileage;
 
     }
 
@@ -28,6 +28,18 @@ public class Trip {
 
     public Leg getLeg(int index){
         return Legs.get(index);
+    }
+
+    public void setNameFlag(boolean nameFlag) {
+        this.nameFlag = nameFlag;
+    }
+
+    public void setIdFlag(boolean idFlag) {
+        this.idFlag = idFlag;
+    }
+
+    public void setMileageFlag(boolean mileageFlag) {
+        this.mileageFlag = mileageFlag;
     }
 
     //We should never need this, but I added incase needed for debugging.

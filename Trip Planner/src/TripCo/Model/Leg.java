@@ -11,7 +11,6 @@ public class Leg {
     protected float mileage;
 
     public Leg(int sequence, float mileage){
-        //purposely left most empty. Loading will be done with other methods to avoid 4 trillion args
         this.sequence = sequence;
         this.mileage = mileage;
     }

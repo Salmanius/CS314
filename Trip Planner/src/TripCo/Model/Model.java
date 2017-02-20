@@ -36,7 +36,10 @@ public class Model {
     }
 
     public Trip getTrip(){
-        return new Trip(false, false, false);
+        TripMaker tm = new TripMaker(locations); //Need to pass the commandline args at some point
+        Trip NNTrip = tm.makeNNTrip(); //NN = Nearest Neighbor
+
+        return NNTrip;
     }
 
     public static void main(String[] args){
