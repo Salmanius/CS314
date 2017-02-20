@@ -19,11 +19,11 @@ public class Location {
         parseLongitude();
     }
 
-    public double getIntLatitude(){
+    public double getDblLatitude(){
         return dblLatitude;
     }
 
-    public double getIntLongitude(){
+    public double getDblLongitude(){
         return dblLongitude;
     }
 
