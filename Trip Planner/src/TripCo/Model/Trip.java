@@ -42,13 +42,15 @@ public class Trip {
         this.mileageFlag = mileageFlag;
     }
 
-    //We should never need this, but I added incase needed for debugging.
-    public void deleteLeg(int index){
-        Legs.remove(index);
-    }
-    //Same as above.
-    public void clear(){
-        Legs.clear();
+    public boolean getNameFlag() {
+        return nameFlag;
     }
 
+    public boolean getIdFlag() {
+        return idFlag;
+    }
+
+    public boolean getMileageFlag() {
+        return mileageFlag;
+    }
 }
