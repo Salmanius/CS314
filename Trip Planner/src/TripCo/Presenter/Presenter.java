@@ -18,16 +18,15 @@ public class Presenter {
     }
     public void start() {
         String fileName = view.getFilename();
-        System.out.println(fileName);
         model.parseCSV(fileName);
         Trip trip = model.getTrip();
 
         for(int i = 0; i < trip.amountOfLegs(); ++i){
             Leg leg = trip.getLeg(i);
             view.addLocation(leg.getStartLocation().getName(), leg.getStartLocation().getId() ,
-                    leg.getStartLocation().getDblLatitude(), leg.getStartLocation().getDblLongitude(), leg.getMileage());
-            view.printFiles();
+                    leg.getStartLocation().getDblLongitude(), leg.getStartLocation().getDblLatitude(), leg.getMileage());
         }
+        view.printFiles();
     }
 }
 
