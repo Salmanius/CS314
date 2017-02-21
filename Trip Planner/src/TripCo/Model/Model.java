@@ -6,16 +6,10 @@ import java.util.ArrayList;
  * Created by mjdun on 2/16/2017.
  */
 public class Model {
-    private String message;
     protected ArrayList<Location> locations;
 
     public Model() {
-        message = "Hello World!";
         locations = new ArrayList<Location>();
-    }
-
-    public String getMessage() {
-        return message;
     }
 
     public void parseCSV(String fileName){

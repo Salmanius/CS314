@@ -11,14 +11,21 @@ public class Location {
     protected String stringLongitude;
     protected double dblLatitude;
     protected double dblLongitude;
+    protected String id;
 
     public Location(String ID, String name, String latitude, String longitude){
+        id = ID;
+
         this.name = name;
         this.stringLatitude = latitude;
         this.stringLongitude = longitude;
 
         parseLatitude();
         parseLongitude();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public double getDblLatitude(){

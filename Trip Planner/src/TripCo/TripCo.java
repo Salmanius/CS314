@@ -8,7 +8,6 @@ public class TripCo {
 
     public static void main(String[] args) {
         // write your code here
-        // argument handling?
         Model model = new Model();
         View view = new View(args);
         Presenter presenter = new Presenter(view, model);

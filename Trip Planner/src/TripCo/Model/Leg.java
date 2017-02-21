@@ -23,6 +23,14 @@ public class Leg {
         this.endLocation = endLocation;
     }
 
+    public Location getStartLocation() {
+        return startLocation;
+    }
+
+    public Location getEndLocation() {
+        return endLocation;
+    }
+
     public void setSequence(int sequence) {
         this.sequence = sequence;
     }

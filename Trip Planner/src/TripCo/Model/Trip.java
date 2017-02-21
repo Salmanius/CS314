@@ -30,6 +30,8 @@ public class Trip {
         return Legs.get(index);
     }
 
+    public int amountOfLegs(){ return Legs.size(); }
+
     public void setNameFlag(boolean nameFlag) {
         this.nameFlag = nameFlag;
     }
