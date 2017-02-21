@@ -21,10 +21,12 @@ public class Model {
     public void parseCSV(String fileName){
         CSVParser parser = new CSVParser(fileName);
         parser.parse();
-        parser.printData();
+       // parser.printData();
 
         CSVData csvData = parser.getCSVData();
+        //System.out.println(csvData.getHeight());
         for(int i = 0; i < csvData.getHeight(); ++i){
+            //System.out.println(i);
             String id = csvData.getValue("id", i);
             String name = csvData.getValue("name", i);
             String latitude = csvData.getValue("latitude", i);

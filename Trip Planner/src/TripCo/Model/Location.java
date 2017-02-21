@@ -86,6 +86,7 @@ public class Location {
             return false;
 
         dblLatitude = Double.parseDouble(tokens[0]) + Double.parseDouble(tokens[1])/60 + Double.parseDouble(tokens[2])/3600;
+        if(tokens[3].toLowerCase().contains("s")){
             dblLatitude = dblLatitude * (-1);
         }
 
@@ -110,6 +111,7 @@ public class Location {
             return false;
 
         dblLongitude = Double.parseDouble(tokens[0]) + Double.parseDouble(tokens[1])/60 + Double.parseDouble(tokens[2])/3600;
+        if(tokens[3].toLowerCase().contains("w")){
             dblLongitude = dblLongitude * (-1);
         }
 
