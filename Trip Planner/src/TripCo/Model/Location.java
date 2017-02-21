@@ -45,7 +45,7 @@ public class Location {
     protected void parseLatitude(){
         try{
             //If we can convert the string directly into a double, it is already in the proper format.
-            Double.parseDouble(stringLatitude);
+            dblLatitude = Double.parseDouble(stringLatitude);
         } catch(NumberFormatException ex){
             if(tryParseDMSLatitude())
                 return;
@@ -59,7 +59,7 @@ public class Location {
     protected void parseLongitude(){
         try{
             //If we can convert the string directly into a double, it is already in the proper format.
-            Double.parseDouble(stringLongitude);
+            dblLongitude = Double.parseDouble(stringLongitude);
         } catch(NumberFormatException ex){
             if(tryParseDMSLongitude())
                 return;
