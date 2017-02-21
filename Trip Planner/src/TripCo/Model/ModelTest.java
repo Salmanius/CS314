@@ -10,6 +10,16 @@ import static org.junit.Assert.*;
  * Created by mjdun on 2/16/2017.
  */
 public class ModelTest {
+    @Test
+    public void parseCSV() throws Exception {
+
+    }
+
+    @Test
+    public void getTrip() throws Exception {
+
+    }
+
     @Before
     public void setUp() throws Exception {
 
@@ -19,10 +29,4 @@ public class ModelTest {
     public void tearDown() throws Exception {
 
     }
-
-    @Test
-    public void getMessage() throws Exception {
-
-    }
-
 }
