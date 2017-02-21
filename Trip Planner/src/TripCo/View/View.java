@@ -1,8 +1,6 @@
 package TripCo.View;
 
-import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class View {
@@ -17,14 +15,12 @@ public class View {
     private ArrayList<Integer> xList;
     private ArrayList<Integer> yList;
     private ArrayList<Integer> mileages;
-    private int numOfLocs;
 
     public View(String[] args) {
         showMileage = false;
         showID = false;
         showName = false;
         totalMileage = 0;
-        numOfLocs = 0;
         names = new ArrayList<>();
         IDs = new ArrayList<>();
         xList = new ArrayList<>();
@@ -32,14 +28,9 @@ public class View {
         mileages = new ArrayList<>();
         if (CommandParser(args) == 0) {
             //the parser didn't throw an error
-        }
-        else {
+        } else {
             System.out.println("There was an error parsing the command line.");
         }
-    }
-
-    public void display(String text) {
-        System.out.println(text);
     }
 
     public boolean getMileageFlag() {
@@ -67,7 +58,6 @@ public class View {
         int pixLat = latToPix(latitude);
         yList.add(pixLat);
         mileages.add(mileageToNextLoc);
-        numOfLocs++;
     }
 
     public void printFiles() {
@@ -79,24 +69,29 @@ public class View {
             PrintWriter writer = new PrintWriter(xmlName, "UTF-8");
             writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             writer.println("<trip>");
-            for(int i = 0; i < mileages.size(); i++) {
+            for (int i = 0; i < mileages.size(); i++) {
+                String secondName;
+                if (i + 1 >= names.size()) {
+                    secondName = names.get(0);
+                } else {
+                    secondName = names.get(i + 1);
+                }
                 writer.println("<leg>");
-                writer.println("<sequence>" + i + "</sequence>");
+                writer.println("<sequence>" + (i + 1) + "</sequence>");
                 writer.println("<start>" + names.get(i) + "</start>");
-                writer.println("<finish>" + names.get(i+1) + "</finish>");
+                writer.println("<finish>" + secondName + "</finish>");
                 writer.println("<mileage>" + mileages.get(i) + "</mileage>");
                 writer.println("</leg>");
             }
             writer.println("</trip>");
             writer.close();
-        }
-        catch (Exception e) {
-            System.out.println("An error has occurred while writing to the output files.");
+        } catch (Exception e) {
+            System.out.println("An error has occurred while writing to the xml files.");
             e.printStackTrace();
         }
 
         //creates the svg file
-        String svgName = filenameCut +".svg";
+        String svgName = filenameCut + ".svg";
 
         //writes to the svg file
         try {
@@ -106,8 +101,20 @@ public class View {
             //write the legs to the file
             writer.println("<g>");
             writer.println("<title>Legs</title>");
-            for(int i = 0; i < mileages.size(); i++) {
-                writer.println("<line id=\"leg1\" y2=\"" + yList.get(i+1) + "\" x2=\"" + xList.get(i+1) + "\" y1=\"" + yList.get(i) + "\" x1=\"" + xList.get(i) + "\" stroke-width=\"3\" stroke=\"#999999\"/>");
+            for (int i = 0; i < mileages.size(); i++) {
+                int secondY;
+                if (i + 1 >= yList.size()) {
+                    secondY = yList.get(0);
+                } else {
+                    secondY = yList.get(i + 1);
+                }
+                int secondX;
+                if (i + 1 >= xList.size()) {
+                    secondX = xList.get(0);
+                } else {
+                    secondX = xList.get(i + 1);
+                }
+                writer.println("<line id=\"leg1\" y2=\"" + secondY + "\" x2=\"" + secondX + "\" y1=\"" + yList.get(i) + "\" x1=\"" + xList.get(i) + "\" stroke-width=\"3\" stroke=\"#999999\"/>");
             }
             writer.println("</g>");
             //write the Borders to the file
@@ -115,49 +122,48 @@ public class View {
             //write the titles to the file
             writer.println("<g>");
             writer.println("<title>Titles</title>");
-            writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"state\" y=\"40\" x=\"640\">Colorado</text>");
-            writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"distance\" y=\"1014\" x=\"640\">" + totalMileage + " miles</text>");
+            writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"state\" y=\"150\" x=\"640\">Colorado</text>");
+            writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"distance\" y=\"900\" x=\"640\">" + totalMileage + " miles</text>");
             writer.println("</g>");
             //check for the ID or Name flag
-            if(showID || showName) {
+            if (showID || showName) {
                 //write the locations to the file
                 writer.println("<g>");
                 writer.println("<title>Locations</title>");
-                if(showID) {
-                    for(int i = 0; i < IDs.size(); i++) {
-                        writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"id1\" y=\"100\" x=\"100\">" + IDs.get(i) + "</text>");
+                if (showID) {
+                    for (int i = 0; i < IDs.size(); i++) {
+                        writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"id1\" y=\"" + yList.get(i) + "\" x=\"" + xList.get(i) + "\">" + IDs.get(i) + "</text>");
                     }
-                }
-                else if(showName) {
-                    for(int i = 0; i < names.size(); i++) {
-                        writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"id1\" y=\"100\" x=\"100\">" + names.get(i) + "</text>");
+                } else if (showName) {
+                    for (int i = 0; i < names.size(); i++) {
+                        writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"id1\" y=\"" + yList.get(i) + "\" x=\"" + xList.get(i) + "\">" + names.get(i) + "</text>");
                     }
                 }
                 writer.println("</g>");
             }
             //check for the Mileage flag
-            if(showMileage)
-            {
+            if (showMileage) {
                 //write the distances to the file
                 writer.println("<g>");
                 writer.println("<title>Distances</title>");
-                for(int i = 0; i < mileages.size(); i++) {
+                for (int i = 0; i < mileages.size(); i++) {
+                    int secondX;
+                    if (i + 1 >= xList.size()) {
+                        secondX = xList.get(0);
+                    } else {
+                        secondX = xList.get(i + 1);
+                    }
+                    int secondY;
+                    if (i + 1 >= yList.size()) {
+                        secondY = yList.get(0);
+                    } else {
+                        secondY = yList.get(i + 1);
+                    }
+
                     //set the mileage label's X value
-                    int milx;
-                    if(xList.get(i) > xList.get(i+1)) {
-                        milx = xList.get(i) - xList.get(i+1);
-                    }
-                    else {
-                        milx = xList.get(i+1) - xList.get(i);
-                    }
+                    int milx = (xList.get(i) + secondX)/2;
                     //set the mileage label's Y value
-                    int mily;
-                    if(yList.get(i) > yList.get(i+1)) {
-                        mily = yList.get(i) - yList.get(i+1);
-                    }
-                    else {
-                        mily = yList.get(i+1) - yList.get(i);
-                    }
+                    int mily = (yList.get(i) + secondY)/2;
 
                     writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"leg1\" y=\"" + mily + "\" x=\"" + milx + "\">" + mileages.get(i) + "</text>");
                 }
@@ -166,18 +172,44 @@ public class View {
             writer.println("</svg>");
             writer.close();
         } catch (Exception e) {
-            System.out.println("An error has occurred while writing to the output files.");
+            System.out.println("An error has occurred while writing to the svg file.");
             e.printStackTrace();
         }
     }
 
     private int longToPix(double longitude) {
-        int longPix = (((109 - (int)Math.abs(longitude)) * 1180) / 7);
+        longitude = Math.abs(longitude);
+        longitude = 109 - longitude;
+        longitude = longitude * 1180;
+        longitude = longitude / 7;
+        longitude = 1230 - longitude;
+        if(longitude > 640) {
+            double deviation =  longitude - 640;
+            longitude = 640 - deviation;
+        }
+        else {
+            double deviation = 640 - longitude;
+            longitude = deviation + 640;
+        }
+        int longPix = (int)(Math.rint(longitude));
         return longPix;
     }
 
     private int latToPix(double latitude) {
-        int latPix = (((41 - (int)Math.abs(latitude)) * 674) / 4);
+        latitude = Math.abs(latitude);
+        latitude = 41 - latitude;
+        latitude = latitude * 674;
+        latitude = latitude / 4;
+        latitude = 849 - latitude;
+        if(latitude > 512) {
+            double deviation = latitude - 512;
+            latitude = 512 - deviation;
+        }
+        else {
+            double deviation = 512 - latitude;
+            latitude = deviation + 512;
+        }
+        int latPix = (int)(Math.rint(latitude));
         return latPix;
     }
 
@@ -187,7 +219,7 @@ public class View {
 
         //checks if there is just the program name in arguments
         //if there is, it throws an error and requests the file name
-        if (argsLength == 1) {
+        if (argsLength == 0) {
             System.out.println("The input file name must be included as an argument.");
             System.out.println("Correct usage of the command line is: TripCo.java -flags inputfile.csv");
             System.out.println("Recognized flags are:\n-m for adding mileages to the map\n-i for adding IDs to the map\n-n for adding Names to the map");
@@ -196,9 +228,9 @@ public class View {
 
         //checks if there is more than just the program name in arguments
         char flag;
-        if (argsLength > 2) {
+        if (argsLength > 1) {
             //takes the next argument and saves it as the flags String
-            for (int i = 1; i < argsLength - 1; i++) {
+            for (int i = 0; i < argsLength - 1; i++) {
                 String flags = args[i];
                 //goes through each character in the flags String after the '-'
                 for (int j = 1; j < flags.length(); j++) {
@@ -224,13 +256,14 @@ public class View {
             }
         }
 
-        if(showID && showName) {
+        if (showID && showName) {
             System.out.println("Only the labels for ID or Name can be turned on, not both! The system will only show ID labels instead of both, if they are both flagged.");
         }
 
         //takes the last argument and saves it as the filename
         filename = (args[argsLength - 1]);
-        filenameCut = (args[argsLength - 1].substring(0, (args[argsLength-1].length() - 4)));
+        filenameCut = (args[argsLength - 1].substring(0, (args[argsLength - 1].length() - 4)));
+
         return 0;
     }
 

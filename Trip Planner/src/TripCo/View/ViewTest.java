@@ -57,9 +57,4 @@ public class ViewTest {
 
     }
 
-    @Test
-    public void display() throws Exception {
-
-    }
-
 }
