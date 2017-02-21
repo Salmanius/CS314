@@ -14,19 +14,19 @@ public class CSVData {
     }
 
     public void addColumn(String columnName ){
-        columns.put(columnName, new Column(columnName));
-        columnNames.add(columnName);
+        columns.put(columnName.toLowerCase(), new Column(columnName.toLowerCase()));
+        columnNames.add(columnName.toLowerCase());
     }
 
     public void addDataToColumn(String columnName, String data){
-        columns.get(columnName).add(data);
+        columns.get(columnName.toLowerCase()).add(data);
 
-        if(columns.get(columnName).getHeight() > height)
-            height = columns.get(columnName).getHeight();
+        if(columns.get(columnName.toLowerCase()).getHeight() > height)
+            height = columns.get(columnName.toLowerCase()).getHeight();
     }
 
     public String getValue(String columnName, int index){
-        return columns.get(columnName).getDataAt(index);
+        return columns.get(columnName.toLowerCase()).getDataAt(index);
     }
 
     public int getHeight() {

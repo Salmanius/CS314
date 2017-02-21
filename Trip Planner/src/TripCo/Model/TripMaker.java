@@ -74,10 +74,10 @@ public class TripMaker {
     public float calculateDistanceBetween(Location A, Location B){
         float distance = 0; //http://www.movable-type.co.uk/scripts/latlong.html
         double earthsRadiusMiles = 3958.756; //6371km
-        double latARadians = Math.toRadians(A.dblLatitude);
-        double latBRadians = Math.toRadians(B.dblLatitude);
-        double changeInLat = Math.toRadians(B.dblLatitude - A.dblLatitude);
-        double changeInLong = Math.toRadians((B.dblLongitude - A.dblLongitude));
+        double latARadians = Math.toRadians(A.getDblLatitude());
+        double latBRadians = Math.toRadians(B.getDblLatitude());
+        double changeInLat = Math.toRadians(B.getDblLatitude() - A.getDblLatitude());
+        double changeInLong = Math.toRadians((B.getDblLongitude() - A.getDblLongitude()));
 
         double a = Math.sin(changeInLat/2) * Math.sin(changeInLat/2)
                 + Math.cos(latARadians) * Math.cos(latBRadians)
