@@ -222,7 +222,7 @@ public class View {
         }
 
         //takes the last argument and saves it as the filename
-        filename = (args[argsLength - 1].substring(0, (args[argsLength-1].length() - 3)));
+        filename = (args[argsLength - 1].substring(0, (args[argsLength-1].length() - 4)));
         return 0;
     }
 

@@ -6,28 +6,33 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by mjdun on 2/16/2017.
- */
 public class ViewTest {
     @Test
     public void getMileageFlag() throws Exception {
-
+        String[] testArgs = {"test.java", "-m", "input.csv"};
+        View test = new View(testArgs);
+        assertTrue(test.getMileageFlag());
     }
 
     @Test
     public void getIDFlag() throws Exception {
-
+        String[] testArgs = {"test.java", "-i", "input.csv"};
+        View test = new View(testArgs);
+        assertTrue(test.getIDFlag());
     }
 
     @Test
     public void getNameFlag() throws Exception {
-
+        String[] testArgs = {"test.java", "-n", "input.csv"};
+        View test = new View(testArgs);
+        assertTrue(test.getNameFlag());
     }
 
     @Test
     public void getFilename() throws Exception {
-
+        String[] testArgs = {"test.java", "input.csv"};
+        View test = new View(testArgs);
+        assertEquals(test.getFilename(), "input");
     }
 
     @Test
