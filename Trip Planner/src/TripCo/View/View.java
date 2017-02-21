@@ -1,17 +1,31 @@
 package TripCo.View;
 
+import java.util.ArrayList;
+
 public class View {
     private boolean showMileage;
     private boolean showID;
     private boolean showName;
     private String filename;
+    private int totalMileage;
+    private ArrayList<String> names;
+    private ArrayList<String> IDs;
+    private ArrayList<Double> longitudes;
+    private ArrayList<Double> latitudes;
+    private ArrayList<Integer> mileages;
+    private int numOfLocs;
 
     public View(String[] args) {
         showMileage = false;
         showID = false;
         showName = false;
+        totalMileage = 0;
+        numOfLocs = 0;
         if (CommandParser(args) == 0) {
             //the parser didn't throw an error
+        }
+        else {
+            System.out.println("There was an error parsing the command line.");
         }
     }
 
@@ -36,11 +50,17 @@ public class View {
     }
 
     public void addLocation(String name, String ID, double longitude, double latitude, int mileageToNextLoc) {
-
+        totalMileage += mileageToNextLoc;
+        names.add(name);
+        IDs.add(ID);
+        longitudes.add(longitude);
+        latitudes.add(latitude);
+        mileages.add(mileageToNextLoc);
+        numOfLocs++;
     }
 
     public void printFiles() {
-
+        
     }
 
     /* parses the arguments from the command line and stores them locally */
@@ -60,10 +80,10 @@ public class View {
         char flag;
         if (argsLength > 2) {
             //takes the next argument and saves it as the flags String
-            for(int i = 1; i < argsLength-1; i++) {
+            for (int i = 1; i < argsLength - 1; i++) {
                 String flags = args[i];
                 //goes through each character in the flags String after the '-'
-                for(int j = 1; j < flags.length(); j++) {
+                for (int j = 1; j < flags.length(); j++) {
                     flag = flags.charAt(j);
                     //sets the appropriate boolean to true if the correct flag is present
                     switch (flag) {
