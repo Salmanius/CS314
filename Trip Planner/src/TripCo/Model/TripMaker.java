@@ -85,7 +85,7 @@ public class TripMaker {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         distance = (earthsRadiusMiles * c);
 
-        return (int) distance;
+        return (int) Math.round(distance);
     }
 
     public Location getLocation(int index){
