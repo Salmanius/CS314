@@ -32,12 +32,15 @@ public class ViewTest {
     public void getFilename() throws Exception {
         String[] testArgs = {"test.java", "input.csv"};
         View test = new View(testArgs);
-        assertEquals(test.getFilename(), "input");
+        assertEquals(test.getFilename(), "input.csv");
     }
 
     @Test
     public void addLocation() throws Exception {
-
+        String[] testArgs = {"test.java", "-mi", "input.csv"};
+        View test = new View(testArgs);
+        test.addLocation("Fort Collins", "970", 105.0844, 40.5853, 20);
+        
     }
 
     @Test
