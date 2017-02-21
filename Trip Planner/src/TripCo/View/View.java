@@ -67,6 +67,7 @@ public class View {
         String xmlName = filename + ".xml";
 
         try {
+            PrintWriter writer = new PrintWriter(xmlName, "UTF-8");
             writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             writer.println("<trip>");
             for(int i = 0; i < mileages.size(); i++) {
