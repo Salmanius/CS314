@@ -277,10 +277,10 @@ public class View {
         *   |               |
         * (x1,y2)---------(x2,y2)
          */
-        int x1 = 50;
-        int x2 = 1230;
-        int y1 = 175;
-        int y2 = 849;
+        int x1 = longToPix(-109.0);
+        int x2 = longToPix(-102.0);
+        int y1 = latToPix(41.0);
+        int y2 = latToPix(37.0);
 
 
         String borderString = "<g>\n" +
