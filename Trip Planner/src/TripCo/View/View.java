@@ -1,5 +1,8 @@
 package TripCo.View;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class View {
@@ -60,7 +63,29 @@ public class View {
     }
 
     public void printFiles() {
-        
+        //
+        String xmlName = filename + ".xml";
+
+        try {
+            writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            writer.println("<trip>");
+            for(int i = 0; i < mileages.size(); i++) {
+                writer.println("<leg>");
+                writer.println("<sequence>" + i + "</sequence>");
+                writer.println("<start>" + names.get(i) + "</start>");
+                writer.println("<finish>" + names.get(i+1) + "</finish>");
+                writer.println("<mileage>" + mileages.get(i) + "</mileage>");
+                writer.println("</leg>");
+            }
+            writer.println("</trip>");
+            writer.close();
+        }
+        catch (Exception e) {
+            System.out.println("An error has occurred while writing to the output files.");
+            e.printStackTrace();
+        }
+
+
     }
 
     /* parses the arguments from the command line and stores them locally */
@@ -107,7 +132,7 @@ public class View {
         }
 
         //takes the last argument and saves it as the filename
-        filename = args[argsLength - 1];
+        filename = (args[argsLength - 1].substring(0, (args[argsLength-1].length() - 3)));
         return 0;
     }
 
