@@ -25,6 +25,11 @@ public class View {
         showName = false;
         totalMileage = 0;
         numOfLocs = 0;
+        names = new ArrayList<>();
+        IDs = new ArrayList<>();
+        xList = new ArrayList<>();
+        yList = new ArrayList<>();
+        mileages = new ArrayList<>();
         if (CommandParser(args) == 0) {
             //the parser didn't throw an error
         }

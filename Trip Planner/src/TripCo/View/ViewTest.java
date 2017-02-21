@@ -40,7 +40,6 @@ public class ViewTest {
         String[] testArgs = {"test.java", "-mi", "input.csv"};
         View test = new View(testArgs);
         test.addLocation("Fort Collins", "970", 105.0844, 40.5853, 20);
-        
     }
 
     @Test
