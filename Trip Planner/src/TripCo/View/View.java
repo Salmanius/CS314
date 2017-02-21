@@ -10,6 +10,7 @@ public class View {
     private boolean showID;
     private boolean showName;
     private String filename;
+    private String filenameCut;
     private int totalMileage;
     private ArrayList<String> names;
     private ArrayList<String> IDs;
@@ -66,7 +67,7 @@ public class View {
 
     public void printFiles() {
         //creates the name of the xml file
-        String xmlName = filename + ".xml";
+        String xmlName = filenameCut + ".xml";
 
         //writes to the xml file
         try {
@@ -90,7 +91,7 @@ public class View {
         }
 
         //creates the svg file
-        String svgName = filename +".svg";
+        String svgName = filenameCut +".svg";
 
         //writes to the svg file
         try {
@@ -158,6 +159,7 @@ public class View {
                 writer.println("</g>");
             }
             writer.println("</svg>");
+            writer.close();
         } catch (Exception e) {
             System.out.println("An error has occurred while writing to the output files.");
             e.printStackTrace();
@@ -222,7 +224,8 @@ public class View {
         }
 
         //takes the last argument and saves it as the filename
-        filename = (args[argsLength - 1].substring(0, (args[argsLength-1].length() - 4)));
+        filename = (args[argsLength - 1]);
+        filenameCut = (args[argsLength - 1].substring(0, (args[argsLength-1].length() - 4)));
         return 0;
     }
 
