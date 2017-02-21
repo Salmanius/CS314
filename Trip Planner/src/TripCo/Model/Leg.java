@@ -8,9 +8,9 @@ public class Leg {
 
     protected Location startLocation;
     protected Location endLocation;
-    protected float mileage;
+    protected int mileage;
 
-    public Leg(int sequence, float mileage){
+    public Leg(int sequence, int mileage){
         this.sequence = sequence;
         this.mileage = mileage;
     }
@@ -39,7 +39,7 @@ public class Leg {
         return endLocation.getName();
     }
 
-    public float getMileage() {
+    public int getMileage() {
         return mileage;
     }
 }

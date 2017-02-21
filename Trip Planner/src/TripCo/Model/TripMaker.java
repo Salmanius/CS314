@@ -63,7 +63,7 @@ public class TripMaker {
     }
 
     public Leg makeLeg(Location A, Location B, int sequence){
-        float mileage = 0;
+        int mileage = 0;
         mileage = calculateDistanceBetween(A,B); // get mileage between locations
         Leg leg = new Leg(sequence, mileage); //need to calculate mileage between
         leg.setStartLocation(A);
@@ -71,8 +71,8 @@ public class TripMaker {
         return leg;
     }
 
-    public float calculateDistanceBetween(Location A, Location B){
-        float distance = 0; //http://www.movable-type.co.uk/scripts/latlong.html
+    public int calculateDistanceBetween(Location A, Location B){
+        int distance; //http://www.movable-type.co.uk/scripts/latlong.html
         double earthsRadiusMiles = 3958.756; //6371km
         double latARadians = Math.toRadians(A.getDblLatitude());
         double latBRadians = Math.toRadians(B.getDblLatitude());
@@ -83,7 +83,7 @@ public class TripMaker {
                 + Math.cos(latARadians) * Math.cos(latBRadians)
                 * Math.sin(changeInLong/2) * Math.sin(changeInLong/2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        distance = (float) (earthsRadiusMiles * c);
+        distance = (int) (earthsRadiusMiles * c);
 
         return distance;
     }
