@@ -35,6 +35,14 @@ public class View {
         return filename;
     }
 
+    public void addLocation(String name, String ID, double longitude, double latitude, int mileageToNextLoc) {
+
+    }
+
+    public void printFiles() {
+
+    }
+
     /* parses the arguments from the command line and stores them locally */
     private int CommandParser(String[] args) {
         int argsLength = args.length;
