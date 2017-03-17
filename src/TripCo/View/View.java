@@ -53,14 +53,17 @@ public class View {
         totalMileage += mileageToNextLoc;
         names.add(name);
         IDs.add(ID);
+
         int pixLong = longToPix(longitude);
         xList.add(pixLong);
+
         int pixLat = latToPix(latitude);
         yList.add(pixLat);
+
         mileages.add(mileageToNextLoc);
     }
 
-    public void printFiles() {
+    protected void printXMLFile(){
         //creates the name of the xml file
         String xmlName = filenameCut + ".xml";
 
@@ -69,6 +72,7 @@ public class View {
             PrintWriter writer = new PrintWriter(xmlName, "UTF-8");
             writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             writer.println("<trip>");
+
             for (int i = 0; i < mileages.size(); i++) {
                 String secondName;
                 if (i + 1 >= names.size()) {
@@ -76,6 +80,7 @@ public class View {
                 } else {
                     secondName = names.get(i + 1);
                 }
+
                 writer.println("<leg>");
                 writer.println("<sequence>" + (i + 1) + "</sequence>");
                 writer.println("<start>" + names.get(i) + "</start>");
@@ -85,10 +90,96 @@ public class View {
             }
             writer.println("</trip>");
             writer.close();
+
         } catch (Exception e) {
             System.out.println("An error has occurred while writing to the xml files.");
             e.printStackTrace();
         }
+    }
+
+    protected void writeLegsToSVG(PrintWriter writer){
+        //write the legs to the file
+        writer.println("<g>");
+        writer.println("<title>Legs</title>");
+
+        for (int i = 0; i < mileages.size(); i++) {
+            int secondY;
+            if (i + 1 >= yList.size()) {
+                secondY = yList.get(0);
+            } else {
+                secondY = yList.get(i + 1);
+            }
+
+            int secondX;
+            if (i + 1 >= xList.size()) {
+                secondX = xList.get(0);
+            } else {
+                secondX = xList.get(i + 1);
+            }
+
+            writer.println("<line id=\"leg1\" y2=\"" + secondY + "\" x2=\""
+                    + secondX + "\" y1=\"" + yList.get(i) + "\" x1=\""
+                    + xList.get(i) + "\" stroke-width=\"3\" stroke=\"#999999\"/>");
+        }
+
+        writer.println("</g>");
+    }
+
+    protected void writeTitlesToSVG(PrintWriter writer){
+        //write the titles to the file
+        writer.println("<g>");
+        writer.println("<title>Titles</title>");
+        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"state\" y=\"150\" x=\"640\">Colorado</text>");
+        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"distance\" y=\"900\" x=\"640\">" + totalMileage + " miles</text>");
+        writer.println("</g>");
+    }
+
+    protected void writeLocationsToSVG(PrintWriter writer){
+        //write the locations to the file
+        writer.println("<g>");
+        writer.println("<title>Locations</title>");
+        if (showID) {
+            for (int i = 0; i < IDs.size(); i++) {
+                writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"id1\" y=\"" + yList.get(i) + "\" x=\"" + xList.get(i) + "\">" + IDs.get(i) + "</text>");
+            }
+        } else if (showName) {
+            for (int i = 0; i < names.size(); i++) {
+                writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"id1\" y=\"" + yList.get(i) + "\" x=\"" + xList.get(i) + "\">" + names.get(i) + "</text>");
+            }
+        }
+        writer.println("</g>");
+    }
+
+    protected void writeMileagesToSVG(PrintWriter writer){
+        //write the distances to the file
+        writer.println("<g>");
+        writer.println("<title>Distances</title>");
+        for (int i = 0; i < mileages.size(); i++) {
+            int secondX;
+            if (i + 1 >= xList.size()) {
+                secondX = xList.get(0);
+            } else {
+                secondX = xList.get(i + 1);
+            }
+            int secondY;
+            if (i + 1 >= yList.size()) {
+                secondY = yList.get(0);
+            } else {
+                secondY = yList.get(i + 1);
+            }
+
+            //set the mileage label's X value
+            int milx = (xList.get(i) + secondX)/2;
+            //set the mileage label's Y value
+            int mily = (yList.get(i) + secondY)/2;
+
+            writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"leg1\" y=\"" + mily + "\" x=\"" + milx + "\">" + mileages.get(i) + "</text>");
+        }
+        writer.println("</g>");
+    }
+
+    public void printFiles() {
+        printXMLFile();
 
         //creates the svg file
         String svgName = filenameCut + ".svg";
@@ -98,79 +189,28 @@ public class View {
             PrintWriter writer = new PrintWriter(svgName, "UTF-8");
             writer.println("<?xml version=\"1.0\"?>");
             writer.println("<svg width=\"1280\" height=\"1024\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\">");
+
             //write the legs to the file
-            writer.println("<g>");
-            writer.println("<title>Legs</title>");
-            for (int i = 0; i < mileages.size(); i++) {
-                int secondY;
-                if (i + 1 >= yList.size()) {
-                    secondY = yList.get(0);
-                } else {
-                    secondY = yList.get(i + 1);
-                }
-                int secondX;
-                if (i + 1 >= xList.size()) {
-                    secondX = xList.get(0);
-                } else {
-                    secondX = xList.get(i + 1);
-                }
-                writer.println("<line id=\"leg1\" y2=\"" + secondY + "\" x2=\"" + secondX + "\" y1=\"" + yList.get(i) + "\" x1=\"" + xList.get(i) + "\" stroke-width=\"3\" stroke=\"#999999\"/>");
-            }
-            writer.println("</g>");
+            writeLegsToSVG(writer);
+
             //write the Borders to the file
             writer.println(Borders());
-            //write the titles to the file
-            writer.println("<g>");
-            writer.println("<title>Titles</title>");
-            writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"state\" y=\"150\" x=\"640\">Colorado</text>");
-            writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"distance\" y=\"900\" x=\"640\">" + totalMileage + " miles</text>");
-            writer.println("</g>");
+
+            writeTitlesToSVG(writer);
+
             //check for the ID or Name flag
             if (showID || showName) {
-                //write the locations to the file
-                writer.println("<g>");
-                writer.println("<title>Locations</title>");
-                if (showID) {
-                    for (int i = 0; i < IDs.size(); i++) {
-                        writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"id1\" y=\"" + yList.get(i) + "\" x=\"" + xList.get(i) + "\">" + IDs.get(i) + "</text>");
-                    }
-                } else if (showName) {
-                    for (int i = 0; i < names.size(); i++) {
-                        writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"id1\" y=\"" + yList.get(i) + "\" x=\"" + xList.get(i) + "\">" + names.get(i) + "</text>");
-                    }
-                }
-                writer.println("</g>");
+                writeLocationsToSVG(writer);
             }
+
             //check for the Mileage flag
             if (showMileage) {
-                //write the distances to the file
-                writer.println("<g>");
-                writer.println("<title>Distances</title>");
-                for (int i = 0; i < mileages.size(); i++) {
-                    int secondX;
-                    if (i + 1 >= xList.size()) {
-                        secondX = xList.get(0);
-                    } else {
-                        secondX = xList.get(i + 1);
-                    }
-                    int secondY;
-                    if (i + 1 >= yList.size()) {
-                        secondY = yList.get(0);
-                    } else {
-                        secondY = yList.get(i + 1);
-                    }
-
-                    //set the mileage label's X value
-                    int milx = (xList.get(i) + secondX)/2;
-                    //set the mileage label's Y value
-                    int mily = (yList.get(i) + secondY)/2;
-
-                    writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"leg1\" y=\"" + mily + "\" x=\"" + milx + "\">" + mileages.get(i) + "</text>");
-                }
-                writer.println("</g>");
+                writeMileagesToSVG(writer);
             }
+
             writer.println("</svg>");
             writer.close();
+
         } catch (Exception e) {
             System.out.println("An error has occurred while writing to the svg file.");
             e.printStackTrace();
