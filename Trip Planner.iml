@@ -18,5 +18,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="batik-1.8" level="project" />
+    <orderEntry type="library" name="batik1.8_lib" level="project" />
   </component>
 </module>
