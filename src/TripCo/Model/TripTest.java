@@ -71,5 +71,6 @@ public class TripTest {
         Trip testTrip = new Trip(false, false, false);
         testTrip.setMileageFlag(true);
         assertEquals(true, testTrip.getMileageFlag());
+        assertEquals(false, testTrip.getMileageFlag());
     }
 }
