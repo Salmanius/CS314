@@ -67,6 +67,7 @@ public class TripTest {
     }
 
     @Test
+    @Category(default-test)
     public void getMileageFlag() throws Exception {
         Trip testTrip = new Trip(false, false, false);
         testTrip.setMileageFlag(true);
