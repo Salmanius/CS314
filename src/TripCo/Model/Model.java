@@ -31,15 +31,29 @@ public class Model {
 
     }
 
-    public Trip getTrip(boolean twoOp, boolean threeOp){
+    public Trip getTrip(boolean twoOpt, boolean threeOpt){
         TripMaker tm = new TripMaker(locations); //Need to pass the commandline args at some point
         Trip NNTrip = tm.makeNNTrip(); //NN = Nearest Neighbor
 
-        if(threeOp){
-                
-        }
-        else if(twoOp){
+        if(threeOpt){
+            if(locations.size() > 6){
 
+            }
+            else{
+                System.out.println("This trip cannot be improved using 3opt because it has less than 6 locations.");
+            }
+        }
+        else if(twoOpt){
+            if(locations.size() > 4){
+                for(int i = 0; i < locations.size(); i++){
+                    for(int k = 0; k < locations.size(); k++){
+
+                    }
+                }
+            }
+            else {
+                System.out.println("This trip cannot be improved using 2opt because it has less than 4 locations.");
+            }
         }
 
         return NNTrip;
