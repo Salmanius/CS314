@@ -132,8 +132,8 @@ public class View {
     }
 
     protected void writeTitlesToSVG(PrintWriter writer){
-        double namePosition = (YMin) / 2.0;
-        double milPosition = ((fileHeight + YMax) / 2.0);
+        double namePosition = ((YMin) / 2.0) + 7;
+        double milPosition = ((fileHeight + YMax) / 2.0) + 7;
         double stateMid = (XMax) / 2.0;
 
         //write the titles to the file
