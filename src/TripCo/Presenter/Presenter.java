@@ -11,6 +11,10 @@ import TripCo.View.View;
 public class Presenter {
     private View view;
     private Model model;
+    private boolean oneOP;
+    private boolean twoOP;
+    private boolean threeOP;
+
 
     public Presenter(View view, Model model) {
         this.view = view;
