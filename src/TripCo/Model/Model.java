@@ -31,11 +31,11 @@ public class Model {
 
     }
 
-    public Trip getTrip(boolean twoOpt, boolean threeOpt){
+    public Trip getTrip(boolean twoOptBool, boolean threeOptBool){
         TripMaker tm = new TripMaker(locations); //Need to pass the commandline args at some point
         Trip NNTrip = tm.makeNNTrip(); //NN = Nearest Neighbor
 
-        if(threeOpt){
+        if(threeOptBool){
             if(locations.size() > 6){
 
             }
@@ -43,11 +43,21 @@ public class Model {
                 System.out.println("This trip cannot be improved using 3opt because it has less than 6 locations.");
             }
         }
-        else if(twoOpt){
-            if(locations.size() > 4){
-                for(int i = 0; i < locations.size(); i++){
-                    for(int k = 0; k < locations.size(); k++){
-
+        else if(twoOptBool){
+            if(locations.size() > 4) {
+                int improvements = 1;
+                while (improvements != 0) {
+                    improvements = 0;
+                    int best_mileage = NNTrip.getMileage();
+                    for (int i = 0; i < locations.size() - 1; i++) {
+                        for (int k = i + 1; k < locations.size(); k++) {
+                            Trip newTrip = twoSwap(NNTrip, i, k);
+                            int new_mileage = newTrip.getMileage();
+                            if(new_mileage < best_mileage){
+                                NNTrip = newTrip;
+                                improvements++;
+                            }
+                        }
                     }
                 }
             }
@@ -57,6 +67,11 @@ public class Model {
         }
 
         return NNTrip;
+    }
+
+    public Trip twoSwap(Trip existing_route, int i,int k){
+        Trip newTrip = existing_route;
+        return newTrip;
     }
 
     public static void main(String[] args){
