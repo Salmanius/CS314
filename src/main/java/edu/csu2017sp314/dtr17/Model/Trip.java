@@ -12,6 +12,7 @@ public class Trip {
     private boolean nameFlag;
     private boolean idFlag;
     private boolean mileageFlag;
+    private int totalMileage;
 
 
     public Trip(boolean bName, boolean bID, boolean bMileage){
@@ -19,11 +20,17 @@ public class Trip {
         nameFlag = bName;
         idFlag = bID;
         mileageFlag = bMileage;
-
+        totalMileage = 0;
     }
 
     public void addLeg(Leg L){
         Legs.add(L);
+        totalMileage += L.getMileage();
+    }
+
+    public void removeLeg(Leg L){
+        Legs.remove(L);
+        totalMileage -= L.getMileage();
     }
 
     public Leg getLeg(int index){
@@ -54,5 +61,9 @@ public class Trip {
 
     public boolean getMileageFlag() {
         return mileageFlag;
+    }
+
+    public int getMileage(){
+        return totalMileage;
     }
 }

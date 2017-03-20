@@ -1,5 +1,7 @@
 package TripCo.View;
 
+import TripCo.Presenter.Presenter;
+
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -22,6 +24,8 @@ public class View {
     private double YMin = 34.76269;
     private double YMax = 744.70214;
 
+    protected Presenter presenter;
+
     public View(String[] args) {
         showMileage = false;
         showID = false;
@@ -37,6 +41,8 @@ public class View {
         } else {
             System.out.println("There was an error parsing the command line.");
         }
+
+        this.presenter = presenter;
     }
 
     public boolean getMileageFlag() {
@@ -67,6 +73,14 @@ public class View {
         yList.add(pixLat);
 
         mileages.add(mileageToNextLoc);
+    }
+
+    public void setPresenterReference(Presenter presenter){
+        this.presenter = presenter;
+    }
+
+    protected void createSVGButtonPressed(){
+
     }
 
     protected void printXMLFile(){
