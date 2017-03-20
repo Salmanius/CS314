@@ -31,9 +31,16 @@ public class Model {
 
     }
 
-    public Trip getTrip(){
+    public Trip getTrip(boolean twoOp, boolean threeOp){
         TripMaker tm = new TripMaker(locations); //Need to pass the commandline args at some point
         Trip NNTrip = tm.makeNNTrip(); //NN = Nearest Neighbor
+
+        if(threeOp){
+                
+        }
+        else if(twoOp){
+
+        }
 
         return NNTrip;
     }
