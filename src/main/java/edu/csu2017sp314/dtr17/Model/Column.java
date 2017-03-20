@@ -1,4 +1,4 @@
-package TripCo.Model;
+package main.java.edu.csu2017sp314.dtr17.Model;
 
 import java.util.ArrayList;
 import java.util.Vector;

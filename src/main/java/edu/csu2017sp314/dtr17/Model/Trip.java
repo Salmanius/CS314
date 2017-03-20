@@ -1,10 +1,10 @@
-package TripCo.Model;
+package main.java.edu.csu2017sp314.dtr17.Model;
 
 /**
  * Created by mjdun on 2/19/2017.
  */
 import java.util.ArrayList;
-import TripCo.Model.Leg;
+import main.java.edu.csu2017sp314.dtr17.Model.Leg;
 
 public class Trip {
 

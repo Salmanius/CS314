@@ -1,6 +1,6 @@
-package TripCo.View;
+package main.java.edu.csu2017sp314.dtr17.View;
 
-import TripCo.Presenter.Presenter;
+import main.java.edu.csu2017sp314.dtr17.Presenter.Presenter;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
