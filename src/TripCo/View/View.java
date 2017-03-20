@@ -15,6 +15,12 @@ public class View {
     private ArrayList<Integer> xList;
     private ArrayList<Integer> yList;
     private ArrayList<Integer> mileages;
+    private double fileWidth = 1066.6073;
+    private double fileHeight = 783.0824;
+    private double XMin = 34.72952;
+    private double XMax = 1027.6634;
+    private double YMin = 34.76269;
+    private double YMax = 744.70214;
 
     public View(String[] args) {
         showMileage = false;
@@ -126,11 +132,15 @@ public class View {
     }
 
     protected void writeTitlesToSVG(PrintWriter writer){
+        double namePosition = (YMin) / 2.0;
+        double milPosition = ((fileHeight + YMax) / 2.0);
+        double stateMid = (XMax) / 2.0;
+
         //write the titles to the file
         writer.println("<g>");
         writer.println("<title>Titles</title>");
-        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"state\" y=\"150\" x=\"640\">Colorado</text>");
-        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"distance\" y=\"900\" x=\"640\">" + totalMileage + " miles</text>");
+        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"state\" y=\"" + namePosition + "\" x=\"" + stateMid + "\">Colorado</text>");
+        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"distance\" y=\"" + milPosition + "\" x=\"" + stateMid + "\">" + totalMileage + " miles</text>");
         writer.println("</g>");
     }
 
@@ -188,7 +198,7 @@ public class View {
         try {
             PrintWriter writer = new PrintWriter(svgName, "UTF-8");
             writer.println("<?xml version=\"1.0\"?>");
-            writer.println("<svg width=\"1280\" height=\"1024\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\">");
+            writer.println("<svg width=\""  + fileWidth + "\" height=\"" + fileHeight + "\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\">");
 
             //write the legs to the file
             writeLegsToSVG(writer);
@@ -218,36 +228,40 @@ public class View {
     }
 
     private int longToPix(double longitude) {
+        double width = (XMax - XMin);
+        double mid = (fileWidth / 2);
         longitude = Math.abs(longitude);
         longitude = 109 - longitude;
-        longitude = longitude * 1180;
+        longitude = longitude * width;
         longitude = longitude / 7;
-        longitude = 1230 - longitude;
-        if(longitude > 640) {
-            double deviation =  longitude - 640;
-            longitude = 640 - deviation;
+        longitude = XMax - longitude;
+        if(longitude > mid) {
+            double deviation =  longitude - mid;
+            longitude = mid - deviation;
         }
         else {
-            double deviation = 640 - longitude;
-            longitude = deviation + 640;
+            double deviation = mid - longitude;
+            longitude = deviation + mid;
         }
         int longPix = (int)(Math.rint(longitude));
         return longPix;
     }
 
     private int latToPix(double latitude) {
+        double height = (YMax - YMin);
+        double mid = (fileHeight / 2);
         latitude = Math.abs(latitude);
         latitude = 41 - latitude;
-        latitude = latitude * 674;
+        latitude = latitude * height;
         latitude = latitude / 4;
-        latitude = 849 - latitude;
-        if(latitude > 512) {
-            double deviation = latitude - 512;
-            latitude = 512 - deviation;
+        latitude = YMax - latitude;
+        if(latitude > mid) {
+            double deviation = latitude - mid;
+            latitude = mid - deviation;
         }
         else {
-            double deviation = 512 - latitude;
-            latitude = deviation + 512;
+            double deviation = mid - latitude;
+            latitude = deviation + mid;
         }
         int latPix = (int)(Math.rint(latitude));
         return latPix;
@@ -325,7 +339,6 @@ public class View {
 
         String borderString = "<g>\n" +
                 "  <title>Borders</title>\n" +
-                "  <!-- The border outline should provide a minimum 50 pixel border, centered in the window -->\n" +
                 "  <line id=\"north\" y2=\"" + y1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" x1=\"" + x1 + "\" stroke-width=\"5\" stroke=\"#666666\"/>\n" +
                 "  <line id=\"east\" y2=\"" + y2 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" x1=\"" + x2 + "\" stroke-width=\"5\" stroke=\"#666666\"/>\n" +
                 "  <line id=\"south\" y2=\"" + y2 + "\" x2=\"" + x1 + "\" y1=\"" + y2 + "\" x1=\"" + x2 + "\" stroke-width=\"5\" stroke=\"#666666\"/>\n" +
