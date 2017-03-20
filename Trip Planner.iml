@@ -18,7 +18,17 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="batik-1.8" level="project" />
-    <orderEntry type="library" name="batik1.8_lib" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/lib/batik-1.8" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/lib/batik-1.8/samples/tests/resources/java/sources" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/lib/batik-1.8" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
