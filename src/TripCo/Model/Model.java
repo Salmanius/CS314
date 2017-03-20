@@ -71,6 +71,7 @@ public class Model {
 
     public Trip twoSwap(Trip existing_route, int i,int k){
         Trip newTrip = existing_route;
+        //get leg from existing_route and swap it
         return newTrip;
     }
 
