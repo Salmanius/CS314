@@ -31,11 +31,48 @@ public class Model {
 
     }
 
-    public Trip getTrip(){
+    public Trip getTrip(boolean twoOptBool, boolean threeOptBool){
         TripMaker tm = new TripMaker(locations); //Need to pass the commandline args at some point
         Trip NNTrip = tm.makeNNTrip(); //NN = Nearest Neighbor
 
+        if(threeOptBool){
+            if(locations.size() > 6){
+
+            }
+            else{
+                System.out.println("This trip cannot be improved using 3opt because it has less than 6 locations.");
+            }
+        }
+        else if(twoOptBool){
+            if(locations.size() > 4) {
+                int improvements = 1;
+                while (improvements != 0) {
+                    improvements = 0;
+                    int best_mileage = NNTrip.getMileage();
+                    for (int i = 0; i < locations.size() - 1; i++) {
+                        for (int k = i + 1; k < locations.size(); k++) {
+                            Trip newTrip = twoSwap(NNTrip, i, k);
+                            int new_mileage = newTrip.getMileage();
+                            if(new_mileage < best_mileage){
+                                NNTrip = newTrip;
+                                improvements++;
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                System.out.println("This trip cannot be improved using 2opt because it has less than 4 locations.");
+            }
+        }
+
         return NNTrip;
+    }
+
+    public Trip twoSwap(Trip existing_route, int i,int k){
+        Trip newTrip = existing_route;
+        //get leg from existing_route and swap it
+        return newTrip;
     }
 
     public static void main(String[] args){
