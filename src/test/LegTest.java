@@ -64,10 +64,11 @@ public class LegTest {
     }
 
     @Test
-    public void getMileage() throws Exception {
+    public void TestgetMileage() throws Exception {
         Leg testLeg = new Leg(0,100);
 
         assertEquals(100, testLeg.getMileage());
+        assertEquals(5, testLeg.getMileage());
     }
 
 }
