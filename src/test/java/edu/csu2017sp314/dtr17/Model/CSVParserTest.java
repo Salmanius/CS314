@@ -1,9 +1,10 @@
-package TripCo.Model;
+package test.java.edu.csu2017sp314.dtr17.Model;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import main.java.edu.csu2017sp314.dtr17.Model.*;
 
 /**
  * Created by mjdun on 2/20/2017.

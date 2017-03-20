@@ -1,10 +1,11 @@
-package TripCo.View;
+package test.java.edu.csu2017sp314.dtr17.View;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import main.java.edu.csu2017sp314.dtr17.View.*;
 
 public class ViewTest {
     @Test

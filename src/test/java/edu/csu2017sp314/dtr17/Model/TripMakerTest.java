@@ -1,4 +1,4 @@
-package TripCo.Model;
+package test.java.edu.csu2017sp314.dtr17.Model;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import main.java.edu.csu2017sp314.dtr17.Model.*;
 
 /**
  * Created by maste on 2/20/2017.

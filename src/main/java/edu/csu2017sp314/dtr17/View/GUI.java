@@ -1,4 +1,4 @@
-package TripCo.View;
+package main.java.edu.csu2017sp314.dtr17.View;
 
 import org.apache.batik.apps.svgbrowser.OptionPanel;
 

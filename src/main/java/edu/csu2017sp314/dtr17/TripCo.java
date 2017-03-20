@@ -1,8 +1,8 @@
-package TripCo;
+package main.java.edu.csu2017sp314.dtr17;
 
-import TripCo.Presenter.Presenter;
-import TripCo.View.View;
-import TripCo.Model.Model;
+import main.java.edu.csu2017sp314.dtr17.Presenter.Presenter;
+import main.java.edu.csu2017sp314.dtr17.View.View;
+import main.java.edu.csu2017sp314.dtr17.Model.Model;
 
 public class TripCo {
 
