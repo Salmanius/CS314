@@ -11,6 +11,7 @@ public class TripCo {
         Model model = new Model();
         View view = new View(args);
         Presenter presenter = new Presenter(view, model);
+        view.setPresenterReference(presenter);
         presenter.start();
     }
 }
