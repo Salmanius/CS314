@@ -23,7 +23,7 @@ public class Presenter {
     public void start() {
         String fileName = view.getFilename();
         model.parseCSV(fileName);
-        Trip trip = model.getTrip();
+        Trip trip = model.getTrip(twoOP,threeOP);
 
         for(int i = 0; i < trip.amountOfLegs(); ++i){
             Leg leg = trip.getLeg(i);
