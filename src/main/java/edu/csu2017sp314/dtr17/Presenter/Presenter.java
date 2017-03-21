@@ -31,6 +31,7 @@ public class Presenter {
                     leg.getStartLocation().getDblLongitude(), leg.getStartLocation().getDblLatitude(), leg.getMileage());
         }
         view.printFiles();
+
     }
 }
 
