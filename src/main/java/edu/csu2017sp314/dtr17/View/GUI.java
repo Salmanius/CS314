@@ -7,10 +7,7 @@ import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 /**
  * Created by Chris on 3/19/2017.
@@ -37,8 +34,7 @@ public class GUI {
     };
 
 
-    public GUI(String[] iStrings){
-        itineraryStrings = iStrings;
+    public GUI(){
         setupGUI();
     }
 
@@ -46,7 +42,8 @@ public class GUI {
         String[] testLines = {"1 Fort Collins to Denver, 100 miles","2 New York to Austin 1000","3 San Fransisco to Paris 9999","d","e","f","g","h"
                 ,"i","j","k","l","m","n","o","p","q"
                 ,"r","s","t","u","v","w","x","y","z"};
-        GUI g = new GUI(testLines);
+        GUI g = new GUI();
+        g.setItineraryStrings(testLines);
     }
 
     private static void setUIFont(javax.swing.plaf.FontUIResource f)
@@ -65,7 +62,15 @@ public class GUI {
 
     protected void createArgumentsPanel() {
         argumentsPanel = new JPanel();
+        argumentsPanel.setLayout(new BoxLayout(argumentsPanel, BoxLayout.Y_AXIS));
+        JPanel emptySpaceTop = new JPanel();
+        JPanel emptySpaceCenter = new JPanel();
+        JPanel emptySpaceBottom = new JPanel();
+
         argumentsPanel.setBackground(Color.lightGray);
+        emptySpaceTop.setBackground(Color.lightGray);
+        emptySpaceCenter.setBackground(Color.lightGray);
+        emptySpaceBottom.setBackground(Color.lightGray);
 
         CheckBoxList checkBoxList = new CheckBoxList();
 
@@ -84,9 +89,11 @@ public class GUI {
         btn.setAlignmentX(Component.CENTER_ALIGNMENT);
         btn.addActionListener(new SVGButtonClickListen());
         checkBoxList.setAlignmentX(Component.CENTER_ALIGNMENT);
+        argumentsPanel.add(emptySpaceTop);
         argumentsPanel.add(checkBoxList);
+        argumentsPanel.add(emptySpaceCenter);
         argumentsPanel.add(btn);
-        argumentsPanel.setLayout(new BoxLayout(argumentsPanel, BoxLayout.Y_AXIS));
+        argumentsPanel.add(emptySpaceBottom);
     }
 
 
@@ -113,7 +120,7 @@ public class GUI {
         btn.setMargin(new Insets(10, 10, 10, 10));
 
 
-        btn.setActionCommand("generateItinerary");
+        //btn.setActionCommand("generateItinerary");
         btn.addActionListener(new ItineraryButtonClickListener());
 
 
@@ -157,7 +164,6 @@ public class GUI {
         optionsPanel.add(argumentsPanel);
         optionsPanel.add(itineraryButtonPanel);
 
-
     }
 
     private void setupGUI(){
@@ -189,6 +195,9 @@ public class GUI {
         mainFrame.setVisible(true);
     }
 
+    public void setItineraryStrings(String[] iStrings){
+        itineraryStrings = iStrings;
+    }
 
 
     private class ItineraryButtonClickListener implements ActionListener{
@@ -206,7 +215,7 @@ public class GUI {
 
     private class SVGButtonClickListen implements ActionListener{
         public void actionPerformed(ActionEvent e){
-            String command = e.getActionCommand();
+
 
             SVGDisplay display = new SVGDisplay("C:\\Users\\mjdun\\Documents\\GitHub\\DTR-17\\out\\production\\Trip Planner\\TestData\\ColoradoCountySeats.svg");
             displayPanel.add(display.getSVGComponents());
@@ -214,4 +223,6 @@ public class GUI {
             displayPanel.repaint();
         }
     }
+
+
 }

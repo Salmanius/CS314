@@ -24,6 +24,7 @@ public class View {
     private double YMin = 34.76269;
     private double YMax = 744.70214;
     private String[] itineraryStrings;
+    private GUI gui;
 
     protected Presenter presenter;
 
@@ -42,8 +43,8 @@ public class View {
         } else {
             System.out.println("There was an error parsing the command line.");
         }
-        GUI gui = new GUI(itineraryStrings);
         this.presenter = presenter;
+        gui = new GUI();
     }
 
     public boolean getMileageFlag() {
@@ -213,7 +214,7 @@ public class View {
 
     public void printFiles() {
         printXMLFile();
-
+        gui.setItineraryStrings(itineraryStrings);
         //creates the svg file
         String svgName = filenameCut + ".svg";
 
