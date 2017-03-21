@@ -22,6 +22,7 @@ public class GUI {
     protected int width;
     protected int height;
     protected String[] itineraryStrings;
+    protected String svgPath;
     //protected JButton btn;
 
     public static final String[] SVG_OPTIONS = {
@@ -33,9 +34,7 @@ public class GUI {
     };
 
 
-    public GUI(){
-        setupGUI();
-    }
+    public GUI(){ }
 
     public static void main(String[] args) {
         String[] testLines = {"1 Fort Collins to Denver, 100 miles","2 New York to Austin 1000","3 San Fransisco to Paris 9999","d","e","f","g","h"
@@ -166,7 +165,7 @@ public class GUI {
 
     }
 
-    private void setupGUI(){
+    public void startGUI(){
         mainFrame = new JFrame("TripCo");
         width = Math.round(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width);
         height = Math.round(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
@@ -208,6 +207,10 @@ public class GUI {
         itineraryStrings = iStrings;
     }
 
+    public void setSVGFilePath(String path){
+        svgPath = path;
+    }
+
 
     private class ItineraryButtonClickListener implements ActionListener{
         public void actionPerformed(ActionEvent e){
@@ -225,10 +228,10 @@ public class GUI {
     private class SVGButtonClickListen implements ActionListener{
         public void actionPerformed(ActionEvent e){
 
-            String filePath = new File("").getAbsolutePath();
-            filePath = filePath + ("\\out\\production\\Trip Planner\\TestData\\ColoradoCountySeats.svg");
+           // String filePath = new File("").getAbsolutePath();
+           // filePath = filePath + ("\\out\\production\\Trip Planner\\TestData\\ColoradoCountySeats.svg");
 
-            SVGDisplay display = new SVGDisplay(filePath);
+            SVGDisplay display = new SVGDisplay(svgPath);
             displayPanel.removeAll();
             //SVGDisplay display = new SVGDisplay("C:\\Users\\Chris\\OneDrive\\Documents\\Programming\\Git\\314\\DTR-17\\out\\production\\Trip Planner\\TestData\\ColoradoCountySeats.svg");
 
