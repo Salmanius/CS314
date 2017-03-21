@@ -28,6 +28,15 @@ public class GUI {
     protected String[] itineraryStrings;
     //protected JButton btn;
 
+    public static final String[] SVG_OPTIONS = {
+            "Mileage",
+            "Names",
+            "ID",
+            "2-Opt",
+            "3-Opt"
+    };
+
+
     public GUI(String[] iStrings){
         itineraryStrings = iStrings;
         setupGUI();
@@ -60,11 +69,24 @@ public class GUI {
 
         CheckBoxList checkBoxList = new CheckBoxList();
 
-        checkBoxList.addCheckbox(new JCheckBox("test 1"));
-        checkBoxList.addCheckbox(new JCheckBox("test 2"));
-        checkBoxList.addCheckbox(new JCheckBox("test 3"));
+        for(int i = 0; i < SVG_OPTIONS.length; ++i){
+            checkBoxList.addCheckbox(new JCheckBox(SVG_OPTIONS[i]));
+        }
 
+        JButton btn = new JButton("Display SVG");
+
+        btn.setBackground(Color.white);
+        btn.setBorderPainted(true);
+        btn.setFocusPainted(false);
+        btn.setOpaque(true);
+        btn.setMargin(new Insets(10, 10, 10, 10));
+
+        btn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btn.addActionListener(new SVGButtonClickListen());
+        checkBoxList.setAlignmentX(Component.CENTER_ALIGNMENT);
         argumentsPanel.add(checkBoxList);
+        argumentsPanel.add(btn);
+        argumentsPanel.setLayout(new BoxLayout(argumentsPanel, BoxLayout.Y_AXIS));
     }
 
 
@@ -90,8 +112,10 @@ public class GUI {
         btn.setOpaque(true);
         btn.setMargin(new Insets(10, 10, 10, 10));
 
+
         btn.setActionCommand("generateItinerary");
         btn.addActionListener(new ItineraryButtonClickListener());
+
 
         itinPanel = iPanel.getiPanel(); //fetching the panel from the itineraryPanel class
         JPanel emptySpaceTop = new JPanel(); //for pushing the button down
@@ -137,7 +161,7 @@ public class GUI {
     }
 
     private void setupGUI(){
-
+      
         mainFrame = new JFrame("TripCo");
         width = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
         height = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
@@ -146,6 +170,7 @@ public class GUI {
         setUIFont(new javax.swing.plaf.FontUIResource(f));
 
         mainFrame.setSize((int) Math.round(width*0.75),(int) Math.round(height*0.75));
+
         mainFrame.setLayout(new GridLayout(0,2));
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -165,6 +190,7 @@ public class GUI {
     }
 
 
+
     private class ItineraryButtonClickListener implements ActionListener{
         public void actionPerformed(ActionEvent e){
             ItineraryPanel iPanel = new ItineraryPanel(itineraryStrings,width/3,height/3);
@@ -176,6 +202,16 @@ public class GUI {
             itineraryButtonPanel.repaint();
 
         }
+    }
 
+    private class SVGButtonClickListen implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            String command = e.getActionCommand();
+
+            SVGDisplay display = new SVGDisplay("C:\\Users\\mjdun\\Documents\\GitHub\\DTR-17\\out\\production\\Trip Planner\\TestData\\ColoradoCountySeats.svg");
+            displayPanel.add(display.getSVGComponents());
+            displayPanel.validate();
+            displayPanel.repaint();
+        }
     }
 }
