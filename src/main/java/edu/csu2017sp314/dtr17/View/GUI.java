@@ -31,10 +31,12 @@ public class GUI {
 
     private void setupGUI(){
         mainFrame = new JFrame("TripCo");
-        float width = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
-        float height = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
+        float screenWidth = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
+        float screenHeight = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
+        int windowWidth = (int) Math.round(screenWidth/1.3);
+        int windowHeight = (int) Math.round(screenHeight/1.3);
 
-        mainFrame.setSize((int) Math.round(width/1.3),(int) Math.round(height/1.3));
+        mainFrame.setSize(windowWidth, windowHeight);
         mainFrame.setLayout(new GridLayout(0,2));
         Border blackline = BorderFactory.createLineBorder(Color.black);
 
@@ -47,7 +49,7 @@ public class GUI {
         displayPanel.add(new JLabel("Display",JLabel.HORIZONTAL));
         argumentsPanel = new JPanel();
         argumentsPanel.add(new JLabel("Arguments",JLabel.HORIZONTAL));
-        itineraryButtonPanel = new JPanel();
+        itineraryButtonPanel = new JPanel(new CardLayout());
         itineraryButtonPanel.setBorder(blackline);
 
         JButton btn = new JButton("Show Itinerary");

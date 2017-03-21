@@ -23,6 +23,7 @@ public class View {
     private double XMax = 1027.6634;
     private double YMin = 34.76269;
     private double YMax = 744.70214;
+    private String[] itineraryStrings;
 
     protected Presenter presenter;
 
@@ -86,7 +87,7 @@ public class View {
     protected void printXMLFile(){
         //creates the name of the xml file
         String xmlName = filenameCut + ".xml";
-
+        itineraryStrings = new String[mileages.size()];
         //writes to the xml file
         try {
             PrintWriter writer = new PrintWriter(xmlName, "UTF-8");
@@ -95,6 +96,7 @@ public class View {
 
             for (int i = 0; i < mileages.size(); i++) {
                 String secondName;
+                String itineraryString = "";
                 if (i + 1 >= names.size()) {
                     secondName = names.get(0);
                 } else {
@@ -107,7 +109,14 @@ public class View {
                 writer.println("<finish>" + secondName + "</finish>");
                 writer.println("<mileage>" + mileages.get(i) + "</mileage>");
                 writer.println("</leg>");
-            }
+
+                itineraryString = itineraryString
+                        + (i + 1) + " "
+                        + names.get(i) + " to "
+                        + secondName + ", "
+                        + mileages.get(i) + " miles";
+                itineraryStrings[i] = itineraryString;
+             }
             writer.println("</trip>");
             writer.close();
 
@@ -360,5 +369,9 @@ public class View {
                 " </g>";
 
         return borderString;
+    }
+
+    public String[] getItineraryStrings(){
+        return itineraryStrings;
     }
 }
