@@ -167,12 +167,11 @@ public class GUI {
     }
 
     private void setupGUI(){
-      
         mainFrame = new JFrame("TripCo");
-        width = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
-        height = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
-        int fontSize =(int) (width*height)/140000;
-        Font f = new Font("serif", Font.PLAIN, fontSize);
+        width = Math.round(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width);
+        height = Math.round(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
+
+        Font f = new Font("serif", Font.PLAIN, 24);
         setUIFont(new javax.swing.plaf.FontUIResource(f));
 
         mainFrame.setSize((int) Math.round(width*0.75),(int) Math.round(height*0.75));
@@ -215,7 +214,6 @@ public class GUI {
 
     private class SVGButtonClickListen implements ActionListener{
         public void actionPerformed(ActionEvent e){
-
 
             SVGDisplay display = new SVGDisplay("C:\\Users\\mjdun\\Documents\\GitHub\\DTR-17\\out\\production\\Trip Planner\\TestData\\ColoradoCountySeats.svg");
             displayPanel.add(display.getSVGComponents());
