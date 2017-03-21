@@ -4,10 +4,9 @@ import org.apache.batik.apps.svgbrowser.OptionPanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 /**
  * Created by Chris on 3/19/2017.
@@ -148,10 +147,11 @@ public class GUI {
 
         displayPanel = new JPanel();
         displayPanel.setBorder(blackline);
-
-        displayPanel.add(new JLabel("Display",JLabel.HORIZONTAL));
-
         displayPanel.setBackground(Color.lightGray);
+        displayPanel.setLayout(new BoxLayout(displayPanel,BoxLayout.X_AXIS));
+
+        displayPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
     }
 
     protected void createOptionsPanel(){
@@ -174,9 +174,10 @@ public class GUI {
         Font f = new Font("serif", Font.PLAIN, 24);
         setUIFont(new javax.swing.plaf.FontUIResource(f));
 
-        mainFrame.setSize((int) Math.round(width*0.75),(int) Math.round(height*0.75));
+        mainFrame.setSize((int) Math.round(width*0.85),(int) Math.round(height*0.75));
 
-        mainFrame.setLayout(new GridLayout(0,2));
+        //mainFrame.setLayout(new GridLayout(0,2));
+        mainFrame.setLayout(new BorderLayout());
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
@@ -188,8 +189,17 @@ public class GUI {
         createItineraryPanel();
         createOptionsPanel();
 
-        mainFrame.add(optionsPanel);
-        mainFrame.add(displayPanel);
+        JSplitPane sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        sp.setResizeWeight(0);
+        //sp.setDividerLocation(.5);
+        sp.setEnabled(false);
+        sp.setDividerSize(0);
+        sp.add(optionsPanel);
+        sp.add(displayPanel);
+        mainFrame.add(sp);
+
+        //mainFrame.add(optionsPanel);
+        //mainFrame.add(displayPanel);
 
         mainFrame.setVisible(true);
     }
@@ -215,7 +225,13 @@ public class GUI {
     private class SVGButtonClickListen implements ActionListener{
         public void actionPerformed(ActionEvent e){
 
-            SVGDisplay display = new SVGDisplay("C:\\Users\\mjdun\\Documents\\GitHub\\DTR-17\\out\\production\\Trip Planner\\TestData\\ColoradoCountySeats.svg");
+            String filePath = new File("").getAbsolutePath();
+            filePath = filePath + ("\\out\\production\\Trip Planner\\TestData\\ColoradoCountySeats.svg");
+
+            SVGDisplay display = new SVGDisplay(filePath);
+            displayPanel.removeAll();
+            //SVGDisplay display = new SVGDisplay("C:\\Users\\Chris\\OneDrive\\Documents\\Programming\\Git\\314\\DTR-17\\out\\production\\Trip Planner\\TestData\\ColoradoCountySeats.svg");
+
             displayPanel.add(display.getSVGComponents());
             displayPanel.validate();
             displayPanel.repaint();
