@@ -22,14 +22,22 @@ public class GUI {
     protected JPanel itineraryButtonPanel;
     protected JPanel optionsPanel;
     protected JPanel displayPanel;
+    protected JPanel itinPanel;
+    protected int width;
+    protected int height;
+    protected String[] itineraryStrings;
     //protected JButton btn;
 
-    public GUI(){
+    public GUI(String[] iStrings){
+        itineraryStrings = iStrings;
         setupGUI();
     }
 
     public static void main(String[] args) {
-        GUI g = new GUI();
+        String[] testLines = {"1 Fort Collins to Denver, 100 miles","2 New York to Austin 1000","3 San Fransisco to Paris 9999","d","e","f","g","h"
+                ,"i","j","k","l","m","n","o","p","q"
+                ,"r","s","t","u","v","w","x","y","z"};
+        GUI g = new GUI(testLines);
     }
 
     private static void setUIFont(javax.swing.plaf.FontUIResource f)
@@ -64,6 +72,12 @@ public class GUI {
         Border blackline = BorderFactory.createLineBorder(Color.black);
 
         itineraryButtonPanel = new JPanel();
+        itineraryButtonPanel.setLayout(new BoxLayout(itineraryButtonPanel,BoxLayout.Y_AXIS));
+        String[] dummyArray = new String[0];
+        //String[] testLines = {"1 Fort Collins to Denver, 100 miles","2 New York to Austin 1000","3 San Fransisco to Paris 9999","d","e","f","g","h"
+                //,"i","j","k","l","m","n","o","p","q"
+                //,"r","s","t","u","v","w","x","y","z"};
+        ItineraryPanel iPanel = new ItineraryPanel(dummyArray,width/3,height/3); //IF YOU CHANGE THE QUARTERING OF THE MAIN FRAME YOU WILL RUIN THIS CODE
 
         itineraryButtonPanel.setBorder(blackline);
         itineraryButtonPanel.setBackground(Color.lightGray);
@@ -76,9 +90,26 @@ public class GUI {
         btn.setOpaque(true);
         btn.setMargin(new Insets(10, 10, 10, 10));
 
-        btn.addActionListener(new ButtonClickListen());
+        btn.setActionCommand("generateItinerary");
+        btn.addActionListener(new ItineraryButtonClickListener());
 
+        itinPanel = iPanel.getiPanel(); //fetching the panel from the itineraryPanel class
+        JPanel emptySpaceTop = new JPanel(); //for pushing the button down
+        JPanel emptySpaceCenter = new JPanel(); // for spacing the button and the itin box
+
+        itinPanel.setBackground(Color.lightGray); //coloring all the panels
+        emptySpaceTop.setBackground(Color.lightGray);
+        emptySpaceCenter.setBackground(Color.lightGray);
+
+        btn.setAlignmentX(Component.CENTER_ALIGNMENT); //centering both components
+        itinPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
+        itineraryButtonPanel.add(emptySpaceTop); //adding panels to parent panel
         itineraryButtonPanel.add(btn);
+        itineraryButtonPanel.add(emptySpaceCenter);
+        itineraryButtonPanel.add(itinPanel);
+
     }
 
     protected void createDisplayPanel(){
@@ -106,14 +137,15 @@ public class GUI {
     }
 
     private void setupGUI(){
-        Font f = new Font("serif", Font.PLAIN, 36);
-        setUIFont(new javax.swing.plaf.FontUIResource(f));
 
         mainFrame = new JFrame("TripCo");
-        float width = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
-        float height = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
+        width = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
+        height = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
+        int fontSize =(int) (width*height)/140000;
+        Font f = new Font("serif", Font.PLAIN, fontSize);
+        setUIFont(new javax.swing.plaf.FontUIResource(f));
 
-        mainFrame.setSize((int) Math.round(width/1.3),(int) Math.round(height/1.3));
+        mainFrame.setSize((int) Math.round(width*0.75),(int) Math.round(height*0.75));
         mainFrame.setLayout(new GridLayout(0,2));
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -133,9 +165,15 @@ public class GUI {
     }
 
 
-    private class ButtonClickListen implements ActionListener{
+    private class ItineraryButtonClickListener implements ActionListener{
         public void actionPerformed(ActionEvent e){
-            String command = e.getActionCommand();
+            ItineraryPanel iPanel = new ItineraryPanel(itineraryStrings,width/3,height/3);
+            itineraryButtonPanel.remove(itinPanel);
+            itinPanel = iPanel.getiPanel();
+            itinPanel.setBackground(Color.lightGray);
+            itineraryButtonPanel.add(itinPanel);
+            itineraryButtonPanel.validate();
+            itineraryButtonPanel.repaint();
 
         }
 

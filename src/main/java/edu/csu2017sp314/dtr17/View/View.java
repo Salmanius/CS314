@@ -42,7 +42,7 @@ public class View {
         } else {
             System.out.println("There was an error parsing the command line.");
         }
-
+        GUI gui = new GUI(itineraryStrings);
         this.presenter = presenter;
     }
 
@@ -371,7 +371,4 @@ public class View {
         return borderString;
     }
 
-    public String[] getItineraryStrings(){
-        return itineraryStrings;
-    }
 }
