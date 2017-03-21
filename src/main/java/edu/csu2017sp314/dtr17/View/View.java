@@ -249,6 +249,9 @@ public class View {
             System.out.println("An error has occurred while writing to the svg file.");
             e.printStackTrace();
         }
+
+        gui.startGUI();
+        gui.setSVGFilePath(svgName);
     }
 
     private int longToPix(double longitude) {
