@@ -52,7 +52,7 @@ public class ItineraryPanel {
 
     public void makePanel(){
         JPanel panel = new JPanel();
-        JList<String> list = new JList<String>();
+        JList<String> list;
         JScrollPane scrollList = new JScrollPane();
         DefaultListModel<String> windowList = new DefaultListModel<String>();
         for(String val : itineraryStrings)
