@@ -46,31 +46,19 @@ public class GUI {
         }
     }
 
-    protected void createArgumentsPanel(){
+    protected void createArgumentsPanel() {
         argumentsPanel = new JPanel();
         argumentsPanel.setBackground(Color.lightGray);
 
-    private void setupGUI(){
-        mainFrame = new JFrame("TripCo");
-        float screenWidth = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
-        float screenHeight = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
-        int windowWidth = (int) Math.round(screenWidth/1.3);
-        int windowHeight = (int) Math.round(screenHeight/1.3);
-
-        mainFrame.setSize(windowWidth, windowHeight);
-        mainFrame.setLayout(new GridLayout(0,2));
-        Border blackline = BorderFactory.createLineBorder(Color.black);
-
-
-        final CheckBoxList checkBoxList = new CheckBoxList();
+        CheckBoxList checkBoxList = new CheckBoxList();
 
         checkBoxList.addCheckbox(new JCheckBox("test 1"));
         checkBoxList.addCheckbox(new JCheckBox("test 2"));
         checkBoxList.addCheckbox(new JCheckBox("test 3"));
 
-        // argumentsPanel.add(new JLabel("Arguments",JLabel.HORIZONTAL));
         argumentsPanel.add(checkBoxList);
     }
+
 
     protected void createItineraryPanel(){
         Border blackline = BorderFactory.createLineBorder(Color.black);
