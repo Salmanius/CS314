@@ -12,7 +12,7 @@ import java.io.File;
  * Created by Chris on 3/19/2017.
  */
 
-public class GUI {
+public class GUI  {
     protected JFrame mainFrame;
     protected JPanel argumentsPanel;
     protected JPanel itineraryButtonPanel;
@@ -241,5 +241,14 @@ public class GUI {
         }
     }
 
+    public void displaySVG(String svgPath){
+        SVGDisplay display = new SVGDisplay(svgPath);
+        displayPanel.removeAll();
+        //SVGDisplay display = new SVGDisplay("C:\\Users\\Chris\\OneDrive\\Documents\\Programming\\Git\\314\\DTR-17\\out\\production\\Trip Planner\\TestData\\ColoradoCountySeats.svg");
+
+        displayPanel.add(display.getSVGComponents());
+        displayPanel.validate();
+        displayPanel.repaint();
+    }
 
 }

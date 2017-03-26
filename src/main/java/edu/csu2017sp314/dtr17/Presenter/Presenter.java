@@ -20,6 +20,7 @@ public class Presenter {
         this.view = view;
         this.model = model;
     }
+
     public void start() {
         String fileName = view.getFilename();
         model.parseCSV(fileName);
@@ -30,6 +31,7 @@ public class Presenter {
             view.addLocation(leg.getStartLocation().getName(), leg.getStartLocation().getId() ,
                     leg.getStartLocation().getDblLongitude(), leg.getStartLocation().getDblLatitude(), leg.getMileage());
         }
+
         view.printFiles();
 
     }
