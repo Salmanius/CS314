@@ -2,7 +2,10 @@ package main.java.edu.csu2017sp314.dtr17.View;
 
 import main.java.edu.csu2017sp314.dtr17.Presenter.Presenter;
 
-public class View {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class View implements ActionListener{
     private boolean showMileage = false;
     private boolean showID = false;
     private boolean showName = false;
@@ -22,8 +25,12 @@ public class View {
         } else {
             System.out.println("There was an error parsing the command line.");
         }
+
         this.presenter = presenter;
-        gui = new GUI();
+        gui = new GUI(this);
+        gui.setSVGFilePath(filenameCut + ".svg");
+        gui.startGUI();
+
     }
 
     public void addLocation(String name, String ID, double longitude, double latitude, int mileageToNextLoc) {
@@ -35,8 +42,6 @@ public class View {
         tripFileCreator.printSVGFile(filenameCut + ".svg", showID, showName, showMileage);
         tripFileCreator.printXMLFile(filenameCut + ".xml");
 
-        gui.startGUI();
-        gui.setSVGFilePath(filenameCut + ".svg");
         gui.setItineraryStrings(tripFileCreator.getItineraryStrings());
     }
 
@@ -60,10 +65,6 @@ public class View {
 
     public void setPresenterReference(Presenter presenter){
         this.presenter = presenter;
-    }
-
-    protected void createSVGButtonPressed(){
-
     }
 
     /* parses the arguments from the command line and stores them locally */
@@ -121,4 +122,22 @@ public class View {
     }
 
 
+    @Override
+    public void actionPerformed(ActionEvent e){
+        String action = e.getActionCommand();
+
+        if(action.equals(GUI.SHOW_SVG_ACTION)) {
+            OptionsList tmpOptionsList = gui.getOptionsList();
+            showID = tmpOptionsList.getCheckedState(OptionsList.OPTIONS.ID);
+            showMileage = tmpOptionsList.getCheckedState(OptionsList.OPTIONS.MILEAGE);
+            showName = tmpOptionsList.getCheckedState(OptionsList.OPTIONS.NAMES);
+
+            presenter.createSVGButtonPressed(tmpOptionsList.getCheckedState(OptionsList.OPTIONS.TWO_OP),
+                    tmpOptionsList.getCheckedState(OptionsList.OPTIONS.THREE_OP));
+        }
+    }
+
+    public void displaySVG(){
+        gui.displaySVG(filenameCut + ".svg");
+    }
 }

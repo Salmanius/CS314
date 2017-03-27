@@ -1,29 +1,31 @@
 package main.java.edu.csu2017sp314.dtr17.View;
 
-import org.apache.batik.apps.svgbrowser.OptionPanel;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 
 /**
  * Created by Chris on 3/19/2017.
  */
 
 public class GUI  {
+    public static final String SHOW_SVG_ACTION = "Show SVG button pressed";
     protected JFrame mainFrame;
     protected JPanel argumentsPanel;
     protected JPanel itineraryButtonPanel;
     protected JPanel optionsPanel;
     protected JPanel displayPanel;
     protected JPanel itinPanel;
+    protected OptionsList optionsList;
+
     protected int width;
     protected int height;
     protected String[] itineraryStrings;
     protected String svgPath;
     //protected JButton btn;
+
+    protected ActionListener actionListener;
 
     public static final String[] SVG_OPTIONS = {
             "Mileage",
@@ -33,15 +35,17 @@ public class GUI  {
             "3-Opt"
     };
 
-
-    public GUI(){ }
+    //All event notifications will be handled by the event listener given here.
+    public GUI(ActionListener actionListener){
+        this.actionListener = actionListener;
+    }
 
     public static void main(String[] args) {
         String[] testLines = {"1 Fort Collins to Denver, 100 miles","2 New York to Austin 1000","3 San Fransisco to Paris 9999","d","e","f","g","h"
                 ,"i","j","k","l","m","n","o","p","q"
                 ,"r","s","t","u","v","w","x","y","z"};
-        GUI g = new GUI();
-        g.setItineraryStrings(testLines);
+        //GUI g = new GUI();
+       // g.setItineraryStrings(testLines);
     }
 
     private static void setUIFont(javax.swing.plaf.FontUIResource f)
@@ -70,27 +74,25 @@ public class GUI  {
         emptySpaceCenter.setBackground(Color.lightGray);
         emptySpaceBottom.setBackground(Color.lightGray);
 
-        CheckBoxList checkBoxList = new CheckBoxList();
+        optionsList = new OptionsList();
 
-        for(int i = 0; i < SVG_OPTIONS.length; ++i){
-            checkBoxList.addCheckbox(new JCheckBox(SVG_OPTIONS[i]));
-        }
+        JButton svgBtn = new JButton("Display SVG");
 
-        JButton btn = new JButton("Display SVG");
+        svgBtn.setBackground(Color.white);
+        svgBtn.setBorderPainted(true);
+        svgBtn.setFocusPainted(false);
+        svgBtn.setOpaque(true);
+        svgBtn.setMargin(new Insets(10, 10, 10, 10));
 
-        btn.setBackground(Color.white);
-        btn.setBorderPainted(true);
-        btn.setFocusPainted(false);
-        btn.setOpaque(true);
-        btn.setMargin(new Insets(10, 10, 10, 10));
+        svgBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        svgBtn.addActionListener(actionListener);
+        svgBtn.setActionCommand(SHOW_SVG_ACTION);
+        optionsList.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        btn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btn.addActionListener(new SVGButtonClickListen());
-        checkBoxList.setAlignmentX(Component.CENTER_ALIGNMENT);
         argumentsPanel.add(emptySpaceTop);
-        argumentsPanel.add(checkBoxList);
+        argumentsPanel.add(optionsList);
         argumentsPanel.add(emptySpaceCenter);
-        argumentsPanel.add(btn);
+        argumentsPanel.add(svgBtn);
         argumentsPanel.add(emptySpaceBottom);
     }
 
@@ -225,22 +227,6 @@ public class GUI  {
         }
     }
 
-    private class SVGButtonClickListen implements ActionListener{
-        public void actionPerformed(ActionEvent e){
-
-           // String filePath = new File("").getAbsolutePath();
-           // filePath = filePath + ("\\out\\production\\Trip Planner\\TestData\\ColoradoCountySeats.svg");
-
-            SVGDisplay display = new SVGDisplay(svgPath);
-            displayPanel.removeAll();
-            //SVGDisplay display = new SVGDisplay("C:\\Users\\Chris\\OneDrive\\Documents\\Programming\\Git\\314\\DTR-17\\out\\production\\Trip Planner\\TestData\\ColoradoCountySeats.svg");
-
-            displayPanel.add(display.getSVGComponents());
-            displayPanel.validate();
-            displayPanel.repaint();
-        }
-    }
-
     public void displaySVG(String svgPath){
         SVGDisplay display = new SVGDisplay(svgPath);
         displayPanel.removeAll();
@@ -249,6 +235,10 @@ public class GUI  {
         displayPanel.add(display.getSVGComponents());
         displayPanel.validate();
         displayPanel.repaint();
+    }
+
+    public OptionsList getOptionsList(){
+        return optionsList;
     }
 
 }

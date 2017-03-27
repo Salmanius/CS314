@@ -35,6 +35,21 @@ public class Presenter {
         view.printFiles();
 
     }
+
+    public void createSVGButtonPressed(boolean twoOP, boolean threeOP){
+        String fileName = view.getFilename();
+        model.parseCSV(fileName);
+        Trip trip = model.getTrip(twoOP,threeOP);
+
+        for(int i = 0; i < trip.amountOfLegs(); ++i){
+            Leg leg = trip.getLeg(i);
+            view.addLocation(leg.getStartLocation().getName(), leg.getStartLocation().getId() ,
+                    leg.getStartLocation().getDblLongitude(), leg.getStartLocation().getDblLatitude(), leg.getMileage());
+        }
+
+        view.printFiles();
+        view.displaySVG();
+    }
 }
 
 
