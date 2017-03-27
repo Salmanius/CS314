@@ -119,7 +119,7 @@ public class View implements ActionListener{
         }
 
         showMileage = cmd.hasOption("mileage");
-        showID = cmd.hasOption("ID");
+        showID = cmd.hasOption("id");
         showName = cmd.hasOption("names");
         useGUI = cmd.hasOption("gui");
 

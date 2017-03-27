@@ -10,65 +10,72 @@ import static java.lang.Math.toRadians;
 public class TripMaker {
 
     private ArrayList<Location> locations;
-    private ArrayList<Location> visited;
+    private ArrayList<Location> locationsTemp;
 
 
     public TripMaker(ArrayList<Location> l){
         locations = l;
-        visited = new ArrayList<Location>();
     }
 
-    public Trip makeNNTrip(){
-        Trip NNTrip = new Trip(false, false, false);
+    public Trip makeTrip(){
+        Trip trip = new Trip(false, false, false, locations.size());
+        trip = nearestNeighbor(0);
 
-
-        Location current = locations.get(0); //mark first location as current
-        visited.add(current); //mark current location as visited
-        locations.remove(0); // remove from list of locations to visit
-
-        int i = 0;
-        while (locations.size() > 0){ //looping through the locations removing as it visits them
-            int nn = findNN(current);
-            Leg L = makeLeg(current,locations.get(nn),i); // use zero for first sequence and +1 per loop after
-            i++;
-            current = locations.get(nn);
-            visited.add(current); //mark current location as visited
-            locations.remove(nn); // remove from list of locations to visit
-
-            NNTrip.addLeg(L); // add leg to trip
+        //find the shortest trip using nearest neighbor from each starting point
+        for(int i = 0; i < locations.size(); i++){
+            Trip newTrip = nearestNeighbor(i);
+            if(newTrip.getMileage() < trip.getMileage()){
+                trip = newTrip;
+            }
         }
-
-        //loop the end back to the beginning
-        i++; //increment the sequence 1 last time
-        Leg L = makeLeg(current,visited.get(0),i); //make leg from current (last item we used) back to the very first visited
-        NNTrip.addLeg(L); //add last leg to trip
-        //return created trip
-        return NNTrip;
+        return trip;
     }
 
-    public int findNN(Location current){
-        int nearest = 0;
+    public Trip nearestNeighbor(int start){
+        ArrayList<Location> visited = new ArrayList<>();
+        locationsTemp = new ArrayList<>(locations);
+        int i = start;
+        visited.add(locationsTemp.get(i));
+
+        while(visited.size() < locations.size()){
+            int j = i;
+            i = findNN(locationsTemp.get(i), i);
+            visited.add(locationsTemp.get(i));
+            locationsTemp.remove(j);
+            if(i>j){
+                i--;
+            }
+        }
+        visited.add(locations.get(start));
+
+        Trip trip = new Trip(false, false, false, visited.size());
+        for(int k = 0; k < visited.size()-1; k++){
+            trip.addLoc(visited.get(k), k, calculateDistanceBetween(visited.get(k), visited.get(k+1)));
+        }
+        trip.addLoc(visited.get(visited.size()-1), visited.size()-1, calculateDistanceBetween(visited.get(visited.size()-1), visited.get(1)));
+
+        return trip;
+    }
+
+    public int findNN(Location current, int currentNum){
+        int nearest = -1;
         float shortestDistance = 10000000; //super big so first find is always smaller
 
-        for (int i = 0; i < locations.size(); i++){
-            float tempDistance = calculateDistanceBetween(current, locations.get(i));
+        for (int i = 0; i < locationsTemp.size(); i++){
+            if(i == currentNum){
 
-            if (tempDistance < shortestDistance){
-                shortestDistance = tempDistance;
-                nearest = i;
+            }
+            else {
+                float tempDistance = calculateDistanceBetween(current, locations.get(i));
+
+                if (tempDistance < shortestDistance) {
+                    shortestDistance = tempDistance;
+                    nearest = i;
+                }
             }
         }
 
         return nearest;
-    }
-
-    public Leg makeLeg(Location A, Location B, int sequence){
-        int mileage = 0;
-        mileage = calculateDistanceBetween(A,B); // get mileage between locations
-        Leg leg = new Leg(sequence, mileage); //need to calculate mileage between
-        leg.setStartLocation(A);
-        leg.setEndLocation(B);
-        return leg;
     }
 
     public int calculateDistanceBetween(Location A, Location B){
