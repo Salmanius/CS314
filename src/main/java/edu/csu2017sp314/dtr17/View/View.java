@@ -126,7 +126,7 @@ public class View implements ActionListener{
     public void actionPerformed(ActionEvent e){
         String action = e.getActionCommand();
 
-        if(action.equals(GUI.SHOW_SVG_ACTION)) {
+        if(action.equals(GUI.CREATE_TRIP_ACTION)) {
             OptionsList tmpOptionsList = gui.getOptionsList();
             showID = tmpOptionsList.getCheckedState(OptionsList.OPTIONS.ID);
             showMileage = tmpOptionsList.getCheckedState(OptionsList.OPTIONS.MILEAGE);
@@ -139,5 +139,9 @@ public class View implements ActionListener{
 
     public void displaySVG(){
         gui.displaySVG(filenameCut + ".svg");
+    }
+
+    public void updateItinerary(){
+        gui.updateItinerary();
     }
 }

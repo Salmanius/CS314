@@ -49,6 +49,7 @@ public class Presenter {
 
         view.printFiles();
         view.displaySVG();
+        view.updateItinerary();
     }
 }
 
