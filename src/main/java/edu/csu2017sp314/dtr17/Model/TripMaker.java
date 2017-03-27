@@ -9,16 +9,19 @@ import static java.lang.Math.toRadians;
  */
 public class TripMaker {
 
+    //used to store all the locations
     private ArrayList<Location> locations;
+    //used to store locations and remove them when they are visited
     private ArrayList<Location> locationsTemp;
 
 
-    public TripMaker(ArrayList<Location> l){
-        locations = l;
+    public TripMaker(ArrayList<Location> L){
+        locations = L;
     }
 
+    //creates the trip
     public Trip makeTrip(){
-        Trip trip = new Trip(false, false, false, locations.size());
+        Trip trip;
         trip = nearestNeighbor(0);
 
         //find the shortest trip using nearest neighbor from each starting point
@@ -31,6 +34,7 @@ public class TripMaker {
         return trip;
     }
 
+    //returns a nearest neighbor trip starting at start
     public Trip nearestNeighbor(int start){
         ArrayList<Location> visited = new ArrayList<>();
         locationsTemp = new ArrayList<>(locations);
@@ -57,6 +61,7 @@ public class TripMaker {
         return trip;
     }
 
+    //finds the nearest neighbor Location to current
     public int findNN(Location current, int currentNum){
         int nearest = -1;
         float shortestDistance = 10000000; //super big so first find is always smaller
@@ -66,7 +71,7 @@ public class TripMaker {
 
             }
             else {
-                float tempDistance = calculateDistanceBetween(current, locations.get(i));
+                float tempDistance = calculateDistanceBetween(current, locationsTemp.get(i));
 
                 if (tempDistance < shortestDistance) {
                     shortestDistance = tempDistance;
@@ -78,6 +83,7 @@ public class TripMaker {
         return nearest;
     }
 
+    //calculates the distance between two Locations
     public int calculateDistanceBetween(Location A, Location B){
         double distance; //http://www.movable-type.co.uk/scripts/latlong.html
         double earthsRadiusMiles = 3958.756; //6371km
@@ -95,6 +101,7 @@ public class TripMaker {
         return (int) Math.round(distance);
     }
 
+    //returns the Locations at Index
     public Location getLocation(int index){
         return locations.get(index);
     }
