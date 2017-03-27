@@ -9,19 +9,16 @@ import static java.lang.Math.toRadians;
  */
 public class TripMaker {
 
-    //used to store all the locations
     private ArrayList<Location> locations;
-
-    //used to store locations and remove them when they are visited
     private ArrayList<Location> locationsTemp;
 
 
-    public TripMaker(ArrayList<Location> L){
-        locations = L;
+    public TripMaker(ArrayList<Location> l){
+        locations = l;
     }
 
     public Trip makeTrip(){
-        Trip trip;
+        Trip trip = new Trip(false, false, false, locations.size());
         trip = nearestNeighbor(0);
 
         //find the shortest trip using nearest neighbor from each starting point
@@ -69,7 +66,7 @@ public class TripMaker {
 
             }
             else {
-                float tempDistance = calculateDistanceBetween(current, locationsTemp.get(i));
+                float tempDistance = calculateDistanceBetween(current, locations.get(i));
 
                 if (tempDistance < shortestDistance) {
                     shortestDistance = tempDistance;
@@ -81,7 +78,6 @@ public class TripMaker {
         return nearest;
     }
 
-    //calculates the distance between two Locations
     public int calculateDistanceBetween(Location A, Location B){
         double distance; //http://www.movable-type.co.uk/scripts/latlong.html
         double earthsRadiusMiles = 3958.756; //6371km
@@ -99,7 +95,6 @@ public class TripMaker {
         return (int) Math.round(distance);
     }
 
-    //return the Location at index
     public Location getLocation(int index){
         return locations.get(index);
     }
