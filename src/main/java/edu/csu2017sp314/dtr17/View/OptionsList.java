@@ -8,12 +8,28 @@ import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class CheckBoxList extends JList
+public class OptionsList extends JList
 {
+    protected static final String[] OPTIONS_STRINGS = {
+            "Mileage",
+            "Names",
+            "ID",
+            "2-Op",
+            "3-Op"
+    };
+
+    public enum OPTIONS {
+        MILEAGE,
+        NAMES,
+        ID,
+        TWO_OP,
+        THREE_OP
+    }
+
     protected static Border noFocusBorder =
             new EmptyBorder(1, 1, 1, 1);
 
-    public CheckBoxList()
+    public OptionsList()
     {
         setCellRenderer(new CellRenderer());
 
@@ -35,16 +51,18 @@ public class CheckBoxList extends JList
         );
 
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        JCheckBox[] checkBoxes = new JCheckBox[OPTIONS_STRINGS.length];
+        for(int i = 0; i < OPTIONS_STRINGS.length; ++i){
+            checkBoxes[i] = new JCheckBox(OPTIONS_STRINGS[i]);
+        }
+        setListData(checkBoxes);
+        //setListData(OPTIONS);
     }
 
-    public void addCheckbox(JCheckBox checkBox) {
-        ListModel currentList = this.getModel();
-        JCheckBox[] newList = new JCheckBox[currentList.getSize() + 1];
-        for (int i = 0; i < currentList.getSize(); i++) {
-            newList[i] = (JCheckBox) currentList.getElementAt(i);
-        }
-        newList[newList.length - 1] = checkBox;
-        setListData(newList);
+    public boolean getCheckedState(OPTIONS options ){
+        return ((JCheckBox)getModel().getElementAt(options.ordinal())).isSelected();
+
     }
 
     protected class CellRenderer implements ListCellRenderer
