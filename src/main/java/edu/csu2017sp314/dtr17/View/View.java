@@ -8,11 +8,14 @@ import java.awt.event.ActionListener;
 import org.apache.commons.cli.*;
 
 public class View implements ActionListener{
-    private boolean showMileage = false;
-    private boolean showID = false;
-    private boolean showName = false;
-    private String filename;
-    private String filenameCut;
+    protected boolean showMileage = false;
+    protected boolean showID = false;
+    protected boolean showName = false;
+    protected boolean useGUI = false;
+
+    protected String csvFileName;
+    protected String svgFileName;
+    protected String xmlFileName;
 
     private GUI gui;
 
@@ -22,16 +25,15 @@ public class View implements ActionListener{
     protected Presenter presenter;
 
     public View(String[] args) {
-        if (CommandParser(args) == 0) {
-            //the parser didn't throw an error
-        } else {
-            System.out.println("There was an error parsing the command line.");
-        }
+        parseCommandArguments(args);
 
         this.presenter = presenter;
-        gui = new GUI(this);
-        gui.setSVGFilePath(filenameCut + ".svg");
-        gui.startGUI();
+
+        if(useGUI) {
+            gui = new GUI(this);
+            gui.setSVGFilePath(svgFileName);
+            gui.startGUI();
+        }
 
     }
 
@@ -41,10 +43,11 @@ public class View implements ActionListener{
     }
 
     public void printFiles(){
-        tripFileCreator.printSVGFile(filenameCut + ".svg", showID, showName, showMileage);
-        tripFileCreator.printXMLFile(filenameCut + ".xml");
+        tripFileCreator.printSVGFile(svgFileName, showID, showName, showMileage);
+        tripFileCreator.printXMLFile(xmlFileName);
 
-        gui.setItineraryStrings(tripFileCreator.getItineraryStrings());
+        if(useGUI)
+            gui.setItineraryStrings(tripFileCreator.getItineraryStrings());
     }
 
     public boolean getMileageFlag() {
@@ -60,7 +63,7 @@ public class View implements ActionListener{
     }
 
     public String getFilename() {
-        return filename;
+        return csvFileName;
     }
 
 
@@ -70,55 +73,70 @@ public class View implements ActionListener{
     }
 
     /* parses the arguments from the command line and stores them locally */
-    private int CommandParser(String[] args) {
-        int argsLength = args.length;
+    private int parseCommandArguments(String[] args) {
+        Options options = new Options();
 
-        //checks if there is just the program name in arguments
-        //if there is, it throws an error and requests the file name
-        if (argsLength == 0) {
-            System.out.println("The input file name must be included as an argument.");
-            System.out.println("Correct usage of the command line is: TripCo.java -flags inputfile.csv");
-            System.out.println("Recognized flags are:\n-m for adding mileages to the map\n-i for adding IDs to the map\n-n for adding Names to the map");
-            return -1;
+        Option guiOption = new Option("g", "gui", false, "run the trip GUI");
+        guiOption.setRequired(false);
+        options.addOption(guiOption);
+
+        Option mileageOption = new Option("m", "mileage", false, "display the mileage of each leg");
+        mileageOption.setRequired(false);
+        options.addOption(mileageOption);
+
+        Option idOption = new Option("i", "id", false, "display the id of each stop");
+        idOption.setRequired(false);
+        options.addOption(idOption);
+
+        Option namesOption = new Option("n", "names", false, "display the names of each stop");
+        namesOption.setRequired(false);
+        options.addOption(namesOption);
+
+        Option csvPathOption = new Option("p", "csvpath", true, "set the filename or path to the input csv file");
+        csvPathOption.setRequired(true);
+        options.addOption(csvPathOption);
+
+        Option svgOutputOption = new Option("s", "svgname", true, "set the filename or path to the output svg file");
+        svgOutputOption.setRequired(false);
+        options.addOption(svgOutputOption);
+
+        Option xmlPathOption = new Option("x", "xmlname", true, "set the filename or path to the output xml file");
+        xmlPathOption.setRequired(false);
+        options.addOption(xmlPathOption);
+
+        CommandLineParser parser = new DefaultParser();
+        HelpFormatter formatter = new HelpFormatter();
+        CommandLine cmd;
+
+        try {
+            cmd = parser.parse(options, args);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+            formatter.printHelp("TripCo", options);
+
+            System.exit(1);
+            return 1;
         }
 
-        //checks if there is more than just the program name in arguments
-        char flag;
-        if (argsLength > 1) {
-            //takes the next argument and saves it as the flags String
-            for (int i = 0; i < argsLength - 1; i++) {
-                String flags = args[i];
-                //goes through each character in the flags String after the '-'
-                for (int j = 1; j < flags.length(); j++) {
-                    flag = flags.charAt(j);
-                    //sets the appropriate boolean to true if the correct flag is present
-                    switch (flag) {
-                        case 'm':
-                            showMileage = true;
-                            break;
-                        case 'i':
-                            showID = true;
-                            break;
-                        case 'n':
-                            showName = true;
-                            break;
-                        default:
-                            System.out.println("The flag " + flags + " is not a valid flag!");
-                            System.out.println("Correct usage of the command line is: TripCo.java -flags inputfile.csv");
-                            System.out.println("Recognized flags are:\n-m for adding mileages to the map\n-i for adding IDs to the map\n-n for adding Names to the map");
-                            break;
-                    }
-                }
-            }
+        showMileage = cmd.hasOption("mileage");
+        showID = cmd.hasOption("ID");
+        showName = cmd.hasOption("names");
+        useGUI = cmd.hasOption("gui");
+
+        csvFileName = cmd.getOptionValue("csvpath");
+        String filenameCut = csvFileName.substring(0, csvFileName.length() - 4);
+
+        if(cmd.hasOption("svgname")){
+            svgFileName = cmd.getOptionValue("svgname");
+        } else{
+            svgFileName = filenameCut + ".svg";
         }
 
-        if (showID && showName) {
-            System.out.println("Only the labels for ID or Name can be turned on, not both! The system will only show ID labels instead of both, if they are both flagged.");
+        if(cmd.hasOption("xmlname")){
+            xmlFileName = cmd.getOptionValue("xmlname");
+        } else{
+            xmlFileName = filenameCut + ".xml";
         }
-
-        //takes the last argument and saves it as the filename
-        filename = (args[argsLength - 1]);
-        filenameCut = (args[argsLength - 1].substring(0, (args[argsLength - 1].length() - 4)));
 
         return 0;
     }
@@ -140,7 +158,7 @@ public class View implements ActionListener{
     }
 
     public void displaySVG(){
-        gui.displaySVG(filenameCut + ".svg");
+        gui.displaySVG(svgFileName);
     }
 
     public void updateItinerary(){
