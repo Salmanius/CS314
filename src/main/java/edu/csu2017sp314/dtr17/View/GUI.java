@@ -10,7 +10,7 @@ import java.awt.event.*;
  */
 
 public class GUI  {
-    public static final String SHOW_SVG_ACTION = "Show SVG button pressed";
+    public static final String CREATE_TRIP_ACTION = "Show SVG button pressed";
     protected JFrame mainFrame;
     protected JPanel argumentsPanel;
     protected JPanel itineraryButtonPanel;
@@ -69,10 +69,10 @@ public class GUI  {
         JPanel emptySpaceCenter = new JPanel();
         JPanel emptySpaceBottom = new JPanel();
 
-        argumentsPanel.setBackground(Color.lightGray);
-        emptySpaceTop.setBackground(Color.lightGray);
-        emptySpaceCenter.setBackground(Color.lightGray);
-        emptySpaceBottom.setBackground(Color.lightGray);
+        //argumentsPanel.setBackground(Color.lightGray);
+        //emptySpaceTop.setBackground(Color.lightGray);
+        //emptySpaceCenter.setBackground(Color.lightGray);
+        //emptySpaceBottom.setBackground(Color.lightGray);
 
         optionsList = new OptionsList();
 
@@ -86,10 +86,11 @@ public class GUI  {
 
         svgBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         svgBtn.addActionListener(actionListener);
-        svgBtn.setActionCommand(SHOW_SVG_ACTION);
+        svgBtn.setActionCommand(CREATE_TRIP_ACTION);
         optionsList.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         argumentsPanel.add(emptySpaceTop);
+        //argumentsPanel.setBackground(Color.lightGray);
         argumentsPanel.add(optionsList);
         argumentsPanel.add(emptySpaceCenter);
         argumentsPanel.add(svgBtn);
@@ -109,28 +110,17 @@ public class GUI  {
         ItineraryPanel iPanel = new ItineraryPanel(dummyArray,width/3,height/3); //IF YOU CHANGE THE QUARTERING OF THE MAIN FRAME YOU WILL RUIN THIS CODE
 
         itineraryButtonPanel.setBorder(blackline);
-        itineraryButtonPanel.setBackground(Color.lightGray);
+        //itineraryButtonPanel.setBackground(Color.lightGray);
 
-        JButton btn = new JButton("Show Itinerary");
-
-        btn.setBackground(Color.white);
-        btn.setBorderPainted(true);
-        btn.setFocusPainted(false);
-        btn.setOpaque(true);
-        btn.setMargin(new Insets(10, 10, 10, 10));
-
-
-        //btn.setActionCommand("generateItinerary");
-        btn.addActionListener(new ItineraryButtonClickListener());
-
+        JLabel btn = new JLabel("Itinerary");
 
         itinPanel = iPanel.getiPanel(); //fetching the panel from the itineraryPanel class
         JPanel emptySpaceTop = new JPanel(); //for pushing the button down
         JPanel emptySpaceCenter = new JPanel(); // for spacing the button and the itin box
 
-        itinPanel.setBackground(Color.lightGray); //coloring all the panels
-        emptySpaceTop.setBackground(Color.lightGray);
-        emptySpaceCenter.setBackground(Color.lightGray);
+        //itinPanel.setBackground(Color.lightGray); //coloring all the panels
+        //emptySpaceTop.setBackground(Color.lightGray);
+        //emptySpaceCenter.setBackground(Color.lightGray);
 
         btn.setAlignmentX(Component.CENTER_ALIGNMENT); //centering both components
         itinPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -148,7 +138,7 @@ public class GUI  {
 
         displayPanel = new JPanel();
         displayPanel.setBorder(blackline);
-        displayPanel.setBackground(Color.lightGray);
+        //displayPanel.setBackground(Color.lightGray);
         displayPanel.setLayout(new BoxLayout(displayPanel,BoxLayout.X_AXIS));
 
         displayPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -213,20 +203,6 @@ public class GUI  {
         svgPath = path;
     }
 
-
-    private class ItineraryButtonClickListener implements ActionListener{
-        public void actionPerformed(ActionEvent e){
-            ItineraryPanel iPanel = new ItineraryPanel(itineraryStrings,width/3,height/3);
-            itineraryButtonPanel.remove(itinPanel);
-            itinPanel = iPanel.getiPanel();
-            itinPanel.setBackground(Color.lightGray);
-            itineraryButtonPanel.add(itinPanel);
-            itineraryButtonPanel.validate();
-            itineraryButtonPanel.repaint();
-
-        }
-    }
-
     public void displaySVG(String svgPath){
         SVGDisplay display = new SVGDisplay(svgPath);
         displayPanel.removeAll();
@@ -235,6 +211,17 @@ public class GUI  {
         displayPanel.add(display.getSVGComponents());
         displayPanel.validate();
         displayPanel.repaint();
+    }
+
+    public void updateItinerary(){
+        ItineraryPanel iPanel = new ItineraryPanel(itineraryStrings,width/3,height/3);
+        itineraryButtonPanel.remove(itinPanel);
+        itinPanel = iPanel.getiPanel();
+        //itinPanel.setBackground(Color.lightGray);
+        itineraryButtonPanel.add(itinPanel);
+        itineraryButtonPanel.validate();
+        itineraryButtonPanel.repaint();
+       // itineraryButtonPanel.setBackground(Color.lightGray);
     }
 
     public OptionsList getOptionsList(){
