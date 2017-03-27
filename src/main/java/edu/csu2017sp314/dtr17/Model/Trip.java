@@ -4,40 +4,31 @@ package main.java.edu.csu2017sp314.dtr17.Model;
  * Created by mjdun on 2/19/2017.
  */
 import java.util.ArrayList;
-import main.java.edu.csu2017sp314.dtr17.Model.Leg;
 
 public class Trip {
 
-    private ArrayList<Leg> Legs;
+    private Location[] trip;
+    private int[] legMileages;
     private boolean nameFlag;
     private boolean idFlag;
     private boolean mileageFlag;
     private int totalMileage;
 
 
-    public Trip(boolean bName, boolean bID, boolean bMileage){
-        Legs = new ArrayList<Leg>();
+    public Trip(boolean bName, boolean bID, boolean bMileage, int size){
+        trip = new Location[size];
+        legMileages = new int[size];
         nameFlag = bName;
         idFlag = bID;
         mileageFlag = bMileage;
         totalMileage = 0;
     }
 
-    public void addLeg(Leg L){
-        Legs.add(L);
-        totalMileage += L.getMileage();
+    public void addLoc(Location L, int arraySpot, int mileage){
+        trip[arraySpot] = L;
+        legMileages[arraySpot] = mileage;
+        totalMileage += mileage;
     }
-
-    public void removeLeg(Leg L){
-        Legs.remove(L);
-        totalMileage -= L.getMileage();
-    }
-
-    public Leg getLeg(int index){
-        return Legs.get(index);
-    }
-
-    public int amountOfLegs(){ return Legs.size(); }
 
     public void setNameFlag(boolean nameFlag) {
         this.nameFlag = nameFlag;
@@ -66,4 +57,10 @@ public class Trip {
     public int getMileage(){
         return totalMileage;
     }
+
+    public int getSize() {return trip.length;}
+
+    public Location getLoc(int i) {return trip[i];}
+
+    public int getLegMileage(int i) {return legMileages[i];}
 }

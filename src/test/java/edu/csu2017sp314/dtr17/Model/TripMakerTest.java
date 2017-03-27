@@ -19,25 +19,6 @@ public class TripMakerTest {
     }
 
     @Test
-    public void makeNNTrip() throws Exception {
-        ArrayList<Location> l = new ArrayList<Location>();
-        Location A = new Location("0","testA", "40.578629","-105.085226");
-        Location B = new Location("1","testB","50", "-150");
-        Location C = new Location("2", "testC", "40.017238", "-105.281881");
-        l.add(A);
-        l.add(B);
-        l.add(C);
-        TripMaker test = new TripMaker(l);
-
-        Trip t = test.makeNNTrip();
-
-        assertEquals("testA", t.getLeg(0).getStartName());
-        assertEquals("testC", t.getLeg(1).getStartName());
-        assertEquals("testB", t.getLeg(2).getStartName());
-
-    }
-
-    @Test
     public void findNN() throws Exception {
         ArrayList<Location> l = new ArrayList<Location>();
         Location A = new Location("0","testA", "40.578629","-105.085226");
@@ -46,21 +27,9 @@ public class TripMakerTest {
         l.add(B);
         l.add(C);
         TripMaker test = new TripMaker(l);
-        int i = test.findNN(A);
+        int i = test.findNN(A, 0);
 
         assertEquals("testC", test.getLocation(i).getName());
-    }
-
-    @Test
-    public void makeLeg() throws Exception {
-        ArrayList<Location> l = new ArrayList<Location>();
-        Location A = new Location("0","testA", "40.578629","-105.085226");
-        Location B = new Location("1","testB","40.017238", "-105.281881");
-        TripMaker test = new TripMaker(l);
-        Leg testLeg = test.makeLeg(A,B,0);
-        assertEquals("testA", testLeg.getStartName());
-        assertEquals("testB", testLeg.getEndName());
-
     }
 
     @Test

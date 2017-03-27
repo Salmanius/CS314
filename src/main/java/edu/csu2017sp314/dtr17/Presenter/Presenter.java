@@ -1,6 +1,6 @@
 package main.java.edu.csu2017sp314.dtr17.Presenter;
 
-import main.java.edu.csu2017sp314.dtr17.Model.Leg;
+import main.java.edu.csu2017sp314.dtr17.Model.Location;
 import main.java.edu.csu2017sp314.dtr17.Model.Model;
 import main.java.edu.csu2017sp314.dtr17.Model.Trip;
 import main.java.edu.csu2017sp314.dtr17.View.View;
@@ -26,10 +26,15 @@ public class Presenter {
         model.parseCSV(fileName);
         Trip trip = model.getTrip(twoOP,threeOP);
 
-        for(int i = 0; i < trip.amountOfLegs(); ++i){
-            Leg leg = trip.getLeg(i);
-            view.addLocation(leg.getStartLocation().getName(), leg.getStartLocation().getId() ,
-                    leg.getStartLocation().getDblLongitude(), leg.getStartLocation().getDblLatitude(), leg.getMileage());
+        //pass data to the View
+        for(int i = 0; i < trip.getSize(); i++){
+            Location loc = trip.getLoc(i);
+
+            System.out.println("Name: " + trip.getLoc(i).getId());
+            System.out.println("Mileage: " + trip.getLegMileage(i));
+
+            view.addLocation(loc.getName(), loc.getId() ,
+                    loc.getDblLongitude(), loc.getDblLatitude(), trip.getLegMileage(i));
         }
 
         view.printFiles();
@@ -41,10 +46,10 @@ public class Presenter {
         model.parseCSV(fileName);
         Trip trip = model.getTrip(twoOP,threeOP);
 
-        for(int i = 0; i < trip.amountOfLegs(); ++i){
-            Leg leg = trip.getLeg(i);
-            view.addLocation(leg.getStartLocation().getName(), leg.getStartLocation().getId() ,
-                    leg.getStartLocation().getDblLongitude(), leg.getStartLocation().getDblLatitude(), leg.getMileage());
+        for(int i = 0; i < trip.getSize(); ++i){
+            Location loc = trip.getLoc(i);
+            view.addLocation(loc.getName(), loc.getId() ,
+                    loc.getDblLongitude(), loc.getDblLatitude(), trip.getLegMileage(i));
         }
 
         view.printFiles();
