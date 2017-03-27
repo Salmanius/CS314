@@ -40,5 +40,20 @@
         <jarDirectory url="file://$MODULE_DIR$/lib/batik-1.8/lib" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/lib/commons-cli-1.4" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="file://$MODULE_DIR$/lib/commons-cli-1.4/apidocs" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/lib/commons-cli-1.4" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/lib/commons-cli-1.4" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/lib/commons-cli-1.4" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
   </component>
 </module>
