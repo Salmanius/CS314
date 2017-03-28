@@ -123,7 +123,13 @@ public class TripMaker {
 
     public Trip threeOpt(Trip trip){
         int improvements = 1;
-        while(improvements > 0){
+        int lastImprovements = -1;
+        int looping = 0;
+        while(improvements > 0 && looping < 1){
+            if(lastImprovements == improvements){
+                ++looping;
+            }
+            lastImprovements = improvements;
             improvements = 0;
             for(int i = 0; i < trip.getSize() - 5; ++i){
                 for(int j = i+2; j < trip.getSize() - 3; ++j){
@@ -142,30 +148,37 @@ public class TripMaker {
                         if(dist1 < distNormCopy){
                             distNormCopy = dist1;
                             selection = 1;
+                            ++improvements;
                         }
                         if(dist2 < distNormCopy){
                             distNormCopy = dist2;
                             selection = 2;
+                            ++improvements;
                         }
                         if(dist3 < distNormCopy){
                             distNormCopy = dist3;
                             selection = 3;
+                            ++improvements;
                         }
                         if(dist4 < distNormCopy){
                             distNormCopy = dist4;
                             selection = 4;
+                            ++improvements;
                         }
                         if(dist5 < distNormCopy){
                             distNormCopy = dist5;
                             selection = 5;
+                            ++improvements;
                         }
                         if(dist6 < distNormCopy){
                             distNormCopy = dist6;
                             selection = 6;
+                            ++improvements;
                         }
                         if(dist7 < distNormCopy){
                             distNormCopy = dist7;
                             selection = 7;
+                            ++improvements;
                         }
 
                         switch(selection){
