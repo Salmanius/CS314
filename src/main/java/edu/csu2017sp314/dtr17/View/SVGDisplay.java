@@ -26,7 +26,7 @@ public class SVGDisplay {
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.out.println("SVGDISPLAY.JAVA system.exit CALLED");
-                System.exit(0);
+                //System.exit(0);
             }
         });
         frame.setSize(400, 400);
