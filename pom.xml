@@ -25,5 +25,25 @@
       <artifactId>xmlgraphics-commons</artifactId>
       <version>1.5</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.xmlgraphics</groupId>
+      <artifactId>batik-swing</artifactId>
+      <version>1.8</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.xmlgraphics</groupId>
+      <artifactId>batik-anim</artifactId>
+      <version>1.8</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.xmlgraphics</groupId>
+      <artifactId>batik-util</artifactId>
+      <version>1.8</version>
+    </dependency>
+    <dependency>
+       <groupId>org.apache.xmlgraphics</groupId>
+       <artifactId>batik-dom</artifactId>
+       <version>1.8</version>
+     </dependency>
   </dependencies>
 </project>
