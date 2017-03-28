@@ -104,6 +104,12 @@ public class TripMaker {
                 for(int j = i+2; j < trip.getSize() - 1; j++){
                     if((calculateDistanceBetween(trip.getLoc(i), trip.getLoc(i+1)) + calculateDistanceBetween(trip.getLoc(j), trip.getLoc(j+1))) > (calculateDistanceBetween(trip.getLoc(i), trip.getLoc(j)) + calculateDistanceBetween(trip.getLoc(i+1), trip.getLoc(j+1)))){
                         reverse(i+1, j, trip);
+                        for(int k = 0; k < trip.getSize()-1; k++){
+                            int dist = calculateDistanceBetween(trip.getLoc(k), trip.getLoc(k+1));
+                            trip.setLegMileage(dist , k);
+                        }
+                        int dist = calculateDistanceBetween(trip.getLoc(trip.getSize()-1), trip.getLoc(0));
+                        trip.setLegMileage(trip.getSize()-1, dist);
                         ++improvements;
                     }
                 }
@@ -130,6 +136,7 @@ public class TripMaker {
             ++i;
             --j;
         }
+
     }
 
     //swaps the sets (i, j) with (k, l) in the trip
