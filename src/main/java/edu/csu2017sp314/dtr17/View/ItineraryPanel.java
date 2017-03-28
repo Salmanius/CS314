@@ -43,8 +43,7 @@ public class ItineraryPanel {
         // Display the frame.
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                System.out.println("ITINERARYPANEL.JAVA SYSTEM.EXIT CALLED");
-                //System.exit(0);
+                System.exit(0);
             }
         });
         frame.setSize(1000, 1000);
