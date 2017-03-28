@@ -115,7 +115,7 @@ public class View implements ActionListener{
         } catch (ParseException e) {
             System.out.println(e.getMessage());
             formatter.printHelp("TripCo", options);
-            
+
             System.exit(1);
             return 1;
         }
