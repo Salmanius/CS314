@@ -24,7 +24,7 @@ public class Presenter {
         if(!view.isGUIOn()) {
             String fileName = view.getFilename();
             model.parseCSV(fileName);
-            Trip trip = model.getTrip(twoOP, threeOP);
+            Trip trip = model.getTrip(view.isTwoOpt(), view.isThreeOpt());
 
             //pass data to the View
             for (int i = 0; i < trip.getSize(); i++) {

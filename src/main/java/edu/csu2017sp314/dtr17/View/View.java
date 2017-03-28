@@ -12,6 +12,8 @@ public class View implements ActionListener{
     protected boolean showID = false;
     protected boolean showName = false;
     protected boolean useGUI = false;
+    protected boolean twoOpt = false;
+    protected boolean threeOpt = false;
 
     protected String csvFileName;
     protected String svgFileName;
@@ -52,23 +54,15 @@ public class View implements ActionListener{
         tripFileCreator.clear();
     }
 
-    public boolean getMileageFlag() {
-        return showMileage;
-    }
-
-    public boolean getIDFlag() {
-        return showID;
-    }
-
-    public boolean getNameFlag() {
-        return showName;
-    }
+    public boolean getMileageFlag() { return showMileage; }
+    public boolean getIDFlag() {return showID;}
+    public boolean getNameFlag() { return showName; }
+    public boolean isTwoOpt(){return twoOpt;}
+    public boolean isThreeOpt(){return threeOpt;}
 
     public String getFilename() {
         return csvFileName;
     }
-
-
 
     public void setPresenterReference(Presenter presenter){
         this.presenter = presenter;
@@ -106,6 +100,14 @@ public class View implements ActionListener{
         xmlPathOption.setRequired(false);
         options.addOption(xmlPathOption);
 
+        Option twoOptOption = new Option("2", "twoOpt", false, "Use 2-Opt optimization for trip planning");
+        twoOptOption.setRequired(false);
+        options.addOption(twoOptOption);
+
+        Option threeOptOption = new Option("3", "threeOpt", false, "Use 3-Opt optimization for trip planning");
+        threeOptOption.setRequired(false);
+        options.addOption(threeOptOption);
+
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
         CommandLine cmd;
@@ -124,6 +126,8 @@ public class View implements ActionListener{
         showID = cmd.hasOption("id");
         showName = cmd.hasOption("names");
         useGUI = cmd.hasOption("gui");
+        twoOpt = cmd.hasOption("twoOpt");
+        threeOpt = cmd.hasOption("threeOpt");
 
         csvFileName = cmd.getOptionValue("csvpath");
         String filenameCut = csvFileName.substring(0, csvFileName.length() - 4);
