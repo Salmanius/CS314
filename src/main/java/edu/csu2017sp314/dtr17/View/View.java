@@ -116,7 +116,7 @@ public class View implements ActionListener{
             System.out.println(e.getMessage());
             formatter.printHelp("TripCo", options);
             
-            System.exit(1);
+            //System.exit(1);
             return 1;
         }
 
