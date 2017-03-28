@@ -13,9 +13,10 @@ public class Model {
     }
 
     public void parseCSV(String fileName){
+        locations.clear();
         CSVParser parser = new CSVParser(fileName);
         parser.parse();
-       // parser.printData();
+        //parser.printData();
 
         CSVData csvData = parser.getCSVData();
         //System.out.println(csvData.getHeight());
@@ -25,6 +26,7 @@ public class Model {
             String name = csvData.getValue("name", i);
             String latitude = csvData.getValue("latitude", i);
             String longitude = csvData.getValue("longitude", i);
+
 
             locations.add(new Location(id, name, latitude, longitude));
         }

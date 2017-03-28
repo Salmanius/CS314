@@ -32,6 +32,8 @@ public class CSVParser {
                 processLine(line);
             }
 
+            br.close();
+
         } catch(IOException exception){
             System.out.println("Could not open file: " + fileName);
             return false;

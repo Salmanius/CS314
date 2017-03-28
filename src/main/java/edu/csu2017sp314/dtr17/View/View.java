@@ -48,6 +48,8 @@ public class View implements ActionListener{
 
         if(useGUI)
             gui.setItineraryStrings(tripFileCreator.getItineraryStrings());
+
+        tripFileCreator.clear();
     }
 
     public boolean getMileageFlag() {
@@ -164,4 +166,6 @@ public class View implements ActionListener{
     public void updateItinerary(){
         gui.updateItinerary();
     }
+
+    public boolean isGUIOn(){return useGUI;}
 }

@@ -22,22 +22,20 @@ public class Presenter {
     }
 
     public void start() {
-        String fileName = view.getFilename();
-        model.parseCSV(fileName);
-        Trip trip = model.getTrip(twoOP,threeOP);
+        if(!view.isGUIOn()) {
+            String fileName = view.getFilename();
+            model.parseCSV(fileName);
+            Trip trip = model.getTrip(twoOP, threeOP);
 
-        //pass data to the View
-        for(int i = 0; i < trip.getSize(); i++){
-            Location loc = trip.getLoc(i);
+            //pass data to the View
+            for (int i = 0; i < trip.getSize(); i++) {
+                Location loc = trip.getLoc(i);
+                view.addLocation(loc.getName(), loc.getId(),
+                        loc.getDblLongitude(), loc.getDblLatitude(), trip.getLegMileage(i));
+            }
 
-            System.out.println("Name: " + trip.getLoc(i).getId());
-            System.out.println("Mileage: " + trip.getLegMileage(i));
-
-            view.addLocation(loc.getName(), loc.getId() ,
-                    loc.getDblLongitude(), loc.getDblLatitude(), trip.getLegMileage(i));
+            view.printFiles();
         }
-
-        view.printFiles();
 
     }
 

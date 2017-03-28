@@ -34,6 +34,16 @@ public class TripFileCreator {
 
     }
 
+    public void clear(){
+        names.clear();
+        IDs.clear();
+        xList.clear();
+        yList.clear();
+        mileages.clear();
+        itineraryStrings = null;
+        totalMileage = 0;
+    }
+
     public void addLocation(String name, String ID, double longitude, double latitude, int mileageToNextLoc) {
         totalMileage += mileageToNextLoc;
         names.add(name);
