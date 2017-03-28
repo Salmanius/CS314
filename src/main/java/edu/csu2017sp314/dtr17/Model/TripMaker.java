@@ -44,6 +44,14 @@ public class TripMaker {
                 trip = newTrip;
             }
         }
+
+        for(int k = 0; k < trip.getSize()-1; k++){
+            int dist = calculateDistanceBetween(trip.getLoc(k), trip.getLoc(k+1));
+            trip.setLegMileage(dist , k);
+        }
+        int dist = calculateDistanceBetween(trip.getLoc(trip.getSize()-1), trip.getLoc(0));
+        trip.setLegMileage(trip.getSize()-1, dist);
+
         return trip;
     }
 
@@ -104,12 +112,6 @@ public class TripMaker {
                 for(int j = i+2; j < trip.getSize() - 1; j++){
                     if((calculateDistanceBetween(trip.getLoc(i), trip.getLoc(i+1)) + calculateDistanceBetween(trip.getLoc(j), trip.getLoc(j+1))) > (calculateDistanceBetween(trip.getLoc(i), trip.getLoc(j)) + calculateDistanceBetween(trip.getLoc(i+1), trip.getLoc(j+1)))){
                         reverse(i+1, j, trip);
-                        for(int k = 0; k < trip.getSize()-1; k++){
-                            int dist = calculateDistanceBetween(trip.getLoc(k), trip.getLoc(k+1));
-                            trip.setLegMileage(dist , k);
-                        }
-                        int dist = calculateDistanceBetween(trip.getLoc(trip.getSize()-1), trip.getLoc(0));
-                        trip.setLegMileage(trip.getSize()-1, dist);
                         ++improvements;
                     }
                 }
@@ -120,7 +122,97 @@ public class TripMaker {
     }
 
     public Trip threeOpt(Trip trip){
+        int improvements = 1;
+        int lastImprovements = -1;
+        int looping = 0;
+        while(improvements > 0 && looping < 1){
+            if(lastImprovements == improvements){
+                ++looping;
+            }
+            lastImprovements = improvements;
+            improvements = 0;
+            for(int i = 0; i < trip.getSize() - 5; ++i){
+                for(int j = i+2; j < trip.getSize() - 3; ++j){
+                    for(int k = j+2; k < trip.getSize() - 1; ++k){
+                        int distNorm = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(i+1)) + calculateDistanceBetween(trip.getLoc(j), trip.getLoc(j+1)) + calculateDistanceBetween(trip.getLoc(k), trip.getLoc(k+1));
+                        int dist1 = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(i+1)) + calculateDistanceBetween(trip.getLoc(j), trip.getLoc(k)) + calculateDistanceBetween(trip.getLoc(j+1), trip.getLoc(k+1));
+                        int dist2 = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(j)) + calculateDistanceBetween(trip.getLoc(i+1), trip.getLoc(j+1)) + calculateDistanceBetween(trip.getLoc(k), trip.getLoc(k+1));
+                        int dist3 = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(k)) + calculateDistanceBetween(trip.getLoc(j+1), trip.getLoc(j)) + calculateDistanceBetween(trip.getLoc(i+1), trip.getLoc(k+1));
+                        int dist4 = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(j+1)) + calculateDistanceBetween(trip.getLoc(k), trip.getLoc(i+1)) + calculateDistanceBetween(trip.getLoc(j), trip.getLoc(k+1));
+                        int dist5 = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(k)) + calculateDistanceBetween(trip.getLoc(j+1), trip.getLoc(i+1)) + calculateDistanceBetween(trip.getLoc(j), trip.getLoc(k+1));
+                        int dist6 = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(j+1)) + calculateDistanceBetween(trip.getLoc(k), trip.getLoc(j)) + calculateDistanceBetween(trip.getLoc(i+1), trip.getLoc(k+1));
+                        int dist7 = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(j)) + calculateDistanceBetween(trip.getLoc(i+1), trip.getLoc(k)) + calculateDistanceBetween(trip.getLoc(j+1), trip.getLoc(k+1));
 
+                        int distNormCopy = distNorm;
+                        int selection = 0;
+                        if(dist1 < distNormCopy){
+                            distNormCopy = dist1;
+                            selection = 1;
+                            ++improvements;
+                        }
+                        if(dist2 < distNormCopy){
+                            distNormCopy = dist2;
+                            selection = 2;
+                            ++improvements;
+                        }
+                        if(dist3 < distNormCopy){
+                            distNormCopy = dist3;
+                            selection = 3;
+                            ++improvements;
+                        }
+                        if(dist4 < distNormCopy){
+                            distNormCopy = dist4;
+                            selection = 4;
+                            ++improvements;
+                        }
+                        if(dist5 < distNormCopy){
+                            distNormCopy = dist5;
+                            selection = 5;
+                            ++improvements;
+                        }
+                        if(dist6 < distNormCopy){
+                            distNormCopy = dist6;
+                            selection = 6;
+                            ++improvements;
+                        }
+                        if(dist7 < distNormCopy){
+                            distNormCopy = dist7;
+                            selection = 7;
+                            ++improvements;
+                        }
+
+                        switch(selection){
+                            case 0:
+                                break;
+                            case 1:
+                                reverse(j+1, k, trip);
+                                break;
+                            case 2:
+                                reverse(i+1, j, trip);
+                                break;
+                            case 3:
+                                reverse(i+1, k, trip);
+                                break;
+                            case 4:
+                                swap(i+1, j, j+1, k, trip);
+                                break;
+                            case 5:
+                                reverse(j+1, k, trip);
+                                swap(i+1, j, j+1, k, trip);
+                                break;
+                            case 6:
+                                reverse(i+1, j, trip);
+                                swap(i+1, j, j+1, k, trip);
+                                break;
+                            case 7:
+                                reverse(i+1, j, trip);
+                                reverse(j+1, k, trip);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
         return trip;
     }
 
@@ -141,7 +233,60 @@ public class TripMaker {
 
     //swaps the sets (i, j) with (k, l) in the trip
     public void swap(int i, int j, int k, int l, Trip trip){
+        //array to hold the locations before i
+        Location[] sect0 = new Location[i];
+        //array to hold the first section of the array that will be swapped
+        Location[] sect1 = new Location[j-i];
+        //array to hold the locations between the two sections being swapped
+        Location[] sect2 = new Location[k-j];
+        //array to hold the third section of the array that will be swapped
+        Location[] sect3 = new Location[l-k];
+        //array to hold the locations after l
+        Location[] sect4 = new Location[trip.getSize()-l];
 
+        int c = 0;
+        while(c < i){
+            sect0[c] = trip.getLoc(c);
+            ++c;
+        }
+        while(c < j){
+            sect1[c-i] = trip.getLoc(c);
+            ++c;
+        }
+        while(c < k){
+            sect2[c-j] = trip.getLoc(c);
+            ++c;
+        }
+        while(c < l){
+            sect3[c-k] = trip.getLoc(c);
+            ++c;
+        }
+        while(c < trip.getSize()){
+            sect4[c-l] = trip.getLoc(c);
+            ++c;
+        }
+
+        c = 0;
+        while(c < i){
+            trip.addLoc(sect0[c], c, 0);
+            ++c;
+        }
+        while(c < j){
+            trip.addLoc(sect1[c-i], c, 0);
+            ++c;
+        }
+        while(c < k){
+            trip.addLoc(sect2[c-j], c, 0);
+            ++c;
+        }
+        while(c < l){
+            trip.addLoc(sect3[c-k], c, 0);
+            ++c;
+        }
+        while(c < trip.getSize()){
+            trip.addLoc(sect4[c-l], c, 0);
+            ++c;
+        }
     }
 
     //calculates the distance between two Locations
