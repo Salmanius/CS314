@@ -52,7 +52,4 @@
       <version>1.4</version>
     </dependency>
   </dependencies>
-  <configuration>
-    <threadCount>1</threadCount>
-  </configuration>
 </project>
