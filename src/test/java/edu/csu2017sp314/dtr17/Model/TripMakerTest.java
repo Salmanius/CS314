@@ -17,7 +17,7 @@ public class TripMakerTest {
     public void setUp() throws Exception {
 
     }
-
+    /*
     @Test
     public void findNN() throws Exception {
         ArrayList<Location> l = new ArrayList<Location>();
@@ -31,7 +31,7 @@ public class TripMakerTest {
 
         assertEquals("testC", test.getLocation(i).getName());
     }
-
+    */
     @Test
     public void calculateDistanceBetween() throws Exception {
         ArrayList<Location> l = new ArrayList<Location>();
