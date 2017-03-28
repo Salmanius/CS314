@@ -11,9 +11,8 @@ import main.java.edu.csu2017sp314.dtr17.View.View;
 public class Presenter {
     private View view;
     private Model model;
-    private boolean oneOP;
-    private boolean twoOP;
-    private boolean threeOP;
+    private boolean twoOP = true;
+    private boolean threeOP = false;
 
 
     public Presenter(View view, Model model) {

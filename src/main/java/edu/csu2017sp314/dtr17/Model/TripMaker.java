@@ -20,13 +20,26 @@ public class TripMaker {
     }
 
     //creates the trip
-    public Trip makeTrip(){
+    public Trip makeTrip(boolean twoOptBool, boolean threeOptBool){
         Trip trip;
         trip = nearestNeighbor(0);
+        if(threeOptBool){
+            trip = threeOpt(trip);
+        }
+        else if(twoOptBool){
+            trip = twoOpt(trip);
+        }
 
         //find the shortest trip using nearest neighbor from each starting point
         for(int i = 0; i < locations.size(); i++){
             Trip newTrip = nearestNeighbor(i);
+            if(threeOptBool){
+                newTrip = threeOpt(newTrip);
+            }
+            else if(twoOptBool){
+                newTrip = twoOpt(newTrip);
+            }
+
             if(newTrip.getMileage() < trip.getMileage()){
                 trip = newTrip;
             }
@@ -81,6 +94,47 @@ public class TripMaker {
         }
 
         return nearest;
+    }
+
+    public Trip twoOpt(Trip trip){
+        int improvements = 1;
+        while(improvements > 0){
+            improvements = 0;
+            for(int i = 0; i < trip.getSize() - 3; i++){
+                for(int j = i+2; j < trip.getSize() - 1; j++){
+                    if((calculateDistanceBetween(trip.getLoc(i), trip.getLoc(i+1)) + calculateDistanceBetween(trip.getLoc(j), trip.getLoc(j+1))) > (calculateDistanceBetween(trip.getLoc(i), trip.getLoc(j)) + calculateDistanceBetween(trip.getLoc(i+1), trip.getLoc(j+1)))){
+                        reverse(i+1, j, trip);
+                        ++improvements;
+                    }
+                }
+            }
+        }
+
+        return trip;
+    }
+
+    public Trip threeOpt(Trip trip){
+
+        return trip;
+    }
+
+    //reverses the locations between the two points in the trip
+    public void reverse(int i, int j, Trip trip){
+        while(i < j) {
+            Location locI = trip.getLoc(i);
+            int milI = trip.getLegMileage(i);
+            Location locJ = trip.getLoc(j);
+            int milJ = trip.getLegMileage(j);
+            trip.addLoc(locI, j, milI);
+            trip.addLoc(locJ, i, milJ);
+            ++i;
+            --j;
+        }
+    }
+
+    //swaps the sets (i, j) with (k, l) in the trip
+    public void swap(int i, int j, int k, int l, Trip trip){
+
     }
 
     //calculates the distance between two Locations
