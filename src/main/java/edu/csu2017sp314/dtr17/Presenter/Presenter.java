@@ -47,9 +47,6 @@ public class Presenter {
         for(int i = 0; i < trip.getSize(); i++){
             Location loc = trip.getLoc(i);
 
-            System.out.println("Name: " + trip.getLoc(i).getId());
-            System.out.println("Mileage: " + trip.getLegMileage(i));
-
             view.addLocation(loc.getName(), loc.getId() ,
                     loc.getDblLongitude(), loc.getDblLatitude(), trip.getLegMileage(i));
         }
