@@ -14,6 +14,7 @@ public class View implements ActionListener{
     protected boolean useGUI = false;
     protected boolean twoOpt = false;
     protected boolean threeOpt = false;
+    protected boolean useBGMap = false;
 
     protected String csvFileName;
     protected String svgFileName;
@@ -45,7 +46,7 @@ public class View implements ActionListener{
     }
 
     public void printFiles(){
-        tripFileCreator.printSVGFile(svgFileName, showID, showName, showMileage);
+        tripFileCreator.printSVGFile(svgFileName, showID, showName, showMileage, useBGMap);
         tripFileCreator.printXMLFile(xmlFileName);
 
         if(useGUI)
@@ -108,6 +109,10 @@ public class View implements ActionListener{
         threeOptOption.setRequired(false);
         options.addOption(threeOptOption);
 
+        Option backgroundMapOption = new Option("b", "bgmap", false, "Include Colorado background map in generated SVG file");
+        backgroundMapOption.setRequired(false);
+        options.addOption(backgroundMapOption);
+
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
         CommandLine cmd;
@@ -128,6 +133,7 @@ public class View implements ActionListener{
         useGUI = cmd.hasOption("gui");
         twoOpt = cmd.hasOption("twoOpt");
         threeOpt = cmd.hasOption("threeOpt");
+        useBGMap = cmd.hasOption("bgmap");
 
         csvFileName = cmd.getOptionValue("csvpath");
         String filenameCut = csvFileName.substring(0, csvFileName.length() - 4);
@@ -157,6 +163,7 @@ public class View implements ActionListener{
             showID = tmpOptionsList.getCheckedState(OptionsList.OPTIONS.ID);
             showMileage = tmpOptionsList.getCheckedState(OptionsList.OPTIONS.MILEAGE);
             showName = tmpOptionsList.getCheckedState(OptionsList.OPTIONS.NAMES);
+            useBGMap = tmpOptionsList.getCheckedState(OptionsList.OPTIONS.BACKGROUND_MAP);
 
             presenter.createSVGButtonPressed(tmpOptionsList.getCheckedState(OptionsList.OPTIONS.TWO_OP),
                     tmpOptionsList.getCheckedState(OptionsList.OPTIONS.THREE_OP));

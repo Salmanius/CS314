@@ -15,7 +15,8 @@ public class OptionsList extends JList
             "Names",
             "ID",
             "2-Op",
-            "3-Op"
+            "3-Op",
+            "Background map"
     };
 
     public enum OPTIONS {
@@ -23,7 +24,8 @@ public class OptionsList extends JList
         NAMES,
         ID,
         TWO_OP,
-        THREE_OP
+        THREE_OP, 
+        BACKGROUND_MAP
     }
 
     protected static Border noFocusBorder =

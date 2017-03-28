@@ -1,6 +1,6 @@
 package main.java.edu.csu2017sp314.dtr17.View;
 
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -10,6 +10,7 @@ public class TripFileCreator {
     private boolean showMileage;
     private boolean showID;
     private boolean showName;
+    protected boolean useBGMap = false;
     private String filename;
 
     private int totalMileage;
@@ -27,12 +28,12 @@ public class TripFileCreator {
     public static final double Y_MIN = 34.76269;
     public static final double Y_MAX = 744.70214;
 
+    public static final String BACKGROUND_FILE_NAME = "BackgroundMap";
+
     private String[] itineraryStrings;
     //private GUI gui;
 
-    public TripFileCreator(){
-
-    }
+    public TripFileCreator(){}
 
     public void clear(){
         names.clear();
@@ -210,20 +211,45 @@ public class TripFileCreator {
         writer.println("</g>");
     }
 
+    protected void writeHeader(PrintWriter writer){
+        writer.println("<?xml version=\"1.0\"?>");
+        writer.println("<svg width=\""  + FILE_WIDTH + "\" height=\"" + FILE_HEIGHT + "\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\">");
+    }
+
+    protected void writeBackground(PrintWriter writer)
+    {
+        File file = new File(BACKGROUND_FILE_NAME);
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line = br.readLine();
+            while ((line = br.readLine()) != null) {
+                writer.println(line);
+            }
+
+            br.close();
+
+        } catch(IOException exception){
+            System.out.println("Could not open file: " + BACKGROUND_FILE_NAME);
+        }
+    }
     //creates the svg file
-    public void printSVGFile(String filename, boolean showID, boolean showName, boolean showMileage) {
+    public void printSVGFile(String filename, boolean showID, boolean showName, boolean showMileage, boolean useBGMap) {
 
         this.showID = showID;
         this.showName = showName;
         this.showMileage = showMileage;
+        this.useBGMap = useBGMap;
 
         String svgName = filename;
 
         //writes to the svg file
         try {
             PrintWriter writer = new PrintWriter(svgName, "UTF-8");
-            writer.println("<?xml version=\"1.0\"?>");
-            writer.println("<svg width=\""  + FILE_WIDTH + "\" height=\"" + FILE_HEIGHT + "\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\">");
+
+            if(useBGMap){
+                writeBackground(writer);
+            }else{
+                writeHeader(writer);
+            }
 
             //write the legs to the file
             writeLegsToSVG(writer);
