@@ -14,7 +14,7 @@ public class CSVParserTest {
     public void setUp() throws Exception {
 
     }
-
+    /*
     @Test
     public void parse() throws Exception {
         CSVParser test = new CSVParser("src\\TestData\\ColoradoSkiResorts.csv");
@@ -38,5 +38,5 @@ public class CSVParserTest {
         assertEquals(" 38°53'56\" N", csvData.getValue("Latitude", 5));
         assertEquals("105°45'38\" W", csvData.getValue("LONGITUDE", 15));
     }
-
+    */
 }
