@@ -8,4 +8,4 @@ ratings:
   - "**.java"
   
 exclude_paths:
- - lib/**
+ - lib/
