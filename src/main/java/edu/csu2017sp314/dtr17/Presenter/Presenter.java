@@ -3,6 +3,7 @@ package main.java.edu.csu2017sp314.dtr17.Presenter;
 import main.java.edu.csu2017sp314.dtr17.Model.Location;
 import main.java.edu.csu2017sp314.dtr17.Model.Model;
 import main.java.edu.csu2017sp314.dtr17.Model.Trip;
+import main.java.edu.csu2017sp314.dtr17.View.GUIController;
 import main.java.edu.csu2017sp314.dtr17.View.View;
 
 /**
@@ -13,6 +14,7 @@ public class Presenter {
     private Model model;
     private boolean twoOP = false;
     private boolean threeOP = false;
+    private GUIController guiController;
 
 
     public Presenter(View view, Model model) {
@@ -38,6 +40,10 @@ public class Presenter {
 
     }
 
+    public void setGuiController(GUIController guiController){
+        this.guiController = guiController;
+    }
+
     public void createSVGButtonPressed(boolean twoOP, boolean threeOP){
         String fileName = view.getFilename();
         model.parseCSV(fileName);
@@ -51,9 +57,10 @@ public class Presenter {
                     loc.getDblLongitude(), loc.getDblLatitude(), trip.getLegMileage(i));
         }
 
-        view.printFiles();
-        view.displaySVG();
+        String svgFile = view.printFiles();
+        //view.displaySVG();
         view.updateItinerary();
+        guiController.displaySVG(svgFile);
     }
 }
 

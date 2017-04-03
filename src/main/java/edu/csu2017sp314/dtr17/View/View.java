@@ -1,13 +1,19 @@
 package main.java.edu.csu2017sp314.dtr17.View;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
+import main.java.edu.csu2017sp314.dtr17.Model.Model;
 import main.java.edu.csu2017sp314.dtr17.Presenter.Presenter;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import org.apache.commons.cli.*;
 
-public class View implements ActionListener{
+public class View {
     protected boolean showMileage = false;
     protected boolean showID = false;
     protected boolean showName = false;
@@ -20,8 +26,6 @@ public class View implements ActionListener{
     protected String svgFileName;
     protected String xmlFileName;
 
-    private GUI gui;
-
     protected TripFileCreator tripFileCreator = new TripFileCreator();
 
 
@@ -29,15 +33,6 @@ public class View implements ActionListener{
 
     public View(String[] args) {
         parseCommandArguments(args);
-
-        this.presenter = presenter;
-
-        if(useGUI) {
-            gui = new GUI(this);
-            gui.setSVGFilePath(svgFileName);
-            gui.startGUI();
-        }
-
     }
 
     public void addLocation(String name, String ID, double longitude, double latitude, int mileageToNextLoc) {
@@ -45,27 +40,43 @@ public class View implements ActionListener{
 
     }
 
-    public void printFiles(){
+    public String printFiles() {
         tripFileCreator.printSVGFile(svgFileName, showID, showName, showMileage, useBGMap);
         tripFileCreator.printXMLFile(xmlFileName);
 
-        if(useGUI)
-            gui.setItineraryStrings(tripFileCreator.getItineraryStrings());
+        //if (useGUI)
+            // gui.setItineraryStrings(tripFileCreator.getItineraryStrings());
 
-        tripFileCreator.clear();
+            tripFileCreator.clear();
+
+            return svgFileName;
     }
 
-    public boolean getMileageFlag() { return showMileage; }
-    public boolean getIDFlag() {return showID;}
-    public boolean getNameFlag() { return showName; }
-    public boolean isTwoOpt(){return twoOpt;}
-    public boolean isThreeOpt(){return threeOpt;}
+    public boolean getMileageFlag() {
+        return showMileage;
+    }
+
+    public boolean getIDFlag() {
+        return showID;
+    }
+
+    public boolean getNameFlag() {
+        return showName;
+    }
+
+    public boolean isTwoOpt() {
+        return twoOpt;
+    }
+
+    public boolean isThreeOpt() {
+        return threeOpt;
+    }
 
     public String getFilename() {
         return csvFileName;
     }
 
-    public void setPresenterReference(Presenter presenter){
+    public void setPresenterReference(Presenter presenter) {
         this.presenter = presenter;
     }
 
@@ -138,45 +149,27 @@ public class View implements ActionListener{
         csvFileName = cmd.getOptionValue("csvpath");
         String filenameCut = csvFileName.substring(0, csvFileName.length() - 4);
 
-        if(cmd.hasOption("svgname")){
+        if (cmd.hasOption("svgname")) {
             svgFileName = cmd.getOptionValue("svgname");
-        } else{
+        } else {
             svgFileName = filenameCut + ".svg";
         }
 
-        if(cmd.hasOption("xmlname")){
+        if (cmd.hasOption("xmlname")) {
             xmlFileName = cmd.getOptionValue("xmlname");
-        } else{
+        } else {
             xmlFileName = filenameCut + ".xml";
         }
 
         return 0;
     }
 
+    public void updateItinerary() {
 
-    @Override
-    public void actionPerformed(ActionEvent e){
-        String action = e.getActionCommand();
-
-        if(action.equals(GUI.CREATE_TRIP_ACTION)) {
-            OptionsList tmpOptionsList = gui.getOptionsList();
-            showID = tmpOptionsList.getCheckedState(OptionsList.OPTIONS.ID);
-            showMileage = tmpOptionsList.getCheckedState(OptionsList.OPTIONS.MILEAGE);
-            showName = tmpOptionsList.getCheckedState(OptionsList.OPTIONS.NAMES);
-            useBGMap = tmpOptionsList.getCheckedState(OptionsList.OPTIONS.BACKGROUND_MAP);
-
-            presenter.createSVGButtonPressed(tmpOptionsList.getCheckedState(OptionsList.OPTIONS.TWO_OP),
-                    tmpOptionsList.getCheckedState(OptionsList.OPTIONS.THREE_OP));
-        }
+        // gui.updateItinerary();
     }
 
-    public void displaySVG(){
-        gui.displaySVG(svgFileName);
+    public boolean isGUIOn() {
+        return useGUI;
     }
-
-    public void updateItinerary(){
-        gui.updateItinerary();
-    }
-
-    public boolean isGUIOn(){return useGUI;}
 }

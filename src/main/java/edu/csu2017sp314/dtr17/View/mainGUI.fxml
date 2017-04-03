@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.web.WebView?>
+
+<Pane prefHeight="1000" prefWidth="2000" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.edu.csu2017sp314.dtr17.View.GUIController">
+    <children>
+        <SplitPane dividerPositions="0.17767767767767767" prefHeight="1000" prefWidth="2000">
+
+        <items>
+            <AnchorPane>
+                <Button layoutX="74.0" layoutY="474.0" mnemonicParsing="false" onAction="#loadMapPressed" text="Generate Map" />
+            </AnchorPane>
+            <AnchorPane>
+                <WebView fx:id="SVGWebView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            </AnchorPane>
+        </items>
+      </SplitPane>
+    </children>
+</Pane>
