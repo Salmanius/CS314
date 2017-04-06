@@ -2,8 +2,10 @@ package main.java.edu.csu2017sp314.dtr17;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import main.java.edu.csu2017sp314.dtr17.Presenter.Presenter;
 import main.java.edu.csu2017sp314.dtr17.View.GUIController;
@@ -41,10 +43,9 @@ public class TripCo extends Application{
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("View/mainGUI.fxml").openStream());
-        Scene scene = new Scene(root, primaryStage.getMaxWidth(), primaryStage.getMaxHeight());
+        //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("TripCo");
-        primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
+        primaryStage.setScene(new Scene(root, 700, 500));
         primaryStage.show();
 
         model = new Model();

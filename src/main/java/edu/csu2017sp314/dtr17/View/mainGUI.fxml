@@ -1,23 +1,278 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.web.WebView?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
 
-<Pane prefHeight="1000" prefWidth="2000" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.edu.csu2017sp314.dtr17.View.GUIController">
-    <children>
-        <SplitPane dividerPositions="0.17767767767767767" prefHeight="1000" prefWidth="2000">
+<HBox alignment="TOP_LEFT" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.edu.csu2017sp314.dtr17.View.GUIController">
+    <GridPane HBox.hgrow="ALWAYS">
+       <children>
+           <GridPane hgap="10.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
+               <GridPane GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
+                   <GridPane alignment="CENTER" hgap="10" vgap="10" GridPane.columnIndex="1">
+                       <ComboBox prefWidth="150" promptText="Airport Type" GridPane.hgrow="NEVER" GridPane.rowIndex="1">
+                           <items>
+                               <FXCollections fx:factory="observableArrayList">
+                                   <String fx:value="Balloonport" />
+                                   <String fx:value="Closed" />
+                                   <String fx:value="Heliport" />
+                                   <String fx:value="Large Airport" />
+                                   <String fx:value="Medium Airport" />
+                                   <String fx:value="Seaplane Base" />
+                                   <String fx:value="Small Airport" />
+                               </FXCollections>
+                           </items>
+                       </ComboBox>
 
-        <items>
-            <AnchorPane>
-                <Button layoutX="74.0" layoutY="474.0" mnemonicParsing="false" onAction="#loadMapPressed" text="Generate Map" />
-            </AnchorPane>
-            <AnchorPane>
-                <WebView fx:id="SVGWebView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            </AnchorPane>
-        </items>
-      </SplitPane>
-    </children>
-</Pane>
+                       <ComboBox prefWidth="150" promptText="Continent" GridPane.rowIndex="2">
+                           <items>
+                               <FXCollections fx:factory="observableArrayList">
+                                   <String fx:value="Africa" />
+                                   <String fx:value="Antarctica" />
+                                   <String fx:value="Asia" />
+                                   <String fx:value="Europe" />
+                                   <String fx:value="North America" />
+                                   <String fx:value="South America" />
+                               </FXCollections>
+                           </items>
+                       </ComboBox>
+
+                       <ComboBox prefWidth="150" promptText="Country" GridPane.rowIndex="3">
+                           <items>
+                               <FXCollections fx:factory="observableArrayList">
+                                   <String fx:value="Africa" />
+                                   <String fx:value="Antarctica" />
+                                   <String fx:value="Asia" />
+                                   <String fx:value="Europe" />
+                                   <String fx:value="North America" />
+                                   <String fx:value="South America" />
+                               </FXCollections>
+                           </items>
+                       </ComboBox>
+
+                       <ComboBox prefWidth="150" promptText="Region" GridPane.rowIndex="4">
+                           <items>
+                               <FXCollections fx:factory="observableArrayList">
+                                   <String fx:value="Africa" />
+                                   <String fx:value="Antarctica" />
+                                   <String fx:value="Asia" />
+                                   <String fx:value="Europe" />
+                                   <String fx:value="North America" />
+                                   <String fx:value="South America" />
+                               </FXCollections>
+                           </items>
+                       </ComboBox>
+
+                       <ComboBox prefWidth="150" promptText="Municipality" GridPane.rowIndex="5">
+                           <items>
+                               <FXCollections fx:factory="observableArrayList">
+                                   <String fx:value="Africa" />
+                                   <String fx:value="Antarctica" />
+                                   <String fx:value="Asia" />
+                                   <String fx:value="Europe" />
+                                   <String fx:value="North America" />
+                                   <String fx:value="South America" />
+                               </FXCollections>
+                           </items>
+                       </ComboBox>
+
+                       <TextField prefWidth="150" promptText="Airport Name" GridPane.rowIndex="6">
+
+                       </TextField>
+
+                       <Button prefWidth="150" text="Search" GridPane.rowIndex="7" />
+                   <columnConstraints>
+                      <ColumnConstraints />
+                   </columnConstraints>
+                   <rowConstraints>
+                      <RowConstraints />
+                      <RowConstraints />
+                      <RowConstraints />
+                      <RowConstraints />
+                      <RowConstraints />
+                      <RowConstraints />
+                      <RowConstraints />
+                      <RowConstraints />
+                   </rowConstraints>
+                   </GridPane>
+                <columnConstraints>
+                   <ColumnConstraints />
+                   <ColumnConstraints />
+                </columnConstraints>
+                <rowConstraints>
+                   <RowConstraints />
+                </rowConstraints>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               </GridPane>
+
+
+               <GridPane hgap="10" vgap="10" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
+                   <ListView GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
+                   <Button prefWidth="75" text="Select" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <columnConstraints>
+                   <ColumnConstraints />
+                </columnConstraints>
+                <rowConstraints>
+                   <RowConstraints />
+                   <RowConstraints />
+                </rowConstraints>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               </GridPane>
+
+               <GridPane hgap="10" vgap="10" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
+                   <ListView GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
+                   <GridPane alignment="center" hgap="5" vgap="10" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                       <Button prefWidth="75" text="Clear" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                       <Button prefWidth="75" text="Load" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                       <Button prefWidth="75" text="Save" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                   <columnConstraints>
+                      <ColumnConstraints />
+                      <ColumnConstraints />
+                      <ColumnConstraints />
+                   </columnConstraints>
+                   <rowConstraints>
+                      <RowConstraints />
+                   </rowConstraints>
+                   </GridPane>
+                <columnConstraints>
+                   <ColumnConstraints />
+                </columnConstraints>
+                <rowConstraints>
+                   <RowConstraints />
+                   <RowConstraints />
+                </rowConstraints>
+               <padding>
+                  <Insets right="15.0" top="10.0" />
+               </padding>
+               </GridPane>
+
+             <columnConstraints>
+                <ColumnConstraints maxWidth="160" />
+                <ColumnConstraints />
+                <ColumnConstraints />
+             </columnConstraints>
+             <rowConstraints>
+                <RowConstraints />
+             </rowConstraints>
+            <GridPane.margin>
+               <Insets bottom="50.0" />
+            </GridPane.margin>
+           </GridPane>
+
+           <GridPane hgap="10" vgap="10" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+
+               <GridPane hgap="5" vgap="10" GridPane.columnIndex="0" GridPane.rowIndex="0">
+
+                   <Text text="Units: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+                   <ComboBox prefWidth="150" promptText="Miles" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                       <items>
+                           <FXCollections fx:factory="observableArrayList">
+                               <String fx:value="Miles" />
+                               <String fx:value="Kilometers" />
+                           </FXCollections>
+                       </items>
+                   </ComboBox>
+                <columnConstraints>
+                   <ColumnConstraints />
+                   <ColumnConstraints />
+                </columnConstraints>
+                <rowConstraints>
+                   <RowConstraints />
+                </rowConstraints>
+               </GridPane>
+
+               <GridPane hgap="5" vgap="10" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                   <Text text="Optimization Level: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+                   <ComboBox prefWidth="150" promptText="No Optimization" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                       <items>
+                           <FXCollections fx:factory="observableArrayList">
+                               <String fx:value="No Optimization" />
+                               <String fx:value="Two-Op" />
+                               <String fx:value="Three-Op" />
+                           </FXCollections>
+                       </items>
+                   </ComboBox>
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+               </rowConstraints>
+               </GridPane>
+            <columnConstraints>
+               <ColumnConstraints />
+               <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints />
+            </rowConstraints>
+            <padding>
+               <Insets bottom="10.0" left="10.0" />
+            </padding>
+           </GridPane>
+
+               <GridPane hgap="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+
+                   <CheckBox text="Show IDs on Map" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+                   <CheckBox text="Show Distance on Map" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                   <CheckBox text="Show Names on Map" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+                   <Pane GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+
+                   <Button prefWidth="75" text="Show Map" GridPane.columnIndex="4" GridPane.rowIndex="0" style="-fx-background-color: #ADD8E6;" />
+            <columnConstraints>
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+            <padding>
+               <Insets bottom="15.0" left="10.0" right="15.0" />
+            </padding>
+               </GridPane>
+
+
+
+       </children>
+      <GridPane.margin>
+         <Insets left="20.0" />
+      </GridPane.margin>
+      <columnConstraints>
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
+      <padding>
+         <Insets left="25.0" />
+      </padding>
+    </GridPane>
+</HBox>
