@@ -21,7 +21,7 @@
            <GridPane hgap="10.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
                <GridPane GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
                    <GridPane alignment="CENTER" hgap="10" vgap="10" GridPane.columnIndex="1">
-                       <ComboBox prefWidth="150" promptText="Airport Type" GridPane.hgrow="NEVER" GridPane.rowIndex="1">
+                       <ComboBox prefWidth="150" promptText="Airport Type" GridPane.hgrow="NEVER" GridPane.rowIndex="1" fx:id="airportTypePicker" onAction="#airportChanged">
                            <items>
                                <FXCollections fx:factory="observableArrayList">
                                    <String fx:value="Balloonport" />
@@ -35,7 +35,7 @@
                            </items>
                        </ComboBox>
 
-                       <ComboBox prefWidth="150" promptText="Continent" GridPane.rowIndex="2">
+                       <ComboBox prefWidth="150" promptText="Continent" GridPane.rowIndex="2" fx:id="continentPicker" onAction="#continentChanged">
                            <items>
                                <FXCollections fx:factory="observableArrayList">
                                    <String fx:value="Africa" />
@@ -48,7 +48,7 @@
                            </items>
                        </ComboBox>
 
-                       <ComboBox prefWidth="150" promptText="Country" GridPane.rowIndex="3">
+                       <ComboBox prefWidth="150" promptText="Country" GridPane.rowIndex="3" fx:id="countryPicker" onAction="#countryChanged">
                            <items>
                                <FXCollections fx:factory="observableArrayList">
                                    <String fx:value="Africa" />
@@ -61,7 +61,7 @@
                            </items>
                        </ComboBox>
 
-                       <ComboBox prefWidth="150" promptText="Region" GridPane.rowIndex="4">
+                       <ComboBox prefWidth="150" promptText="Region" GridPane.rowIndex="4" fx:id="regionPicker" onAction="#regionChanged">
                            <items>
                                <FXCollections fx:factory="observableArrayList">
                                    <String fx:value="Africa" />
@@ -74,7 +74,7 @@
                            </items>
                        </ComboBox>
 
-                       <ComboBox prefWidth="150" promptText="Municipality" GridPane.rowIndex="5">
+                       <ComboBox prefWidth="150" promptText="Municipality" GridPane.rowIndex="5" fx:id="municipalityPicker" onAction="#municipalityChanged">
                            <items>
                                <FXCollections fx:factory="observableArrayList">
                                    <String fx:value="Africa" />
@@ -87,11 +87,11 @@
                            </items>
                        </ComboBox>
 
-                       <TextField prefWidth="150" promptText="Airport Name" GridPane.rowIndex="6">
+                       <TextField prefWidth="150" promptText="Airport Name" GridPane.rowIndex="6" fx:id="airportNameSearchBox">
 
                        </TextField>
 
-                       <Button prefWidth="150" text="Search" GridPane.rowIndex="7" />
+                       <Button prefWidth="150" text="Search" GridPane.rowIndex="7" fx:id="searchButton" onAction="#searchButtonPressed"/>
                    <columnConstraints>
                       <ColumnConstraints />
                    </columnConstraints>
@@ -120,8 +120,8 @@
 
 
                <GridPane hgap="10" vgap="10" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
-                   <ListView GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
-                   <Button prefWidth="75" text="Select" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                   <ListView GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" fx:id="selectionListBox"/>
+                   <Button prefWidth="75" text="Select" GridPane.columnIndex="0" GridPane.rowIndex="1" fx:id="selectButton" onAction="#selectButtonPressed" />
                 <columnConstraints>
                    <ColumnConstraints />
                 </columnConstraints>
@@ -135,11 +135,11 @@
                </GridPane>
 
                <GridPane hgap="10" vgap="10" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
-                   <ListView GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
+                   <ListView GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" fx:id="selectedListBox" />
                    <GridPane alignment="center" hgap="5" vgap="10" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                       <Button prefWidth="75" text="Clear" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                       <Button prefWidth="75" text="Load" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                       <Button prefWidth="75" text="Save" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                       <Button prefWidth="75" text="Clear" GridPane.columnIndex="0" GridPane.rowIndex="0" fx:id="clearButton" onAction="#clearButtonPressed"/>
+                       <Button prefWidth="75" text="Load" GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="loadButton" onAction="#loadButtonPressed"/>
+                       <Button prefWidth="75" text="Save" GridPane.columnIndex="2" GridPane.rowIndex="0" fx:id="saveButton" onAction="#saveButtonPressed"/>
                    <columnConstraints>
                       <ColumnConstraints />
                       <ColumnConstraints />
@@ -180,7 +180,7 @@
 
                    <Text text="Units: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
 
-                   <ComboBox prefWidth="150" promptText="Miles" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                   <ComboBox prefWidth="150" promptText="Miles" GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="unitPicker" onAction="#unitsChanged">
                        <items>
                            <FXCollections fx:factory="observableArrayList">
                                <String fx:value="Miles" />
@@ -200,7 +200,7 @@
                <GridPane hgap="5" vgap="10" GridPane.columnIndex="1" GridPane.rowIndex="0">
                    <Text text="Optimization Level: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
 
-                   <ComboBox prefWidth="150" promptText="No Optimization" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                   <ComboBox prefWidth="150" promptText="No Optimization" GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="optimizationPicker" onAction="#optimizationChanged">
                        <items>
                            <FXCollections fx:factory="observableArrayList">
                                <String fx:value="No Optimization" />
@@ -231,15 +231,15 @@
 
                <GridPane hgap="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
 
-                   <CheckBox text="Show IDs on Map" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                   <CheckBox text="Show IDs on Map" GridPane.columnIndex="0" GridPane.rowIndex="0" fx:id="idCheckBox" onAction="#idOptionChanged"/>
 
-                   <CheckBox text="Show Distance on Map" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                   <CheckBox text="Show Distance on Map" GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="distanceCheckBox" onAction="#distanceOptionChanged"/>
 
-                   <CheckBox text="Show Names on Map" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                   <CheckBox text="Show Names on Map" GridPane.columnIndex="2" GridPane.rowIndex="0" fx:id="namesCheckBox" onAction="#namesOptionChanged"/>
 
                    <Pane GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
 
-                   <Button prefWidth="75" text="Show Map" GridPane.columnIndex="4" GridPane.rowIndex="0" style="-fx-background-color: #ADD8E6;" />
+                   <Button prefWidth="75" text="Show Map" GridPane.columnIndex="4" GridPane.rowIndex="0" style="-fx-background-color: #ADD8E6;" fx:id="showMapButton" onAction="#showMapButtonPressed" />
             <columnConstraints>
                <ColumnConstraints />
                <ColumnConstraints />
