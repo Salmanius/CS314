@@ -9,7 +9,3 @@ ratings:
   
 exclude_paths:
  - lib/
-
-component_depth: 8
-languages:
-	- java
