@@ -21,14 +21,14 @@ public class TripFileCreator {
     private ArrayList<Integer> yList = new ArrayList<Integer>();
     private ArrayList<Integer> mileages = new ArrayList<Integer>();
 
-    public static final double FILE_WIDTH = 1066.6073;
-    public static final double FILE_HEIGHT = 783.0824;
-    public static final double X_MIN = 34.72952;
-    public static final double X_MAX= 1027.6634;
-    public static final double Y_MIN = 34.76269;
-    public static final double Y_MAX = 744.70214;
+    public static final double FILE_SCALE = 5.0;
+    public static final double RAW_WIDTH = 800;
+    public static final double RAW_HEIGHT = 400;
+    public static final double FILE_WIDTH = RAW_WIDTH*(FILE_SCALE/(RAW_WIDTH/360));
+    public static final double FILE_HEIGHT = RAW_HEIGHT*(FILE_SCALE/(RAW_HEIGHT/180));
 
-    public static final String BACKGROUND_FILE_NAME = "BackgroundMap";
+
+    public static final String BACKGROUND_FILE_NAME = "World4.svg";
 
     private String[] itineraryStrings;
     //private GUI gui;
@@ -60,71 +60,17 @@ public class TripFileCreator {
     }
 
     protected int longToPix(double longitude) {
-        double width = (X_MAX - X_MIN);
-        double mid = (FILE_WIDTH / 2);
-        longitude = Math.abs(longitude);
-        longitude = 109 - longitude;
-        longitude = longitude * width;
-        longitude = longitude / 7;
-        longitude = X_MAX - longitude;
-        if(longitude > mid) {
-            double deviation =  longitude - mid;
-            longitude = mid - deviation;
-        }
-        else {
-            double deviation = mid - longitude;
-            longitude = deviation + mid;
-        }
+        longitude =  (180 + longitude)*FILE_SCALE;
         int longPix = (int)(Math.rint(longitude));
         return longPix;
     }
 
     protected int latToPix(double latitude) {
-        double height = (Y_MAX - Y_MIN);
-        double mid = (FILE_HEIGHT / 2);
-        latitude = Math.abs(latitude);
-        latitude = 41 - latitude;
-        latitude = latitude * height;
-        latitude = latitude / 4;
-        latitude = Y_MAX - latitude;
-        if(latitude > mid) {
-            double deviation = latitude - mid;
-            latitude = mid - deviation;
-        }
-        else {
-            double deviation = mid - latitude;
-            latitude = deviation + mid;
-        }
+        latitude = (90 - latitude)*FILE_SCALE;
         int latPix = (int)(Math.rint(latitude));
         return latPix;
     }
 
-    /* inserts the borders into the svg file */
-    private String borders() {
-        /*makes for easily changing the four corners, if needed
-        *The corners are:
-        * (x1,y1)---------(x2,y1)
-        *   |               |
-        *   |               |
-        *   |               |
-        * (x1,y2)---------(x2,y2)
-         */
-        int x1 = longToPix(-109.0);
-        int x2 = longToPix(-102.0);
-        int y1 = latToPix(41.0);
-        int y2 = latToPix(37.0);
-
-
-        String borderString = "<g>\n" +
-                "  <title>Borders</title>\n" +
-                "  <line id=\"north\" y2=\"" + y1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" x1=\"" + x1 + "\" stroke-width=\"5\" stroke=\"#666666\"/>\n" +
-                "  <line id=\"east\" y2=\"" + y2 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" x1=\"" + x2 + "\" stroke-width=\"5\" stroke=\"#666666\"/>\n" +
-                "  <line id=\"south\" y2=\"" + y2 + "\" x2=\"" + x1 + "\" y1=\"" + y2 + "\" x1=\"" + x2 + "\" stroke-width=\"5\" stroke=\"#666666\"/>\n" +
-                "  <line id=\"west\" y2=\"" + y1 + "\" x2=\"" + x1 + "\" y1=\"" + y2 + "\" x1=\"" + x1 + "\" stroke-width=\"5\" stroke=\"#666666\"/>\n" +
-                " </g>";
-
-        return borderString;
-    }
 
     protected void writeLegsToSVG(PrintWriter writer){
         //write the legs to the file
@@ -155,15 +101,12 @@ public class TripFileCreator {
     }
 
     protected void writeTitlesToSVG(PrintWriter writer){
-        double namePosition = ((Y_MIN) / 2.0) + 7;
-        double milPosition = ((FILE_HEIGHT + Y_MAX) / 2.0) + 7;
-        double stateMid = (X_MAX) / 2.0;
+        double milePosition = (FILE_HEIGHT) - 20;
+        double stateMid = ((FILE_WIDTH) / 2.0);
 
         //write the titles to the file
         writer.println("<g>");
-        writer.println("<title>Titles</title>");
-        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"state\" y=\"" + namePosition + "\" x=\"" + stateMid + "\">Colorado</text>");
-        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"distance\" y=\"" + milPosition + "\" x=\"" + stateMid + "\">" + totalMileage + " miles</text>");
+        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"distance\" y=\"" + milePosition + "\" x=\"" + stateMid + "\">" + totalMileage + " miles</text>");
         writer.println("</g>");
     }
 
@@ -218,13 +161,20 @@ public class TripFileCreator {
 
     protected void writeBackground(PrintWriter writer)
     {
+        double matrixScale = FILE_SCALE/(RAW_WIDTH/360);
         File file = new File(BACKGROUND_FILE_NAME);
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine();
+            writer.println(line);
+            writer.println("<svg \n" +
+                    "\txmlns:svg=\"http://www.w3.org/2000/svg\" \n" +
+                    "\txmlns=\"http://www.w3.org/2000/svg\" \n" +
+                    "\twidth=\"" + FILE_WIDTH + "\" height=\"" + FILE_HEIGHT + "\">\n" +
+                    "<g transform=\"matrix(" + matrixScale + " 0 0 " + matrixScale + " 0 0)\">");
             while ((line = br.readLine()) != null) {
-                writer.println(line);
+                writer.println("    " + line);
             }
-
+            writer.println("</g>\n");
             br.close();
 
         } catch(IOException exception){
@@ -254,8 +204,6 @@ public class TripFileCreator {
             //write the legs to the file
             writeLegsToSVG(writer);
 
-            //write the Borders to the file
-            writer.println(borders());
 
             writeTitlesToSVG(writer);
 

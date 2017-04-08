@@ -1,0 +1,5 @@
+component_depth: 8
+languages:
+- java
+exclude:
+- /lib/.*
