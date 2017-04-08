@@ -33,6 +33,7 @@ public class TripCo extends Application{
         }else{
             presenter.start();
         }
+        System.exit(0);
     }
 
     public void setArgs(String[] args){
