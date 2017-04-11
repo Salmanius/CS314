@@ -62,13 +62,13 @@ public class TripFileCreator {
         mileages.add(mileageToNextLoc);
     }
 
-    protected int longToPix(double longitude) {
+    public int longToPix(double longitude) {
         longitude =  (180 + longitude)*FILE_SCALE;
         int longPix = (int)(Math.rint(longitude));
         return longPix;
     }
 
-    protected int latToPix(double latitude) {
+    public int latToPix(double latitude) {
         latitude = (90 - latitude)*FILE_SCALE;
         int latPix = (int)(Math.rint(latitude));
         return latPix;
@@ -302,7 +302,7 @@ public class TripFileCreator {
         }
     }
 
-    protected boolean wrapAround(int x1, int x2){
+    public boolean wrapAround(int x1, int x2){
         int half = (int)FILE_WIDTH/2;
         if ((Math.abs(x1 - x2)) > half){
             return true;
@@ -310,13 +310,13 @@ public class TripFileCreator {
         return false;
     }
 
-    protected void printRightWrap(PrintWriter writer, int rx, int ry, int lx, int ly){
+    public void printRightWrap(PrintWriter writer, int rx, int ry, int lx, int ly){
         writer.println("<line id=\"leg1\" y2=\"" + ry + "\" x2=\""
                 + rx + "\" y1=\"" + ly + "\" x1=\""
                 + (FILE_WIDTH+lx) + "\" stroke-width=\"3\" stroke=\"#999999\"/>");
     }
 
-    protected void printLeftWrap(PrintWriter writer, int lx, int ly, int rx, int ry){
+    public void printLeftWrap(PrintWriter writer, int lx, int ly, int rx, int ry){
         writer.println("<line id=\"leg1\" y2=\"" + ly + "\" x2=\""
                 + lx + "\" y1=\"" + ry + "\" x1=\""
                 + (0-(FILE_WIDTH-rx)) + "\" stroke-width=\"3\" stroke=\"#999999\"/>");
