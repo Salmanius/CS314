@@ -17,7 +17,7 @@ public class Trip {
 
     public Trip(boolean bName, boolean bID, boolean bMileage, int size){
         trip = new Location[size];
-        legMileages = new int[size];
+        legMileages = new int[size-1];
         nameFlag = bName;
         idFlag = bID;
         mileageFlag = bMileage;
@@ -27,7 +27,10 @@ public class Trip {
     public void addLoc(Location L, int arraySpot, int mileage){
         trip[arraySpot] = L;
         legMileages[arraySpot] = mileage;
-        totalMileage += mileage;
+    }
+
+    public void addLoc(Location L, int arraySpot){
+        trip[arraySpot] = L;
     }
 
     public void setNameFlag(boolean nameFlag) {
