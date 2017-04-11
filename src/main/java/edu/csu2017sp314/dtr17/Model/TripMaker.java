@@ -14,13 +14,16 @@ public class TripMaker {
     //used to store locations and remove them when they are visited
     private ArrayList<Location> locationsTemp;
 
+    //False is for Miles, True is for km
+    private boolean unitSelect;
 
     public TripMaker(ArrayList<Location> L){
         locations = L;
     }
 
     //creates the trip
-    public Trip makeTrip(boolean twoOptBool, boolean threeOptBool){
+    public Trip makeTrip(boolean twoOptBool, boolean threeOptBool, boolean unit){
+        unitSelect = unit;
         Trip trip;
         trip = nearestNeighbor(0);
         if(threeOptBool){
@@ -296,7 +299,13 @@ public class TripMaker {
     //calculates the distance between two Locations
     public int calculateDistanceBetween(Location A, Location B){
         double distance; //http://www.movable-type.co.uk/scripts/latlong.html
-        double earthsRadiusMiles = 3958.756; //6371km
+        double earthsRadiusMiles;
+        if(unitSelect){
+             earthsRadiusMiles = 6372.8;
+        }
+        else{
+            earthsRadiusMiles = 3959.87433;
+        }
         double latARadians = Math.toRadians(A.getDblLatitude());
         double latBRadians = Math.toRadians(B.getDblLatitude());
         double changeInLat = Math.toRadians(B.getDblLatitude() - A.getDblLatitude());
@@ -306,6 +315,7 @@ public class TripMaker {
                 + Math.cos(latARadians) * Math.cos(latBRadians)
                 * Math.sin(changeInLong/2) * Math.sin(changeInLong/2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
         distance = (earthsRadiusMiles * c);
 
         return (int) Math.round(distance);

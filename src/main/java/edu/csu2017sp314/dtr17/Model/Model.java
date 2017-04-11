@@ -33,9 +33,9 @@ public class Model {
 
     }
 
-    public Trip getTrip(boolean twoOptBool, boolean threeOptBool){
+    public Trip getTrip(boolean twoOptBool, boolean threeOptBool, boolean unit){
         TripMaker tm = new TripMaker(locations); //Need to pass the commandline args at some point
-        Trip trip = tm.makeTrip(twoOptBool, threeOptBool); //NN = Nearest Neighbor
+        Trip trip = tm.makeTrip(twoOptBool, threeOptBool, unit); //NN = Nearest Neighbor
 
         return trip;
     }

@@ -14,6 +14,8 @@ public class Presenter {
     private Model model;
     private boolean twoOP = false;
     private boolean threeOP = false;
+    //False is Miles, True is km
+    private boolean units = true;
     private GUIController guiController;
 
 
@@ -26,7 +28,7 @@ public class Presenter {
         if(!view.isGUIOn()) {
             String fileName = view.getFilename();
             model.parseCSV(fileName);
-            Trip trip = model.getTrip(view.isTwoOpt(), view.isThreeOpt());
+            Trip trip = model.getTrip(view.isTwoOpt(), view.isThreeOpt(), units);
 
             //pass data to the View
             for (int i = 0; i < trip.getSize()-1; i++) {
@@ -48,7 +50,7 @@ public class Presenter {
     public void createSVGButtonPressed(boolean twoOP, boolean threeOP){
         String fileName = view.getFilename();
         model.parseCSV(fileName);
-        Trip trip = model.getTrip(twoOP,threeOP);
+        Trip trip = model.getTrip(twoOP,threeOP, units);
 
         //pass data to the View
         for(int i = 0; i < trip.getSize(); i++){
