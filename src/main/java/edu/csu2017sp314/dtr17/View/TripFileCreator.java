@@ -94,34 +94,12 @@ public class TripFileCreator {
             } else {
                 secondX = xList.get(i + 1);
             }
-            if (wrapAround(xList.get(i), secondX)) { //currently uses a common point on the edge for meeting up leaving small angle differences between lines
-                
-                int heightDiff = Math.abs(yList.get(i) - secondY);
-                double rightDistanceFromEdge;
-                double leftDistanceFromEdge;
-                int rightHeightOffset;
-                int leftHeightOffset;
-                if (xList.get(i) > secondX){
-                    rightDistanceFromEdge = FILE_WIDTH-xList.get(i);
-                    leftDistanceFromEdge = secondX;
-                }
-                else {
-                    rightDistanceFromEdge = FILE_WIDTH-secondX;
-                    leftDistanceFromEdge = xList.get(i);
-                }
+            if (wrapAround(xList.get(i), secondX)) {
+                int rx;
+                int ry;
+                int lx;
+                int ly;
 
-                if (rightDistanceFromEdge > leftDistanceFromEdge){
-                    rightHeightOffset = (int)((leftDistanceFromEdge/rightDistanceFromEdge)*(double)heightDiff);
-                    leftHeightOffset = (int)((1 - (leftDistanceFromEdge/rightDistanceFromEdge))*(double)heightDiff);
-                }
-                else {
-                    leftHeightOffset = (int)((rightDistanceFromEdge/leftDistanceFromEdge)*(double)heightDiff);
-                    rightHeightOffset = (int)((1 - (rightDistanceFromEdge/leftDistanceFromEdge))*(double)heightDiff);
-
-                }
-
-                int rx,ry;
-                int lx,ly;
                 if (xList.get(i) > secondX){
                     rx = xList.get(i);
                     ry = yList.get(i);
@@ -135,18 +113,10 @@ public class TripFileCreator {
                     ly = yList.get(i);
                 }
 
-                if (ry > ly){
-                    rightHeightOffset *= -1;
-                }
-                else {
-                    leftHeightOffset *= -1;
-                }
-
-
                 //left line to left edge
-                printLeftWrap(writer, lx, ly, leftHeightOffset);
+                printLeftWrap(writer, lx, ly, rx, ry);
                 //right line to right edge
-                printRightWrap(writer, rx, ry, rightHeightOffset);
+                printRightWrap(writer, rx, ry, lx, ly);
 
             } else {
                 writer.println("<line id=\"leg1\" y2=\"" + secondY + "\" x2=\""
@@ -336,16 +306,16 @@ public class TripFileCreator {
         return false;
     }
 
-    protected void printRightWrap(PrintWriter writer, int x, int y, int offset){
-        writer.println("<line id=\"leg1\" y2=\"" + y + "\" x2=\""
-                + x + "\" y1=\"" + (y + offset) + "\" x1=\""
-                + FILE_WIDTH + "\" stroke-width=\"3\" stroke=\"#999999\"/>");
+    protected void printRightWrap(PrintWriter writer, int rx, int ry, int lx, int ly){
+        writer.println("<line id=\"leg1\" y2=\"" + ry + "\" x2=\""
+                + rx + "\" y1=\"" + ly + "\" x1=\""
+                + (FILE_WIDTH+lx) + "\" stroke-width=\"3\" stroke=\"#999999\"/>");
     }
 
-    protected void printLeftWrap(PrintWriter writer, int x, int y, int offset){
-        writer.println("<line id=\"leg1\" y2=\"" + y + "\" x2=\""
-                + x + "\" y1=\"" + (y + offset) + "\" x1=\""
-                + 0 + "\" stroke-width=\"3\" stroke=\"#999999\"/>");
+    protected void printLeftWrap(PrintWriter writer, int lx, int ly, int rx, int ry){
+        writer.println("<line id=\"leg1\" y2=\"" + ly + "\" x2=\""
+                + lx + "\" y1=\"" + ry + "\" x1=\""
+                + (0-(FILE_WIDTH-rx)) + "\" stroke-width=\"3\" stroke=\"#999999\"/>");
     }
 
     public String[] getItineraryStrings(){
