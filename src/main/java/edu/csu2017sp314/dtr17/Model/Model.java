@@ -47,14 +47,14 @@ public class Model {
             String line = br.readLine();
             if(line != null){
                 if(line.toLowerCase().contains(idString.toLowerCase())){
-                    String result = line.toLowerCase().substring(line.toLowerCase().indexOf(idString.toLowerCase()) + 1, line.toLowerCase().indexOf(endString.toLowerCase()));
+                    String result = line.toLowerCase().substring(line.toLowerCase().indexOf(idString.toLowerCase()) + 4, line.toLowerCase().indexOf(endString.toLowerCase()));
                     IDs.add(result);
                 }
             }
 
             while ((line = br.readLine()) != null) {
                 if(line.toLowerCase().contains(idString.toLowerCase())){
-                    String result = line.toLowerCase().substring(line.toLowerCase().indexOf(idString.toLowerCase()) + 1, line.toLowerCase().indexOf(endString.toLowerCase()));
+                    String result = line.toLowerCase().substring(line.toLowerCase().indexOf(idString.toLowerCase()) + 4, line.toLowerCase().indexOf(endString.toLowerCase()));
                     IDs.add(result);
                 }
             }
