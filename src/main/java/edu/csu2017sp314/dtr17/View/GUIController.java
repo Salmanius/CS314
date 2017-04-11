@@ -14,8 +14,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import main.java.edu.csu2017sp314.dtr17.Model.DatabaseFetcher;
+import main.java.edu.csu2017sp314.dtr17.Model.XMLParser;
 import main.java.edu.csu2017sp314.dtr17.Presenter.Presenter;
 
+import java.beans.XMLDecoder;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -267,7 +269,7 @@ public class GUIController {
 
     public void selectButtonPressed(ActionEvent actionEvent) {
         selectedListBox.getItems().add(selectionListBox.getSelectionModel().getSelectedItem().toString());
-        airportNames.add(selectionListBox.getSelectionModel().getSelectedItem().toString());
+        airportNames.add(fetcher.getAirportIDFromName(selectionListBox.getSelectionModel().getSelectedItem().toString()));
     }
 
     public void clearButtonPressed(ActionEvent actionEvent) {
@@ -279,9 +281,20 @@ public class GUIController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Load Trip");
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("csv", "*.csv"));
+                new FileChooser.ExtensionFilter("xml", "*.xml"));
 
         File file = fileChooser.showOpenDialog(new Stage());
+
+        XMLParser parser = new XMLParser();
+
+        ArrayList<String> loadedIDs = parser.parseXML(file.getAbsolutePath());
+        selectedListBox.getItems().clear();
+        airportNames.clear();
+
+        for(int i = 0; i < loadedIDs.size(); ++i){
+            airportNames.add(loadedIDs.get(i));
+            selectedListBox.getItems().add(fetcher.getAirportNameFromID(loadedIDs.get(i)));
+        }
 
     }
 
