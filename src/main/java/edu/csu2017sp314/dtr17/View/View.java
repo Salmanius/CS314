@@ -41,8 +41,8 @@ public class View {
 
     public void addLocation(String name, String ID, double longitude, double latitude, int mileageToNextLoc) {
         tripFileCreator.addLocation(name, ID, longitude, latitude, mileageToNextLoc);
-
     }
+
 
     public String printFiles() {
         tripFileCreator.setTotalMileage(totalMileage);
@@ -79,6 +79,10 @@ public class View {
 
     public String getFilename() {
         return csvFileName;
+    }
+
+    public int getTotalMileage(){
+        return totalMileage;
     }
 
     public void setPresenterReference(Presenter presenter) {
