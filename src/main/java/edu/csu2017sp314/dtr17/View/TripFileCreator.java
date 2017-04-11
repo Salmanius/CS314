@@ -35,6 +35,10 @@ public class TripFileCreator {
 
     public TripFileCreator(){}
 
+    public int getTotalMileage(){return totalMileage;}
+
+    public void setTotalMileage(int newMileage){totalMileage = newMileage;}
+
     public void clear(){
         names.clear();
         IDs.clear();
@@ -46,7 +50,6 @@ public class TripFileCreator {
     }
 
     public void addLocation(String name, String ID, double longitude, double latitude, int mileageToNextLoc) {
-        totalMileage += mileageToNextLoc;
         names.add(name);
         IDs.add(ID);
 

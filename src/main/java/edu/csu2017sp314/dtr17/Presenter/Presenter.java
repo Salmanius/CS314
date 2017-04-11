@@ -34,6 +34,7 @@ public class Presenter {
                 view.addLocation(loc.getName(), loc.getId(),
                         loc.getDblLongitude(), loc.getDblLatitude(), trip.getLegMileage(i));
             }
+            view.setTotalMileage(trip.getTotalMileage());
 
             view.printFiles();
         }
@@ -56,6 +57,7 @@ public class Presenter {
             view.addLocation(loc.getName(), loc.getId() ,
                     loc.getDblLongitude(), loc.getDblLatitude(), trip.getLegMileage(i));
         }
+        view.setTotalMileage(trip.getTotalMileage());
 
         String svgFile = view.printFiles();
         //view.displaySVG();
