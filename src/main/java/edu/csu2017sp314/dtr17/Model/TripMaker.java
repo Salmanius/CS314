@@ -49,11 +49,9 @@ public class TripMaker {
             int dist = calculateDistanceBetween(trip.getLoc(k), trip.getLoc(k+1));
             trip.setLegMileage(dist , k);
         }
-        int dist = calculateDistanceBetween(trip.getLoc(trip.getSize()-1), trip.getLoc(0));
-        trip.setLegMileage(trip.getSize()-1, dist);
 
         int newTotalMil = 0;
-        for(int m = 0; m < trip.getSize(); m++){
+        for(int m = 0; m < trip.getSize() - 1; m++){
             newTotalMil += trip.getLegMileage(m);
         }
         trip.setTotalMileage(newTotalMil);
@@ -83,7 +81,7 @@ public class TripMaker {
         for(int k = 0; k < visited.size()-1; k++){
             trip.addLoc(visited.get(k), k, calculateDistanceBetween(visited.get(k), visited.get(k+1)));
         }
-        trip.addLoc(visited.get(visited.size()-1), visited.size()-1, calculateDistanceBetween(visited.get(visited.size()-1), visited.get(1)));
+        trip.addLoc(visited.get(visited.size()-1), visited.size()-1);
 
         return trip;
     }

@@ -29,7 +29,7 @@ public class Presenter {
             Trip trip = model.getTrip(view.isTwoOpt(), view.isThreeOpt());
 
             //pass data to the View
-            for (int i = 0; i < trip.getSize(); i++) {
+            for (int i = 0; i < trip.getSize()-1; i++) {
                 Location loc = trip.getLoc(i);
                 view.addLocation(loc.getName(), loc.getId(),
                         loc.getDblLongitude(), loc.getDblLatitude(), trip.getLegMileage(i));
