@@ -13,7 +13,8 @@ What is done:
 	
 What is not done:
 	-No ability to save or load a subset of locations.
-	-An input file name and the flag -p are required for the program to run, this will be changed
+	-An input file name and the flag -p are required for the program to run, though they are not actually used. This will be changed.
+	-Several bugs are present.
 	
 Usage instructions:
 	How to use the command line:
@@ -34,21 +35,17 @@ Usage instructions:
 		The output will be in the same directory as the file given as the argument. So if the user gives a relative 
 		path for the filename, the output will generated in that directory.
 	
-	How to use the GUI:
-		The SVG map produced for the input file given in the command line arguments can be displayed using the "Display SVG"
-		button on the left. The corresponding itenerary for the trip can also be displayed in the GUI by pressing the "Show
-		Itenerary" button on the left. Since the options checklist is currently not functional, the displayed SVG and itenerary
-		will depend entirely on what command line arguments were given.
+		 
 	
 References:
 	-Algorithm to calculate distance between to coordinates is the 'haversine' formula taken from:
 		http://www.movable-type.co.uk/scripts/latlong.html
 	-Unit testing utilizes JUnit 4 with jar files downloaded from:
 		http://junit.org/junit4/
-	-The SVG display utalizes batik 1.8, which is an Appache licensed library and can be found at:
-		https://xmlgraphics.apache.org/batik/download.html
-	-Much of the code contained the the "CheckBoxList" class taken from an article written by Trevor Harmon which can be found here:
-		http://www.devx.com/tips/Tip/5342
+	-Command line parsing utilizes cli 1.4, which can be found here:
+		https://commons.apache.org/proper/commons-cli/apidocs/index.html
+	-SQL connection in program utilizes mysql connector 6.0.6, which can be found here:
+		https://dev.mysql.com/doc/relnotes/connector-j/6.0/en/news-6-0-2.html
 
 	
 	
