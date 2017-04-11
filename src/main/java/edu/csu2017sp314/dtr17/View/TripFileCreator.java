@@ -112,7 +112,6 @@ public class TripFileCreator {
                     lx = xList.get(i);
                     ly = yList.get(i);
                 }
-
                 //left line to left edge
                 printLeftWrap(writer, lx, ly, rx, ry);
                 //right line to right edge
