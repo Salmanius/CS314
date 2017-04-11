@@ -230,8 +230,8 @@ public class TripMaker {
             int milI = trip.getLegMileage(i);
             Location locJ = trip.getLoc(j);
             int milJ = trip.getLegMileage(j);
-            trip.addLoc(locI, j, milI);
-            trip.addLoc(locJ, i, milJ);
+            trip.addLoc(locI, j);
+            trip.addLoc(locJ, i);
             ++i;
             --j;
         }
@@ -275,23 +275,23 @@ public class TripMaker {
 
         c = 0;
         while(c < i){
-            trip.addLoc(sect0[c], c, 0);
+            trip.addLoc(sect0[c], c);
             ++c;
         }
         while(c < j){
-            trip.addLoc(sect1[c-i], c, 0);
+            trip.addLoc(sect1[c-i], c);
             ++c;
         }
         while(c < k){
-            trip.addLoc(sect2[c-j], c, 0);
+            trip.addLoc(sect2[c-j], c);
             ++c;
         }
         while(c < l){
-            trip.addLoc(sect3[c-k], c, 0);
+            trip.addLoc(sect3[c-k], c);
             ++c;
         }
         while(c < trip.getSize()){
-            trip.addLoc(sect4[c-l], c, 0);
+            trip.addLoc(sect4[c-l], c);
             ++c;
         }
     }
