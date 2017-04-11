@@ -1,15 +1,19 @@
 What is done:
-	-Displays an SVG map of the trip given in the command line in a GUI window after the "Display SVG" button is pressed.
-	-Displays an itenerary for the given trip in a GUI window after the "Show Itenerary" button is pressed. 
-	-SVG map has been re-scaled to enable the display of the Colorad background map in the future.
+	-Displays an SVG map of the trip given in the command line in a GUI window after the "Show Map" button is pressed.
+	-Displays an itenerary for the given trip as it is selected in the GUI.
+	-SVG map shows a background of the world and the path can wrap all the way around the world.
+	-Locations can be searched for using the Airport Type, Continent, Country, Region, and Municipality
+	-Locations can also be searched for by typing into a text box in the GUI
+	-IDs, Distances, and Names can be turned on and off using check boxes on the GUI
+	-Units can be changed using the field on the GUI
+	-Optimization levels can be selected using the fields in the GUI
+	-2opt and 3opt optimization levels now work
+	-The itinerary can be cleared using the button
+	
 	
 What is not done:
-	-No additional unit tests written
-	-The options checklist in the GUI is non-functional, all options are still passed through the command line.
-	-2-opt and 3-opt are not implemented in the final release, all SVG files generated using 1-opt.
-	-No ability for the user to select a subset of destinations.
-	-No ability to display the Colorado background map in the SVG. 
-	
+	-No ability to save or load a subset of locations.
+	-An input file name and the flag -p are required for the program to run, this will be changed
 	
 Usage instructions:
 	How to use the command line:
@@ -18,6 +22,8 @@ Usage instructions:
 			-m for adding mileages to the map
 			-i for adding IDs to the map
 			-n for adding Names to the map
+			-p is required for the program to run, followed by an input file name
+			-g launches the program with the GUI
 			
 		For example, to execute the program and display the mileages and the place names, the user would type:
 			TripCo.java -mn places.csv
