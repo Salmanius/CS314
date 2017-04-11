@@ -65,4 +65,8 @@ public class Trip {
     public int getLegMileage(int i) {return legMileages[i];}
 
     public void setLegMileage(int newMileage, int milSpot) {legMileages[milSpot] = newMileage;}
+
+    public void setTotalMileage(int newMileage){totalMileage = newMileage;}
+
+    public int getTotalMileage(){return totalMileage;}
 }

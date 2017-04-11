@@ -26,6 +26,8 @@ public class View {
     protected String svgFileName;
     protected String xmlFileName;
 
+    protected int totalMileage;
+
     protected TripFileCreator tripFileCreator = new TripFileCreator();
 
 
@@ -35,12 +37,15 @@ public class View {
         parseCommandArguments(args);
     }
 
+    public void setTotalMileage(int newMileage){totalMileage = newMileage;}
+
     public void addLocation(String name, String ID, double longitude, double latitude, int mileageToNextLoc) {
         tripFileCreator.addLocation(name, ID, longitude, latitude, mileageToNextLoc);
 
     }
 
     public String printFiles() {
+        tripFileCreator.setTotalMileage(totalMileage);
         tripFileCreator.printSVGFile(svgFileName, showID, showName, showMileage, useBGMap);
         tripFileCreator.printXMLFile(xmlFileName);
 

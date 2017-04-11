@@ -52,6 +52,12 @@ public class TripMaker {
         int dist = calculateDistanceBetween(trip.getLoc(trip.getSize()-1), trip.getLoc(0));
         trip.setLegMileage(trip.getSize()-1, dist);
 
+        int newTotalMil = 0;
+        for(int m = 0; m < trip.getSize(); m++){
+            newTotalMil += trip.getLegMileage(m);
+        }
+        trip.setTotalMileage(newTotalMil);
+
         return trip;
     }
 
