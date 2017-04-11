@@ -200,6 +200,72 @@ public class DatabaseFetcher {
         return code;
     }
 
+    public String getLatitudeFromName(String airPortName){
+        ResultSet rs = null;
+        String code = "";
+
+        String query = "select latitude from airports where name = '" + airPortName + "'";
+        try {
+            connect();
+            rs = statement.executeQuery(query);
+
+            rs.next();
+            code = rs.getString("latitude");
+
+            disconnect();
+            rs.close();
+        } catch (SQLException e) {
+            System.err.printf("error in getLatitudeFromName: ");
+            System.err.println(e.getMessage());
+        }
+
+        return code;
+    }
+
+    public String getLongitudeFromName(String airPortName){
+        ResultSet rs = null;
+        String code = "";
+
+        String query = "select longitude from airports where name = '" + airPortName + "'";
+        try {
+            connect();
+            rs = statement.executeQuery(query);
+
+            rs.next();
+            code = rs.getString("longitude");
+
+            disconnect();
+            rs.close();
+        } catch (SQLException e) {
+            System.err.printf("error in getLongitudeFromName: ");
+            System.err.println(e.getMessage());
+        }
+
+        return code;
+    }
+
+    public String getAirportIDFromName(String airPortName){
+        ResultSet rs = null;
+        String code = "";
+
+        String query = "select id from airports where name = '" + airPortName + "'";
+        try {
+            connect();
+            rs = statement.executeQuery(query);
+
+            rs.next();
+            code = rs.getString("id");
+
+            disconnect();
+            rs.close();
+        } catch (SQLException e) {
+            System.err.printf("error in getAirportIDFromName: ");
+            System.err.println(e.getMessage());
+        }
+
+        return code;
+    }
+
     public ArrayList<String> searchForAirports(String columnSpecifier){
         ArrayList<String> airports = new ArrayList<String>();
 

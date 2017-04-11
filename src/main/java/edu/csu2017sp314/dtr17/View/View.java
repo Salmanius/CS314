@@ -20,7 +20,7 @@ public class View {
     protected boolean useGUI = false;
     protected boolean twoOpt = false;
     protected boolean threeOpt = false;
-    protected boolean useBGMap = false;
+    protected boolean useBGMap = true;
 
     protected String csvFileName;
     protected String svgFileName;
@@ -44,7 +44,7 @@ public class View {
     }
 
 
-    public String printFiles() {
+    public String printFiles(boolean showID, boolean showName, boolean showMileage) {
         tripFileCreator.setTotalMileage(totalMileage);
         tripFileCreator.printSVGFile(svgFileName, showID, showName, showMileage, useBGMap);
         tripFileCreator.printXMLFile(xmlFileName);
@@ -153,7 +153,7 @@ public class View {
         useGUI = cmd.hasOption("gui");
         twoOpt = cmd.hasOption("twoOpt");
         threeOpt = cmd.hasOption("threeOpt");
-        useBGMap = cmd.hasOption("bgmap");
+        useBGMap = true;//cmd.hasOption("bgmap");
 
         csvFileName = cmd.getOptionValue("csvpath");
         String filenameCut = csvFileName.substring(0, csvFileName.length() - 4);
