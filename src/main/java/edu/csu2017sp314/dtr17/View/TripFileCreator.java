@@ -132,7 +132,7 @@ public class TripFileCreator {
 
         //write the titles to the file
         writer.println("<g>");
-        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"distance\" y=\"" + milePosition + "\" x=\"" + stateMid + "\">" + totalMileage + " miles</text>");
+        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"distance\" y=\"" + milePosition + "\" x=\"" + stateMid + "\">" + totalMileage + "</text>");
         writer.println("</g>");
     }
 
