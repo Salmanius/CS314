@@ -3,6 +3,7 @@ package main.java.edu.csu2017sp314.dtr17.Model;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by maste on 4/7/2017.
@@ -67,7 +68,7 @@ public class DatabaseFetcher {
                 countries.add(rs.getString("name"));
             }
 
-            Collections.sort(countries.subList(1, countries.size()));
+            Collections.sort(countries.subList(0, countries.size()));
 
             rs.close();
             disconnect();
@@ -94,7 +95,7 @@ public class DatabaseFetcher {
                 regions.add(rs.getString("name"));
             }
 
-            Collections.sort(regions.subList(1, regions.size()));
+            Collections.sort(regions.subList(0, regions.size()));
 
             disconnect();
             rs.close();
@@ -197,5 +198,33 @@ public class DatabaseFetcher {
         }
 
         return code;
+    }
+
+    public ArrayList<String> searchForAirports(String columnSpecifier){
+        ArrayList<String> airports = new ArrayList<String>();
+
+        ResultSet rs = null;
+
+        String query = "select id,name, municipality,iso_country,type from airports where " + columnSpecifier;
+
+        try {
+            connect();
+            rs = statement.executeQuery(query);
+
+            while (rs.next()) {
+                airports.add(rs.getString("name"));
+            }
+
+            Collections.sort(airports.subList(0, airports.size()));
+
+            disconnect();
+            rs.close();
+
+        } catch (SQLException e) {
+            System.err.printf("Error in getAllRegionsInISOCountry: ");
+            System.err.println(e.getMessage());
+        }
+
+        return airports;
     }
 }

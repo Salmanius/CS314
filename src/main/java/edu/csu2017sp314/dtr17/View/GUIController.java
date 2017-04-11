@@ -1,5 +1,7 @@
 package main.java.edu.csu2017sp314.dtr17.View;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.web.WebView;
@@ -10,6 +12,7 @@ import main.java.edu.csu2017sp314.dtr17.Presenter.Presenter;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,11 +26,12 @@ public class GUIController {
     public ComboBox countryPicker;
     public ComboBox regionPicker;
     public ComboBox municipalityPicker;
-
     public TextField airportNameSearchBox;
     public Button searchButton;
+
     public ListView selectionListBox;
     public Button selectButton;
+
     public ListView selectedListBox;
     public Button clearButton;
     public Button loadButton;
@@ -39,6 +43,12 @@ public class GUIController {
     public CheckBox distanceCheckBox;
     public CheckBox namesCheckBox;
     public Button showMapButton;
+
+    protected String selectedContinentID = "";
+    protected String selectedISOCountry = "";
+    protected String selectedISORegion = "";
+    protected String selectedMunicipality = "";
+    protected String selectedAirportType = "";
 
 
     protected Presenter presenter;
@@ -66,14 +76,31 @@ public class GUIController {
         this.presenter = presenter;
     }
 
-    public void airportChanged(ActionEvent actionEvent) {
+    public void airportTypeChanged(ActionEvent actionEvent) {
+        if(!airportTypePicker.getSelectionModel().isEmpty()) {
+            String value = airportTypePicker.getValue().toString();
+
+            if (airportTypePicker.getValue().toString().equals("Large Airport")) {
+                selectedAirportType = "large_airport";
+            } else if (value.equals("Medium Airport")) {
+                selectedAirportType = "medium_airport";
+            } else if (value.equals("Small Airport")) {
+                selectedAirportType = "small_airport";
+            } else if (value.equals("Seaplane Base")) {
+                selectedAirportType = "seaplane_base";
+            } else {
+                selectedAirportType = value;
+            }
+        }
     }
 
     public void continentChanged(ActionEvent actionEvent) {
         if(!continentPicker.getSelectionModel().isEmpty()) {
             String value = continentPicker.getValue().toString();
 
-            List<String> countries = fetcher.getAllCountriesInContinent(fetcher.getContinentCodeFromName(value));
+            selectedContinentID = fetcher.getContinentCodeFromName(value);
+
+            List<String> countries = fetcher.getAllCountriesInContinent(selectedContinentID);
 
             resetComboBox(countryPicker);
             resetComboBox(regionPicker);
@@ -101,10 +128,12 @@ public class GUIController {
     }
 
     public void countryChanged(ActionEvent actionEvent) {
+        selectedISOCountry = "";
         if(!countryPicker.getSelectionModel().isEmpty()) {
             String value = countryPicker.getValue().toString();
 
-            List<String> regions = fetcher.getAllRegionsInISOCountry(fetcher.getCountryCodeFromName(value));
+            selectedISOCountry = fetcher.getCountryCodeFromName(value);
+            List<String> regions = fetcher.getAllRegionsInISOCountry(selectedISOCountry);
 
             resetComboBox(regionPicker);
             regionPicker.getItems().addAll(regions);
@@ -113,10 +142,12 @@ public class GUIController {
     }
 
     public void regionChanged(ActionEvent actionEvent) {
+        selectedISORegion = "";
         if(!regionPicker.getSelectionModel().isEmpty()) {
             String value = regionPicker.getValue().toString();
 
-            List<String> municipalities = fetcher.getAllMunicipalitiesInISORegion(fetcher.getISORegionFromName(value));
+            selectedISORegion = fetcher.getISORegionFromName(value);
+            List<String> municipalities = fetcher.getAllMunicipalitiesInISORegion(selectedISORegion);
 
             resetComboBox(municipalityPicker);
             municipalityPicker.getItems().addAll(municipalities);
@@ -125,10 +156,80 @@ public class GUIController {
     }
 
     public void municipalityChanged(ActionEvent actionEvent) {
+        if(!municipalityPicker.getSelectionModel().isEmpty()){
+            selectedMunicipality = municipalityPicker.getValue().toString();
+        }
+
     }
 
     public void searchButtonPressed(ActionEvent actionEvent) {
         //resetSearchFields();
+        selectionListBox.getItems().clear();
+
+        //String query = "select id,name, municipality,iso_country,type from airports where " +
+        //        "continent = '" + continentID + "' and iso_country = '" + isoCountry +
+        //        "' and iso_region = '" + isoRegion + "' and municipality = '" + municipality + "'";
+
+        String sqlColumnSpecifier = "";
+        boolean isFirst = true;
+
+        if(!selectedContinentID.isEmpty()){
+            sqlColumnSpecifier += "continent = '" + selectedContinentID + "'";
+            isFirst = false;
+        }
+
+        if(!selectedISOCountry.isEmpty()){
+            if(isFirst)
+                sqlColumnSpecifier += " iso_country = '" + selectedISOCountry + "'";
+            else
+                sqlColumnSpecifier += " and iso_country = '" + selectedISOCountry + "'";
+
+            isFirst = false;
+        }
+
+        if(!selectedISORegion.isEmpty()){
+            if(isFirst)
+                sqlColumnSpecifier += " iso_region = '" + selectedISORegion + "'";
+            else
+                sqlColumnSpecifier += " and iso_region = '" + selectedISORegion + "'";
+
+            isFirst = false;
+        }
+
+        if(!selectedMunicipality.isEmpty()){
+            if(isFirst)
+                sqlColumnSpecifier += " municipality = '" + selectedMunicipality + "'";
+            else
+                sqlColumnSpecifier += " and municipality = '" + selectedMunicipality + "'";
+
+            isFirst = false;
+        }
+
+        if(!selectedAirportType.isEmpty()){
+            if(isFirst)
+                sqlColumnSpecifier += " type = '" + selectedAirportType + "'";
+            else
+                sqlColumnSpecifier += " and type = '" + selectedAirportType + "'";
+
+            isFirst = false;
+        }
+
+        if(!airportNameSearchBox.getText().isEmpty()){
+            if(isFirst)
+                sqlColumnSpecifier += " name like '%" + airportNameSearchBox.getText().toString() + "%'";
+            else
+                sqlColumnSpecifier += " and name like '%" + airportNameSearchBox.getText().toString() + "%'";
+        }
+
+        if(sqlColumnSpecifier.isEmpty())
+            sqlColumnSpecifier = " 1 = 1 ";
+
+
+        System.out.println(sqlColumnSpecifier);
+        ArrayList<String> airports = fetcher.searchForAirports(sqlColumnSpecifier);
+
+        selectionListBox.getItems().addAll(airports);
+
     }
 
     public void selectButtonPressed(ActionEvent actionEvent) {
