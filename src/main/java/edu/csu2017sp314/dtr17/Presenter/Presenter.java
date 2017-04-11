@@ -15,7 +15,7 @@ public class Presenter {
     private boolean twoOP = false;
     private boolean threeOP = false;
     //False is Miles, True is km
-    private boolean units = true;
+    private boolean units = false;
     private GUIController guiController;
 
 
