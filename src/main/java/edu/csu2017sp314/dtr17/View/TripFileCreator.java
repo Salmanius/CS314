@@ -175,7 +175,12 @@ public class TripFileCreator {
             //set the mileage label's Y value
             int mily = (yList.get(i) + secondY)/2;
 
-            writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"leg1\" y=\"" + mily + "\" x=\"" + milx + "\">" + mileages.get(i) + "</text>");
+            if (wrapAround(xList.get(i), secondX)){ //ROUGH way to display miles on wrapped lines
+                writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"leg1\" y=\"" + secondY + "\" x=\"" + secondX + "\">" + mileages.get(i) + "</text>");
+            }
+            else {
+                writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"leg1\" y=\"" + mily + "\" x=\"" + milx + "\">" + mileages.get(i) + "</text>");
+            }
         }
         writer.println("</g>");
     }
