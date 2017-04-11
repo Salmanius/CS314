@@ -16,7 +16,7 @@ public class Model {
         locations = new ArrayList<Location>();
     }
 
-    public void parseCSV(String fileName){
+    /*public void parseCSV(String fileName){
         locations.clear();
         CSVParser parser = new CSVParser(fileName);
         parser.parse();
@@ -31,10 +31,26 @@ public class Model {
             String latitude = csvData.getValue("latitude", i);
             String longitude = csvData.getValue("longitude", i);
 
-
             locations.add(new Location(id, name, latitude, longitude));
         }
 
+    } */
+
+    public Trip getTrip(ArrayList<String> airportNames, boolean twoOptBool, boolean threeOptBool, boolean unit){
+        locations.clear();
+        DatabaseFetcher fetcher = new DatabaseFetcher();
+        for(int i = 0; i < airportNames.size(); ++i){
+            String id = fetcher.getAirportIDFromName(airportNames.get(i));
+            String name = airportNames.get(i);
+            String latitude = fetcher.getLatitudeFromName(airportNames.get(i));
+            String longitude = fetcher.getLongitudeFromName(airportNames.get(i));
+
+            locations.add(new Location(id, name, latitude, longitude));
+        }
+        TripMaker tm = new TripMaker(locations); //Need to pass the commandline args at some point
+        Trip trip = tm.makeTrip(twoOptBool, threeOptBool, unit); //NN = Nearest Neighbor
+
+        return trip;
     }
 
     public ArrayList<String> parseXML(String fileName){
@@ -66,13 +82,6 @@ public class Model {
             System.out.println("Could not open file: " + fileName);
             return null;
         }
-    }
-
-    public Trip getTrip(boolean twoOptBool, boolean threeOptBool, boolean unit){
-        TripMaker tm = new TripMaker(locations); //Need to pass the commandline args at some point
-        Trip trip = tm.makeTrip(twoOptBool, threeOptBool, unit); //NN = Nearest Neighbor
-
-        return trip;
     }
 
     public static void main(String[] args){

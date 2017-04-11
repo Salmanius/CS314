@@ -3,10 +3,16 @@ package main.java.edu.csu2017sp314.dtr17.View;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
+import javafx.scene.web.PopupFeatures;
+import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Callback;
 import main.java.edu.csu2017sp314.dtr17.Model.DatabaseFetcher;
 import main.java.edu.csu2017sp314.dtr17.Presenter.Presenter;
 
@@ -54,8 +60,11 @@ public class GUIController {
     protected Presenter presenter;
     protected DatabaseFetcher fetcher;
 
+    protected ArrayList<String> airportNames;
+
     public GUIController(){
         fetcher = new DatabaseFetcher();
+        airportNames = new ArrayList<String>();
     }
 
     public void displaySVG(String filePath) {
@@ -65,11 +74,37 @@ public class GUIController {
         }catch (MalformedURLException exception){
             url = "";
         }
-        SVGWebView.getEngine().load(url);
+        //SVGWebView.getEngine().load(url);
+
+        WebView wv = new WebView();
+        wv.getEngine().setCreatePopupHandler(new Callback<PopupFeatures, WebEngine>() {
+
+            @Override
+            public WebEngine call(PopupFeatures p) {
+                Stage stage = new Stage(StageStyle.UTILITY);
+                WebView wv2 = new WebView();
+                stage.setScene(new Scene(wv2, 2000, 1000));
+                stage.show();
+                stage.setMaximized(true);
+                return wv2.getEngine();
+            }
+        });
+
+
+        StackPane root = new StackPane();
+        root.getChildren().add(wv);
+
+        Scene scene = new Scene(root, 300, 250);
+
+        final Stage stage = new Stage();
+        stage.setTitle("Trip Map");
+        stage.setScene(scene);
+        stage.show();
+        wv.getEngine().load(url);
     }
 
     public void loadMapPressed(ActionEvent actionEvent) {
-        presenter.createSVGButtonPressed(false, false);
+        //presenter.createSVGButtonPressed(false, false);
     }
 
     public void setPresenter(Presenter presenter){
@@ -224,8 +259,6 @@ public class GUIController {
         if(sqlColumnSpecifier.isEmpty())
             sqlColumnSpecifier = " 1 = 1 ";
 
-
-        System.out.println(sqlColumnSpecifier);
         ArrayList<String> airports = fetcher.searchForAirports(sqlColumnSpecifier);
 
         selectionListBox.getItems().addAll(airports);
@@ -233,9 +266,13 @@ public class GUIController {
     }
 
     public void selectButtonPressed(ActionEvent actionEvent) {
+        selectedListBox.getItems().add(selectionListBox.getSelectionModel().getSelectedItem().toString());
+        airportNames.add(selectionListBox.getSelectionModel().getSelectedItem().toString());
     }
 
     public void clearButtonPressed(ActionEvent actionEvent) {
+        selectedListBox.getItems().clear();
+        airportNames.clear();
     }
 
     public void loadButtonPressed(ActionEvent actionEvent) {
@@ -267,5 +304,33 @@ public class GUIController {
     }
 
     public void showMapButtonPressed(ActionEvent actionEvent) {
+        boolean twoOp = false;
+        boolean threeOp = false;
+        if(optimizationPicker.getSelectionModel().isEmpty()){
+            twoOp = false;
+            threeOp = false;
+        } else{
+            if(optimizationPicker.getValue().toString().equals("Two-Op")){
+                twoOp = true;
+            }
+
+            else if(optimizationPicker.getValue().toString().equals("Three-Op")){
+                threeOp = true;
+            }
+        }
+
+        boolean units = false;
+        if(unitPicker.getSelectionModel().isEmpty()){
+            units = false;
+        } else {
+            if(unitPicker.getValue().toString().equals("Miles")){
+                units = false;
+            } else if (unitPicker.getValue().toString().equals("Kilometers")){
+                units = true;
+            }
+        }
+
+        presenter.createSVGButtonPressed(airportNames, twoOp,threeOp, units, idCheckBox.isSelected(),
+                distanceCheckBox.isSelected(), namesCheckBox.isSelected());
     }
 }
