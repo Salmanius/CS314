@@ -40,10 +40,10 @@ public class Model {
         locations.clear();
         DatabaseFetcher fetcher = new DatabaseFetcher();
         for(int i = 0; i < airportNames.size(); ++i){
-            String id = fetcher.getAirportIDFromName(airportNames.get(i));
-            String name = airportNames.get(i);
-            String latitude = fetcher.getLatitudeFromName(airportNames.get(i));
-            String longitude = fetcher.getLongitudeFromName(airportNames.get(i));
+            String id = airportNames.get(i);
+            String name = fetcher.getAirportNameFromID(airportNames.get(i));
+            String latitude = fetcher.getLatitudeFromID(airportNames.get(i));
+            String longitude = fetcher.getLongitudeFromID(airportNames.get(i));
 
             locations.add(new Location(id, name, latitude, longitude));
         }
@@ -51,37 +51,6 @@ public class Model {
         Trip trip = tm.makeTrip(twoOptBool, threeOptBool, unit); //NN = Nearest Neighbor
 
         return trip;
-    }
-
-    public ArrayList<String> parseXML(String fileName){
-        File file = new File(fileName);
-        String idString = "<id>";
-        String endString = "</id>";
-        ArrayList<String> IDs = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line = br.readLine();
-            if(line != null){
-                if(line.toLowerCase().contains(idString.toLowerCase())){
-                    String result = line.toLowerCase().substring(line.toLowerCase().indexOf(idString.toLowerCase()) + 4, line.toLowerCase().indexOf(endString.toLowerCase()));
-                    IDs.add(result);
-                }
-            }
-
-            while ((line = br.readLine()) != null) {
-                if(line.toLowerCase().contains(idString.toLowerCase())){
-                    String result = line.toLowerCase().substring(line.toLowerCase().indexOf(idString.toLowerCase()) + 4, line.toLowerCase().indexOf(endString.toLowerCase()));
-                    IDs.add(result);
-                }
-            }
-
-            br.close();
-            return IDs;
-
-        } catch(IOException exception){
-            System.out.println("Could not open file: " + fileName);
-            return null;
-        }
     }
 
     public static void main(String[] args){

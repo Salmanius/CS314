@@ -25,7 +25,7 @@ public class DatabaseFetcher {
     }
 
     public DatabaseFetcher(){
-        connect();
+        //connect();
     }
 
     protected void connect() {
@@ -33,7 +33,7 @@ public class DatabaseFetcher {
             connection = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);
             statement = connection.createStatement();
         } catch (SQLException e) {
-            System.err.printf("Exception: ");
+            System.err.printf("Exception in connect: ");
             System.err.println(e.getMessage());
         }
     }
@@ -222,6 +222,28 @@ public class DatabaseFetcher {
         return code;
     }
 
+    public String getLatitudeFromID(String airPortID){
+        ResultSet rs = null;
+        String code = "";
+
+        String query = "select latitude from airports where id = '" + airPortID + "'";
+        try {
+            connect();
+            rs = statement.executeQuery(query);
+
+            rs.next();
+            code = rs.getString("latitude");
+
+            disconnect();
+            rs.close();
+        } catch (SQLException e) {
+            System.err.printf("error in getLatitudeFromID: ");
+            System.err.println(e.getMessage());
+        }
+
+        return code;
+    }
+
     public String getLongitudeFromName(String airPortName){
         ResultSet rs = null;
         String code = "";
@@ -238,6 +260,28 @@ public class DatabaseFetcher {
             rs.close();
         } catch (SQLException e) {
             System.err.printf("error in getLongitudeFromName: ");
+            System.err.println(e.getMessage());
+        }
+
+        return code;
+    }
+
+    public String getLongitudeFromID(String airPortID){
+        ResultSet rs = null;
+        String code = "";
+
+        String query = "select longitude from airports where id = '" + airPortID + "'";
+        try {
+            connect();
+            rs = statement.executeQuery(query);
+
+            rs.next();
+            code = rs.getString("longitude");
+
+            disconnect();
+            rs.close();
+        } catch (SQLException e) {
+            System.err.printf("error in getLongitudeFromID: ");
             System.err.println(e.getMessage());
         }
 
@@ -266,6 +310,27 @@ public class DatabaseFetcher {
         return code;
     }
 
+    public String getAirportNameFromID(String airportID){
+        ResultSet rs = null;
+        String code = "";
+
+        String query = "select name from airports where id = '" + airportID + "'";
+        try {
+            connect();
+            rs = statement.executeQuery(query);
+
+            rs.next();
+            code = rs.getString("name");
+
+            disconnect();
+            rs.close();
+        } catch (SQLException e) {
+            System.err.printf("error in getAirportNameFromID: ");
+            System.err.println(e.getMessage());
+        }
+
+        return code;
+    }
     public ArrayList<String> searchForAirports(String columnSpecifier){
         ArrayList<String> airports = new ArrayList<String>();
 
