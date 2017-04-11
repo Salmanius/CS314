@@ -7,6 +7,7 @@ What is done:
 	-IDs, Distances, and Names can be turned on and off using check boxes on the GUI
 	-Units can be changed using the field on the GUI
 	-Optimization levels can be selected using the fields in the GUI
+	-2opt and 3opt optimization levels now work
 	-The itinerary can be cleared using the button
 	
 	
