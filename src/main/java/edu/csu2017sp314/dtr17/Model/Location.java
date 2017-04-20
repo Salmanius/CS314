@@ -13,6 +13,10 @@ public class Location {
     protected double dblLongitude;
     protected String id;
 
+    protected int index;
+
+    protected boolean visited = false;
+
     public Location(String ID, String name, String latitude, String longitude){
         id = ID;
 
@@ -47,6 +51,14 @@ public class Location {
     public String getStringLongitude() {
         return stringLongitude;
     }
+
+    public boolean isVisited(){return visited;}
+
+    public int getIndex(){return index;}
+
+    public void setIndex(int index){this.index = index;}
+
+    public void setVisited(boolean visited){this.visited = visited;}
 
     //converts string latitude to double representation
     protected void parseLatitude(){
