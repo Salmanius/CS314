@@ -14,7 +14,7 @@ public class TripTest {
 
     }
 
-    @Test
+   /* @Test
     public void setNameFlag() throws Exception {
         Trip testTrip = new Trip(false, false, false, 0);
         testTrip.setNameFlag(true);
@@ -53,5 +53,5 @@ public class TripTest {
         Trip testTrip = new Trip(false, false, false, 0);
         testTrip.setMileageFlag(true);
         assertEquals(true, testTrip.getMileageFlag());
-    }
+    } */
 }

@@ -1,7 +1,9 @@
 package main.java.edu.csu2017sp314.dtr17.Model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
+import static java.lang.Math.log;
 import static java.lang.Math.toRadians;
 
 /**
@@ -11,14 +13,25 @@ public class TripMaker {
 
     //used to store all the locations
     private ArrayList<Location> locations;
-    //used to store locations and remove them when they are visited
-    private ArrayList<Location> locationsTemp;
 
     //False is for Miles, True is for km
     private boolean unitSelect;
 
-    public TripMaker(ArrayList<Location> L){
-        locations = L;
+    protected int[][] distances;
+
+    public TripMaker(ArrayList<Location> locations){
+        this.locations = locations;
+
+        distances = new int[locations.size()][locations.size()];
+
+        //initialize distance lookup array
+        for(int i = 0; i < locations.size(); ++i){
+            locations.get(i).setIndex(i);
+            for(int j = 0; j < locations.size(); ++j){
+                distances[i][j] = calculateDistanceBetween(locations.get(i), locations.get(j));
+            }
+        }
+
     }
 
     //creates the trip
@@ -44,18 +57,16 @@ public class TripMaker {
             }
 
             if(newTrip.getMileage() < trip.getMileage()){
+                System.out.println();
+                System.out.println(newTrip.getMileage());
+                System.out.println(trip.getMileage());
                 trip = newTrip;
             }
         }
 
-        for(int k = 0; k < trip.getSize()-1; k++){
-            int dist = calculateDistanceBetween(trip.getLoc(k), trip.getLoc(k+1));
-            trip.setLegMileage(dist , k);
-        }
-
         int newTotalMil = 0;
         for(int m = 0; m < trip.getSize() - 1; m++){
-            newTotalMil += trip.getLegMileage(m);
+            newTotalMil += distances[trip.getLoc(m).getIndex()][trip.getLoc(m+1).getIndex()];
         }
         trip.setTotalMileage(newTotalMil);
 
@@ -64,42 +75,40 @@ public class TripMaker {
 
     //returns a nearest neighbor trip starting at start
     public Trip nearestNeighbor(int start){
-        ArrayList<Location> visited = new ArrayList<>();
-        locationsTemp = new ArrayList<>(locations);
-        int i = start;
-        visited.add(locationsTemp.get(i));
+        int nnPosition = 0;
+        int prevLocationIndex = start;
+        Trip trip = new Trip(locations.size());
 
-        while(visited.size() < locations.size()){
-            int j = i;
-            i = findNN(locationsTemp.get(i), i);
-            visited.add(locationsTemp.get(i));
-            locationsTemp.remove(j);
-            if(i>j){
-                i--;
-            }
-        }
-        visited.add(locations.get(start));
+        trip.addLoc(locations.get(start));
+        locations.get(start).setVisited(true);
 
-        Trip trip = new Trip(false, false, false, visited.size());
-        for(int k = 0; k < visited.size()-1; k++){
-            trip.addLoc(visited.get(k), k, calculateDistanceBetween(visited.get(k), visited.get(k+1)));
+        for(int i = 0; i < locations.size() -1 ; ++i){
+            nnPosition = findNN(prevLocationIndex);
+            trip.addLoc(locations.get(nnPosition));
+            locations.get(nnPosition).setVisited(true);
+
+
+            prevLocationIndex = nnPosition;
         }
-        trip.addLoc(visited.get(visited.size()-1), visited.size()-1);
+
+        for(int i = 0; i < locations.size(); ++i){
+            locations.get(i).setVisited(false);
+        }
 
         return trip;
     }
 
     //finds the nearest neighbor Location to current
-    public int findNN(Location current, int currentNum){
+    public int findNN(int position){
         int nearest = -1;
-        float shortestDistance = 10000000; //super big so first find is always smaller
+        float shortestDistance = 99999999; //super big so first find is always smaller
 
-        for (int i = 0; i < locationsTemp.size(); i++){
-            if(i == currentNum){
-
+        for (int i = 0; i < locations.size(); i++){
+            if(locations.get(i).isVisited() || i == position){
+                //Do nothing, skip to next location
             }
             else {
-                float tempDistance = calculateDistanceBetween(current, locationsTemp.get(i));
+                float tempDistance = distances[position][i];
 
                 if (tempDistance < shortestDistance) {
                     shortestDistance = tempDistance;
@@ -117,8 +126,11 @@ public class TripMaker {
             improvements = 0;
             for(int i = 0; i < trip.getSize() - 3; i++){
                 for(int j = i+2; j < trip.getSize() - 1; j++){
-                    if((calculateDistanceBetween(trip.getLoc(i), trip.getLoc(i+1)) + calculateDistanceBetween(trip.getLoc(j), trip.getLoc(j+1))) > (calculateDistanceBetween(trip.getLoc(i), trip.getLoc(j)) + calculateDistanceBetween(trip.getLoc(i+1), trip.getLoc(j+1)))){
-                        reverse(i+1, j, trip);
+                    if((distances[trip.getLoc(i).getIndex()][trip.getLoc(i+1).getIndex()]
+                            + distances[trip.getLoc(j).getIndex()][ trip.getLoc(j+1).getIndex()])
+                            > (distances[trip.getLoc(i).getIndex()][trip.getLoc(j).getIndex()]
+                                + distances[trip.getLoc(i+1).getIndex()][trip.getLoc(j+1).getIndex()])){
+                        trip.performTwoOptReverse(i+1, j);
                         ++improvements;
                     }
                 }
@@ -141,14 +153,37 @@ public class TripMaker {
             for(int i = 0; i < trip.getSize() - 5; ++i){
                 for(int j = i+2; j < trip.getSize() - 3; ++j){
                     for(int k = j+2; k < trip.getSize() - 1; ++k){
-                        int distNorm = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(i+1)) + calculateDistanceBetween(trip.getLoc(j), trip.getLoc(j+1)) + calculateDistanceBetween(trip.getLoc(k), trip.getLoc(k+1));
-                        int dist1 = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(i+1)) + calculateDistanceBetween(trip.getLoc(j), trip.getLoc(k)) + calculateDistanceBetween(trip.getLoc(j+1), trip.getLoc(k+1));
-                        int dist2 = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(j)) + calculateDistanceBetween(trip.getLoc(i+1), trip.getLoc(j+1)) + calculateDistanceBetween(trip.getLoc(k), trip.getLoc(k+1));
-                        int dist3 = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(k)) + calculateDistanceBetween(trip.getLoc(j+1), trip.getLoc(j)) + calculateDistanceBetween(trip.getLoc(i+1), trip.getLoc(k+1));
-                        int dist4 = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(j+1)) + calculateDistanceBetween(trip.getLoc(k), trip.getLoc(i+1)) + calculateDistanceBetween(trip.getLoc(j), trip.getLoc(k+1));
-                        int dist5 = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(k)) + calculateDistanceBetween(trip.getLoc(j+1), trip.getLoc(i+1)) + calculateDistanceBetween(trip.getLoc(j), trip.getLoc(k+1));
-                        int dist6 = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(j+1)) + calculateDistanceBetween(trip.getLoc(k), trip.getLoc(j)) + calculateDistanceBetween(trip.getLoc(i+1), trip.getLoc(k+1));
-                        int dist7 = calculateDistanceBetween(trip.getLoc(i), trip.getLoc(j)) + calculateDistanceBetween(trip.getLoc(i+1), trip.getLoc(k)) + calculateDistanceBetween(trip.getLoc(j+1), trip.getLoc(k+1));
+                        int distNorm =  distances[trip.getLoc(i).getIndex()][trip.getLoc(i+1).getIndex()]
+                                + distances[trip.getLoc(j).getIndex()][trip.getLoc(j+1).getIndex()]
+                                + distances[trip.getLoc(k).getIndex()][trip.getLoc(k+1).getIndex()];
+                        
+                        int dist1 =  distances[trip.getLoc(i).getIndex()][trip.getLoc(i+1).getIndex()] +
+                                + distances[trip.getLoc(j).getIndex()][trip.getLoc(k).getIndex()]
+                                + distances[trip.getLoc(j+1).getIndex()][trip.getLoc(k+1).getIndex()];
+                        
+                        int dist2 = distances[trip.getLoc(i).getIndex()][trip.getLoc(j).getIndex()]
+                                + distances[trip.getLoc(i+1).getIndex()][trip.getLoc(j+1).getIndex()]
+                                + distances[trip.getLoc(k).getIndex()][trip.getLoc(k+1).getIndex()];
+                        
+                        int dist3 = distances[trip.getLoc(i).getIndex()][trip.getLoc(k).getIndex()]
+                                + distances[trip.getLoc(j+1).getIndex()][trip.getLoc(j).getIndex()]
+                                + distances[trip.getLoc(i+1).getIndex()][trip.getLoc(k+1).getIndex()];
+                        
+                        int dist4 = distances[trip.getLoc(i).getIndex()][trip.getLoc(j+1).getIndex()]
+                                + distances[trip.getLoc(k).getIndex()][trip.getLoc(i+1).getIndex()]
+                                + distances[trip.getLoc(j).getIndex()][trip.getLoc(k+1).getIndex()];
+                        
+                        int dist5 = distances[trip.getLoc(i).getIndex()][trip.getLoc(k).getIndex()]
+                                + distances[trip.getLoc(j+1).getIndex()][trip.getLoc(i+1).getIndex()]
+                                + distances[trip.getLoc(j).getIndex()][trip.getLoc(k+1).getIndex()];
+                       
+                        int dist6 = distances[trip.getLoc(i).getIndex()][trip.getLoc(j+1).getIndex()]
+                                + distances[trip.getLoc(k).getIndex()][trip.getLoc(j).getIndex()]
+                                + distances[trip.getLoc(i+1).getIndex()][trip.getLoc(k+1).getIndex()];
+                        
+                        int dist7 = distances[trip.getLoc(i).getIndex()][trip.getLoc(j).getIndex()]
+                                + distances[trip.getLoc(i+1).getIndex()][trip.getLoc(k).getIndex()]
+                                + distances[trip.getLoc(j+1).getIndex()][trip.getLoc(k+1).getIndex()];
 
                         int distNormCopy = distNorm;
                         int selection = 0;
@@ -227,11 +262,12 @@ public class TripMaker {
     public void reverse(int i, int j, Trip trip){
         while(i < j) {
             Location locI = trip.getLoc(i);
-            int milI = trip.getLegMileage(i);
+
             Location locJ = trip.getLoc(j);
-            int milJ = trip.getLegMileage(j);
-            trip.addLoc(locI, j);
-            trip.addLoc(locJ, i);
+
+            trip.addLoc(locI);
+            trip.addLoc(locJ);
+
             ++i;
             --j;
         }
@@ -275,23 +311,23 @@ public class TripMaker {
 
         c = 0;
         while(c < i){
-            trip.addLoc(sect0[c], c);
+            trip.addLoc(sect0[c]);
             ++c;
         }
         while(c < j){
-            trip.addLoc(sect1[c-i], c);
+            trip.addLoc(sect1[c-i]);
             ++c;
         }
         while(c < k){
-            trip.addLoc(sect2[c-j], c);
+            trip.addLoc(sect2[c-j]);
             ++c;
         }
         while(c < l){
-            trip.addLoc(sect3[c-k], c);
+            trip.addLoc(sect3[c-k]);
             ++c;
         }
         while(c < trip.getSize()){
-            trip.addLoc(sect4[c-l], c);
+            trip.addLoc(sect4[c-l]);
             ++c;
         }
     }
