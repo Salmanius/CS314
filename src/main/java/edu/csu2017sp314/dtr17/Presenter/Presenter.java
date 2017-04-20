@@ -61,7 +61,7 @@ public class Presenter {
             Location loc = trip.getLoc(i);
 
             view.addLocation(loc.getName(), loc.getId() ,
-                    loc.getDblLongitude(), loc.getDblLatitude(), trip.getLegMileage(i));
+                    loc.getDblLongitude(), loc.getDblLatitude(), 0); //THIS HAS GOTTA BE UPDATED!!!!!!!!!!!!!
         }
         view.setTotalMileage(trip.getTotalMileage());
 

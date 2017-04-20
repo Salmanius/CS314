@@ -8,25 +8,17 @@ import java.util.ArrayList;
 public class Trip {
 
     private Location[] trip;
-    private int[] legMileages;
     private int totalMileage;
 
     protected int currentLocationIndex = 0;
-    protected int currentLegIndex = 0;
 
 
     public Trip(int size){
         trip = new Location[size];
-        legMileages = new int[size-1];
         totalMileage = 0;
     }
 
-    public void addLoc(Location location, int distanceFromPreviousLocation){
-        if(distanceFromPreviousLocation != -1){
-            legMileages[currentLegIndex] = distanceFromPreviousLocation;
-            totalMileage += distanceFromPreviousLocation;
-            ++currentLegIndex;
-        }
+    public void addLoc(Location location){
 
         trip[currentLocationIndex] = location;
         ++currentLocationIndex;
@@ -65,10 +57,6 @@ public class Trip {
     public int getSize() {return trip.length;}
 
     public Location getLoc(int i) {return trip[i];}
-
-    public int getLegMileage(int i) {return legMileages[i];}
-
-    public void setLegMileage(int newMileage, int milSpot) {legMileages[milSpot] = newMileage;}
 
     public void setTotalMileage(int newMileage){totalMileage = newMileage;}
 

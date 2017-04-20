@@ -64,14 +64,9 @@ public class TripMaker {
             }
         }
 
-        for(int k = 0; k < trip.getSize()-1; k++){
-            int dist = distances[trip.getLoc(k).getIndex()][trip.getLoc(k+1).getIndex()];
-            trip.setLegMileage(dist , k);
-        }
-
         int newTotalMil = 0;
         for(int m = 0; m < trip.getSize() - 1; m++){
-            newTotalMil += trip.getLegMileage(m);
+            newTotalMil += distances[trip.getLoc(m).getIndex()][trip.getLoc(m+1).getIndex()];
         }
         trip.setTotalMileage(newTotalMil);
 
@@ -84,12 +79,12 @@ public class TripMaker {
         int prevLocationIndex = start;
         Trip trip = new Trip(locations.size());
 
-        trip.addLoc(locations.get(start), -1);
+        trip.addLoc(locations.get(start));
         locations.get(start).setVisited(true);
 
         for(int i = 0; i < locations.size() -1 ; ++i){
             nnPosition = findNN(prevLocationIndex);
-            trip.addLoc(locations.get(nnPosition), distances[prevLocationIndex][nnPosition]);
+            trip.addLoc(locations.get(nnPosition));
             locations.get(nnPosition).setVisited(true);
 
 
@@ -270,8 +265,8 @@ public class TripMaker {
 
             Location locJ = trip.getLoc(j);
 
-            trip.addLoc(locI, j);
-            trip.addLoc(locJ, i);
+            trip.addLoc(locI);
+            trip.addLoc(locJ);
 
             ++i;
             --j;
@@ -316,23 +311,23 @@ public class TripMaker {
 
         c = 0;
         while(c < i){
-            trip.addLoc(sect0[c], c);
+            trip.addLoc(sect0[c]);
             ++c;
         }
         while(c < j){
-            trip.addLoc(sect1[c-i], c);
+            trip.addLoc(sect1[c-i]);
             ++c;
         }
         while(c < k){
-            trip.addLoc(sect2[c-j], c);
+            trip.addLoc(sect2[c-j]);
             ++c;
         }
         while(c < l){
-            trip.addLoc(sect3[c-k], c);
+            trip.addLoc(sect3[c-k]);
             ++c;
         }
         while(c < trip.getSize()){
-            trip.addLoc(sect4[c-l], c);
+            trip.addLoc(sect4[c-l]);
             ++c;
         }
     }
