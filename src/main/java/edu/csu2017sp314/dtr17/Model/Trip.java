@@ -41,6 +41,63 @@ public class Trip {
         }
     }
 
+    public void swap(int i, int j, int k, int l){
+        //array to hold the locations before i
+        Location[] sect0 = new Location[i];
+        //array to hold the first section of the array that will be swapped
+        Location[] sect1 = new Location[j-i];
+        //array to hold the locations between the two sections being swapped
+        Location[] sect2 = new Location[k-j];
+        //array to hold the third section of the array that will be swapped
+        Location[] sect3 = new Location[l-k];
+        //array to hold the locations after l
+        Location[] sect4 = new Location[trip.length -l];
+
+        int c = 0;
+        while(c < i){
+            sect0[c] = trip[c];
+            ++c;
+        }
+        while(c < j){
+            sect1[c-i] = trip[c];
+            ++c;
+        }
+        while(c < k){
+            sect2[c-j] = trip[c];
+            ++c;
+        }
+        while(c < l){
+            sect3[c-k] = trip[c];
+            ++c;
+        }
+        while(c < trip.length){
+            sect4[c-l] = trip[c];
+            ++c;
+        }
+
+        c = 0;
+        while(c < i){
+            trip[c] = sect0[c];
+            ++c;
+        }
+        while(c < j){
+            trip[c] = sect1[c-i];
+            ++c;
+        }
+        while(c < k){
+            trip[c] = sect2[c-j];
+            ++c;
+        }
+        while(c < l){
+            trip[c] = sect3[c-k];
+            ++c;
+        }
+        while(c < trip.length){
+            trip[c] = sect4[c-l];
+            ++c;
+        }
+    }
+
     protected void recalculateDistances(int start, int end){
         for(int i = start; i < end; ++i){
             if(i == 0){
