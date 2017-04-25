@@ -21,8 +21,12 @@ public class TripMaker {
 
     public TripMaker(ArrayList<Location> locations){
         this.locations = locations;
+        distances = new double[locations.size()][locations.size()];
+    }
 
-        distances = new double[locations.size()][locations.size()] ;
+    //creates the trip
+    public Trip makeTrip(boolean twoOptBool, boolean threeOptBool, boolean unit){
+        unitSelect = unit;
 
         //initialize distance lookup array
         for(int i = 0; i < locations.size(); ++i){
@@ -32,11 +36,6 @@ public class TripMaker {
             }
         }
 
-    }
-
-    //creates the trip
-    public Trip makeTrip(boolean twoOptBool, boolean threeOptBool, boolean unit){
-        unitSelect = unit;
         Trip trip;
         trip = nearestNeighbor(0);
         if(threeOptBool){
