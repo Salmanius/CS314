@@ -13,6 +13,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import main.java.edu.csu2017sp314.dtr17.Model.Airport;
 import main.java.edu.csu2017sp314.dtr17.Model.DatabaseFetcher;
 import main.java.edu.csu2017sp314.dtr17.Model.XMLParser;
 import main.java.edu.csu2017sp314.dtr17.Presenter.Presenter;
@@ -291,9 +292,11 @@ public class GUIController {
         selectedListBox.getItems().clear();
         airportNames.clear();
 
-        for(int i = 0; i < loadedIDs.size(); ++i){
+        ArrayList<Airport> airports = fetcher.getAirportsFromAirportIDs(loadedIDs);
+
+        for(int i = 0; i < airports.size(); ++i){
             airportNames.add(loadedIDs.get(i));
-            selectedListBox.getItems().add(fetcher.getAirportNameFromID(loadedIDs.get(i)));
+            selectedListBox.getItems().add(airports.get(i).getName());
         }
 
     }

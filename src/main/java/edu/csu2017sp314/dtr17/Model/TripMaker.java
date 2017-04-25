@@ -61,9 +61,6 @@ public class TripMaker {
             populateTripMileages(newTrip);
 
             if(newTrip.getMileage() < trip.getMileage()){
-                System.out.println();
-                System.out.println(newTrip.getMileage());
-                System.out.println(trip.getMileage());
                 trip = newTrip;
             }
         }

@@ -39,11 +39,13 @@ public class Model {
     public Trip getTrip(ArrayList<String> airportNames, boolean twoOptBool, boolean threeOptBool, boolean unit){
         locations.clear();
         DatabaseFetcher fetcher = new DatabaseFetcher();
-        for(int i = 0; i < airportNames.size(); ++i){
-            String id = airportNames.get(i);
-            String name = fetcher.getAirportNameFromID(airportNames.get(i));
-            String latitude = fetcher.getLatitudeFromID(airportNames.get(i));
-            String longitude = fetcher.getLongitudeFromID(airportNames.get(i));
+
+        ArrayList<Airport> airports = fetcher.getAirportsFromAirportIDs(airportNames);
+        for(int i = 0; i < airports.size(); ++i){
+            String id = airports.get(i).getID();
+            String name = airports.get(i).getName();
+            String latitude = airports.get(i).getLatitude();
+            String longitude = airports.get(i).getLongitude();
 
             locations.add(new Location(id, name, latitude, longitude));
         }
