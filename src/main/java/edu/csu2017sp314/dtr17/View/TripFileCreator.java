@@ -21,7 +21,7 @@ public class TripFileCreator {
     private ArrayList<Integer> yList = new ArrayList<Integer>();
     private ArrayList<Integer> mileages = new ArrayList<Integer>();
 
-    public static final double FILE_SCALE = 5.0;
+    public static final double FILE_SCALE = 4.0;
     public static final double RAW_WIDTH = 800;
     public static final double RAW_HEIGHT = 400;
     public static final double FILE_WIDTH = RAW_WIDTH*(FILE_SCALE/(RAW_WIDTH/360));

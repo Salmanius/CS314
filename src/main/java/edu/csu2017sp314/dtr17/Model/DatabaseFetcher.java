@@ -288,6 +288,56 @@ public class DatabaseFetcher {
         return code;
     }
 
+    public ArrayList<Airport> getAirportsFromAirportIDs(List<String> IDs){
+        ArrayList<Airport> airports = new ArrayList<Airport>();
+        ResultSet rs = null;
+        String query = "select * from airports where id in(";
+
+        for(int i = 0; i < IDs.size() - 1; ++i){
+            query += "'" + IDs.get(i) + "' , ";
+        }
+        query += "'" + IDs.get(IDs.size() - 1) + "')";
+
+        try {
+            connect();
+            rs = statement.executeQuery(query);
+
+            while (rs.next()) {
+                airports.add(initializeAirport(rs));
+            }
+
+            disconnect();
+            rs.close();
+        } catch (SQLException e) {
+            System.err.printf("error in getAirportsFromAirportIDs: ");
+            System.err.println(e.getMessage());
+        }
+
+        return airports;
+    }
+
+    //Initializes an airport from a result set containing all airport columns.
+    protected Airport initializeAirport(ResultSet rs) throws SQLException {
+        Airport airport = new Airport();
+
+        airport.setName(rs.getString("name"));
+        airport.setLongitude(rs.getString("longitude"));
+        airport.setLatitude(rs.getString("latitude"));
+        airport.setID(rs.getString("id"));
+        airport.setContinent(rs.getString("continent"));
+        airport.setIso_country(rs.getString("iso_country"));
+        airport.setIso_region(rs.getString("iso_region"));
+        airport.setMunicipality(rs.getString("municipality"));
+        airport.setWikipedia_link(rs.getString("wikipedia_link"));
+        airport.setGps_code(rs.getString("gps_code"));
+        airport.setHome_link(rs.getString("home_link"));
+        airport.setScheduled_service(rs.getString("scheduled_service"));
+        airport.setIata_code(rs.getString("iata_code"));
+        airport.setLocal_code(rs.getString("local_code"));
+
+        return airport;
+    }
+
     public String getAirportIDFromName(String airPortName){
         ResultSet rs = null;
         String code = "";
