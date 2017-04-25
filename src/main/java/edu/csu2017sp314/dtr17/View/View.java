@@ -49,12 +49,9 @@ public class View {
         tripFileCreator.printSVGFile(svgFileName, showID, showName, showMileage, useBGMap);
         tripFileCreator.printXMLFile(xmlFileName);
 
-        //if (useGUI)
-            // gui.setItineraryStrings(tripFileCreator.getItineraryStrings());
+        tripFileCreator.clear();
 
-            tripFileCreator.clear();
-
-            return svgFileName;
+        return svgFileName;
     }
 
     public boolean getMileageFlag() {
@@ -175,7 +172,6 @@ public class View {
 
     public void updateItinerary() {
 
-        // gui.updateItinerary();
     }
 
     public boolean isGUIOn() {

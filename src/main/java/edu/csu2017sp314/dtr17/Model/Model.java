@@ -16,26 +16,6 @@ public class Model {
         locations = new ArrayList<Location>();
     }
 
-    /*public void parseCSV(String fileName){
-        locations.clear();
-        CSVParser parser = new CSVParser(fileName);
-        parser.parse();
-        //parser.printData();
-
-        CSVData csvData = parser.getCSVData();
-        //System.out.println(csvData.getHeight());
-        for(int i = 0; i < csvData.getHeight(); ++i){
-            //System.out.println(i);
-            String id = csvData.getValue("id", i);
-            String name = csvData.getValue("name", i);
-            String latitude = csvData.getValue("latitude", i);
-            String longitude = csvData.getValue("longitude", i);
-
-            locations.add(new Location(id, name, latitude, longitude));
-        }
-
-    } */
-
     public Trip getTrip(ArrayList<String> airportNames, boolean twoOptBool, boolean threeOptBool, boolean unit){
         locations.clear();
         DatabaseFetcher fetcher = new DatabaseFetcher();
