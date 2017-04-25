@@ -31,7 +31,6 @@ public class TripFileCreator {
     public static final String BACKGROUND_FILE_NAME = "World4.svg";
 
     private String[] itineraryStrings;
-    //private GUI gui;
 
     public TripFileCreator(){}
 
@@ -256,8 +255,6 @@ public class TripFileCreator {
             e.printStackTrace();
         }
 
-        //gui.startGUI();
-        //gui.setSVGFilePath(svgName);
     }
 
     protected void printXMLFile(String fileName){

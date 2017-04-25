@@ -28,22 +28,6 @@ public class Presenter {
     }
 
     public void start() {
-        if(!view.isGUIOn()) {
-            /*String fileName = view.getFilename();
-            model.parseCSV(fileName);
-            //Trip trip = model.getTrip(view.isTwoOpt(), view.isThreeOpt(), units);
-
-            //pass data to the View
-            for (int i = 0; i < trip.getSize()-1; i++) {
-                Location loc = trip.getLoc(i);
-                view.addLocation(loc.getName(), loc.getId(),
-                        loc.getDblLongitude(), loc.getDblLatitude(), trip.getLegMileage(i));
-            }
-            view.setTotalMileage(trip.getTotalMileage());
-
-            view.printFiles(); */
-        }
-
     }
 
     public void setGuiController(GUIController guiController){
@@ -52,8 +36,7 @@ public class Presenter {
 
     public void createSVGButtonPressed(ArrayList<String> airportNames, boolean twoOP, boolean threeOP, boolean units,
                                        boolean showID, boolean showDistance, boolean showNames ){
-        //String fileName = view.getFilename();
-        //model.parseCSV(fileName);
+
         Trip trip = model.getTrip(airportNames, twoOP,threeOP, units);
 
         //pass data to the View
@@ -66,7 +49,7 @@ public class Presenter {
         view.setTotalMileage(trip.getTotalMileage());
 
         String svgFile = view.printFiles(showID, showDistance, showNames);
-        //view.displaySVG();
+
         view.updateItinerary();
         guiController.displaySVG(svgFile);
     }

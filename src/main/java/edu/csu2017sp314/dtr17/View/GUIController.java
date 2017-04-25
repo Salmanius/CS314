@@ -77,7 +77,6 @@ public class GUIController {
         }catch (MalformedURLException exception){
             url = "";
         }
-        //SVGWebView.getEngine().load(url);
 
         WebView wv = new WebView();
         wv.getEngine().setCreatePopupHandler(new Callback<PopupFeatures, WebEngine>() {
@@ -107,7 +106,6 @@ public class GUIController {
     }
 
     public void loadMapPressed(ActionEvent actionEvent) {
-        //presenter.createSVGButtonPressed(false, false);
     }
 
     public void setPresenter(Presenter presenter){
@@ -201,12 +199,7 @@ public class GUIController {
     }
 
     public void searchButtonPressed(ActionEvent actionEvent) {
-        //resetSearchFields();
         selectionListBox.getItems().clear();
-
-        //String query = "select id,name, municipality,iso_country,type from airports where " +
-        //        "continent = '" + continentID + "' and iso_country = '" + isoCountry +
-        //        "' and iso_region = '" + isoRegion + "' and municipality = '" + municipality + "'";
 
         String sqlColumnSpecifier = "";
         boolean isFirst = true;
