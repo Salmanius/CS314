@@ -223,7 +223,6 @@ public class TripMaker {
                             ++improvements;
                         }
                         if(dist7 < distNormCopy){
-                            distNormCopy = dist7;
                             selection = 7;
                             ++improvements;
                         }
@@ -233,27 +232,34 @@ public class TripMaker {
                                 break;
                             case 1:
                                 trip.performTwoOptReverse(j+1, k);
+                                --improvements;
                                 break;
                             case 2:
                                 trip.performTwoOptReverse(i+1, j);
+                                --improvements;
                                 break;
                             case 3:
                                 trip.performTwoOptReverse(i+1, k);
+                                --improvements;
                                 break;
                             case 4:
                                 trip.swap(i+1, j, j+1, k);
+                                --improvements;
                                 break;
                             case 5:
                                 trip.performTwoOptReverse(j+1,k);
                                 trip.swap(i+1, j, j+1, k);
+                                --improvements;
                                 break;
                             case 6:
                                 trip.performTwoOptReverse(i+1,j);
                                 trip.swap(i+1, j, j+1, k);
+                                --improvements;
                                 break;
                             case 7:
                                 trip.performTwoOptReverse(i+1, j);
                                 trip.performTwoOptReverse(j+1, k);
+                                --improvements;
                                 break;
                         }
                     }

@@ -41,61 +41,56 @@ public class Trip {
         }
     }
 
-    public void swap(int i, int j, int k, int l){
-        //array to hold the locations before i
-        Location[] sect0 = new Location[i];
+    public void swap(int segOneStart, int segOneEnd, int segTwoStart, int segTwoEnd){
+        //System.out.println("Swap called " + segOneStart + " " + segOneEnd + " " + segTwoStart + " " + segTwoEnd );
         //array to hold the first section of the array that will be swapped
-        Location[] sect1 = new Location[j-i];
+        Location[] sect1 = new Location[segOneEnd-segOneStart + 1];
         //array to hold the locations between the two sections being swapped
-        Location[] sect2 = new Location[k-j];
+        //Location[] sect2 = new Location[segTwoStart-segOneEnd + 1];
         //array to hold the third section of the array that will be swapped
-        Location[] sect3 = new Location[l-k];
-        //array to hold the locations after l
-        Location[] sect4 = new Location[trip.length -l];
+        Location[] sect3 = new Location[segTwoEnd-segTwoStart + 1];
 
-        int c = 0;
-        while(c < i){
-            sect0[c] = trip[c];
-            ++c;
-        }
-        while(c < j){
-            sect1[c-i] = trip[c];
-            ++c;
-        }
-        while(c < k){
-            sect2[c-j] = trip[c];
-            ++c;
-        }
-        while(c < l){
-            sect3[c-k] = trip[c];
-            ++c;
-        }
-        while(c < trip.length){
-            sect4[c-l] = trip[c];
-            ++c;
+        //Store locations in temporary arrays.
+        for(int i = segOneStart; i < segOneEnd + 1; ++i){
+            sect1[i - segOneStart] = trip[i];
         }
 
-        c = 0;
-        while(c < i){
-            trip[c] = sect0[c];
-            ++c;
+        /*for(int i = segOneEnd; i < segTwoStart + 1; ++i ){
+            sect2[i - segOneEnd] = trip[i];
+        }*/
+
+        for(int i = segTwoStart; i < segTwoEnd + 1; ++i){
+            sect3[i - segTwoStart] = trip[i];
         }
-        while(c < j){
-            trip[c] = sect1[c-i];
-            ++c;
+
+        //do swaps
+
+        //copy segment 3 to the beginning
+        int i = segOneStart;
+        int j = 0;
+
+        while(i < segOneStart + sect3.length){
+            trip[i] = sect3[j];
+            ++i;
+            ++j;
         }
-        while(c < k){
-            trip[c] = sect2[c-j];
-            ++c;
+
+        /*j = 0;
+        while(i < segOneStart + sect3.length + sect2.length){
+            trip[i] = sect2[j];
+            ++i;
+            ++j;
+        }*/
+
+        j = 0;
+        int remaining = i + sect1.length;
+        while (i < remaining){
+            trip[i] = sect1[j];
+            ++i;
+            ++j;
         }
-        while(c < l){
-            trip[c] = sect3[c-k];
-            ++c;
-        }
-        while(c < trip.length){
-            trip[c] = sect4[c-l];
-            ++c;
-        }
+
+
     }
 
     protected void recalculateDistances(int start, int end){
