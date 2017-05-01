@@ -306,6 +306,14 @@ public class DatabaseFetcher {
                 airports.add(initializeAirport(rs));
             }
 
+            for(int i = 0; i < airports.size(); ++i){
+                String countryQuery = "select name from countries where code = '" + airports.get(i).getIsoCountry() + "'";
+                rs = statement.executeQuery(countryQuery);
+
+                rs.next();
+                airports.get(i).setCountryName(rs.getString("name"));
+            }
+
             disconnect();
             rs.close();
         } catch (SQLException e) {
@@ -325,15 +333,16 @@ public class DatabaseFetcher {
         airport.setLatitude(rs.getString("latitude"));
         airport.setID(rs.getString("id"));
         airport.setContinent(rs.getString("continent"));
-        airport.setIso_country(rs.getString("iso_country"));
-        airport.setIso_region(rs.getString("iso_region"));
+        airport.setIsoCountry(rs.getString("iso_country"));
+        airport.setIsoRegion(rs.getString("iso_region"));
         airport.setMunicipality(rs.getString("municipality"));
-        airport.setWikipedia_link(rs.getString("wikipedia_link"));
+        airport.setWikipediaLink(rs.getString("wikipedia_link"));
         airport.setGps_code(rs.getString("gps_code"));
-        airport.setHome_link(rs.getString("home_link"));
-        airport.setScheduled_service(rs.getString("scheduled_service"));
-        airport.setIata_code(rs.getString("iata_code"));
-        airport.setLocal_code(rs.getString("local_code"));
+        airport.setHomeLink(rs.getString("home_link"));
+        airport.setScheduledService(rs.getString("scheduled_service"));
+        airport.setIataCode(rs.getString("iata_code"));
+        airport.setLocalCode(rs.getString("local_code"));
+        airport.setType(rs.getString("type"));
 
         return airport;
     }
@@ -381,22 +390,29 @@ public class DatabaseFetcher {
 
         return code;
     }
-    public ArrayList<String> searchForAirports(String columnSpecifier){
-        ArrayList<String> airports = new ArrayList<String>();
+    public ArrayList<Airport> searchForAirports(String columnSpecifier){
+        ArrayList<Airport> airports = new ArrayList<Airport>();
 
         ResultSet rs = null;
 
-        String query = "select id,name, municipality,iso_country,type from airports where " + columnSpecifier;
+        String query = "select * from airports where " + columnSpecifier;
 
         try {
             connect();
             rs = statement.executeQuery(query);
 
             while (rs.next()) {
-                airports.add(rs.getString("name"));
+                airports.add(initializeAirport(rs));
             }
 
-            Collections.sort(airports.subList(0, airports.size()));
+            for(int i = 0; i < airports.size(); ++i){
+                String countryQuery = "select name from countries where code = '" + airports.get(i).getIsoCountry() + "'";
+                rs = statement.executeQuery(countryQuery);
+
+                rs.next();
+                //System.out.println(rs.getString("name"));
+                airports.get(i).setCountryName(rs.getString("name"));
+            }
 
             disconnect();
             rs.close();

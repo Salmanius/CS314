@@ -1,7 +1,5 @@
 package main.java.edu.csu2017sp314.dtr17.View;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -18,7 +16,6 @@ import main.java.edu.csu2017sp314.dtr17.Model.DatabaseFetcher;
 import main.java.edu.csu2017sp314.dtr17.Model.XMLParser;
 import main.java.edu.csu2017sp314.dtr17.Presenter.Presenter;
 
-import java.beans.XMLDecoder;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -63,11 +60,11 @@ public class GUIController {
     protected Presenter presenter;
     protected DatabaseFetcher fetcher;
 
-    protected ArrayList<String> airportNames;
+    protected ArrayList<String> searchedAirportIDs = new ArrayList<String>();
+    protected ArrayList<String> selectedAirportIDs = new ArrayList<String>();
 
     public GUIController(){
         fetcher = new DatabaseFetcher();
-        airportNames = new ArrayList<String>();
     }
 
     public void displaySVG(String filePath) {
@@ -200,6 +197,7 @@ public class GUIController {
 
     public void searchButtonPressed(ActionEvent actionEvent) {
         selectionListBox.getItems().clear();
+        searchedAirportIDs.clear();
 
         String sqlColumnSpecifier = "";
         boolean isFirst = true;
@@ -255,20 +253,41 @@ public class GUIController {
         if(sqlColumnSpecifier.isEmpty())
             sqlColumnSpecifier = " 1 = 1 ";
 
-        ArrayList<String> airports = fetcher.searchForAirports(sqlColumnSpecifier);
+        ArrayList<Airport> airports = fetcher.searchForAirports(sqlColumnSpecifier);
+        for(int i = 0; i < airports.size(); ++i){
+            searchedAirportIDs.add(airports.get(i).getID());
+        }
+        ArrayList<String> display = getDisplayStringsFromAirports(airports);
 
-        selectionListBox.getItems().addAll(airports);
+        selectionListBox.getItems().addAll(display);
 
+    }
+
+    protected ArrayList<String> getDisplayStringsFromAirports(ArrayList<Airport> airports){
+        ArrayList<String> displayStrings = new ArrayList<String>();
+
+        String airportInfo = "";
+        for(int i = 0; i < airports.size(); ++i){
+            airportInfo += airports.get(i).getName() + " | ";
+            airportInfo += airports.get(i).getType() + " | ";
+            airportInfo += airports.get(i).getFullContinent() + " | ";
+            airportInfo += airports.get(i).getCountryName();
+
+            displayStrings.add(airportInfo);
+            airportInfo = "";
+        }
+
+        return displayStrings;
     }
 
     public void selectButtonPressed(ActionEvent actionEvent) {
         selectedListBox.getItems().add(selectionListBox.getSelectionModel().getSelectedItem().toString());
-        airportNames.add(fetcher.getAirportIDFromName(selectionListBox.getSelectionModel().getSelectedItem().toString()));
+        selectedAirportIDs.add(searchedAirportIDs.get(selectionListBox.getSelectionModel().getSelectedIndex()));
     }
 
     public void clearButtonPressed(ActionEvent actionEvent) {
         selectedListBox.getItems().clear();
-        airportNames.clear();
+        selectedAirportIDs.clear();
     }
 
     public void loadButtonPressed(ActionEvent actionEvent) {
@@ -283,13 +302,14 @@ public class GUIController {
 
         ArrayList<String> loadedIDs = parser.parseXML(file.getAbsolutePath());
         selectedListBox.getItems().clear();
-        airportNames.clear();
+        selectedAirportIDs.clear();
 
         ArrayList<Airport> airports = fetcher.getAirportsFromAirportIDs(loadedIDs);
+        ArrayList<String> displayStrings = getDisplayStringsFromAirports(airports);
 
         for(int i = 0; i < airports.size(); ++i){
-            airportNames.add(loadedIDs.get(i));
-            selectedListBox.getItems().add(airports.get(i).getName());
+            selectedAirportIDs.add(loadedIDs.get(i));
+            selectedListBox.getItems().add(displayStrings.get(i));
         }
 
     }
@@ -339,7 +359,7 @@ public class GUIController {
             }
         }
 
-        presenter.createSVGButtonPressed(airportNames, twoOp,threeOp, units, idCheckBox.isSelected(),
+        presenter.createSVGButtonPressed(selectedAirportIDs, twoOp,threeOp, units, idCheckBox.isSelected(),
                 distanceCheckBox.isSelected(), namesCheckBox.isSelected());
     }
 }
