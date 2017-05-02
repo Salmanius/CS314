@@ -55,9 +55,33 @@ public class Presenter {
             stringUnits = "Miles";
         }
         String svgFile = view.printFiles(showID, showNames, showDistance, stringUnits);
-      
-        view.updateItinerary();
+
         guiController.displaySVG(svgFile);
+    }
+
+    public void showItineraryButtonPressed(ArrayList<String> airportNames, boolean twoOP, boolean threeOP, boolean units,
+                                       boolean showID, boolean showDistance, boolean showNames ){
+
+        Trip trip = model.getTrip(airportNames, twoOP,threeOP, units);
+
+        //pass data to the View
+        for(int i = 0; i < trip.getSize() -1; i++){
+            Location loc = trip.getLoc(i);
+
+            view.addLocation(loc.getName(), loc.getId() ,
+                    loc.getDblLongitude(), loc.getDblLatitude(), (int) trip.calculateDistanceBetween(trip.getLoc(i), trip.getLoc(i+1), units)); //THIS HAS GOTTA BE UPDATED!!!!!!!!!!!!!
+        }
+        view.setTotalMileage(trip.getTotalMileage());
+
+        String stringUnits = "";
+        if(units){
+            stringUnits = "Kilometers";
+        }else{
+            stringUnits = "Miles";
+        }
+        view.printFiles(showID, showNames, showDistance, stringUnits);
+
+        guiController.showItinerary(view.getHtmlFileName());
     }
 }
 

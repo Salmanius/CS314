@@ -14,9 +14,10 @@ public class View {
     protected boolean useBGMap = true;
 
     protected String csvFileName;
-    protected String svgFileName;
-    protected String xmlFileName;
-    protected String kmlFileName;
+    protected String svgFileName = "map.svg";
+    protected String xmlFileName = "itinerary.xml";
+    protected String kmlFileName = "trip.kml";
+    protected String htmlFileName = "itinerary.html";
 
     protected int totalMileage;
 
@@ -39,8 +40,7 @@ public class View {
         tripFileCreator.setTotalMileage(totalMileage);
         tripFileCreator.printSVGFile(svgFileName, showID, showName, showMileage, units);
         tripFileCreator.printXMLFile(xmlFileName);
-        tripFileCreator.printHTMLFile(xmlFileName.substring(0,xmlFileName.length() - 3) + "html");
-        kmlFileName = xmlFileName.substring(0,xmlFileName.length() - 3) + "kml";
+        tripFileCreator.printHTMLFile(htmlFileName);
         tripFileCreator.printKMLFile(kmlFileName);
 
         tripFileCreator.clear();
@@ -101,7 +101,7 @@ public class View {
         options.addOption(namesOption);
 
         Option csvPathOption = new Option("p", "csvpath", true, "set the filename or path to the input csv file");
-        csvPathOption.setRequired(true);
+        csvPathOption.setRequired(false);
         options.addOption(csvPathOption);
 
         Option svgOutputOption = new Option("s", "svgname", true, "set the filename or path to the output svg file");
@@ -146,26 +146,39 @@ public class View {
         threeOpt = cmd.hasOption("threeOpt");
         useBGMap = true;//cmd.hasOption("bgmap");
 
-        csvFileName = cmd.getOptionValue("csvpath");
-        String filenameCut = csvFileName.substring(0, csvFileName.length() - 4);
+        if (cmd.hasOption("csvpath")) {
+            csvFileName = cmd.getOptionValue("csvpath");
+        }
 
         if (cmd.hasOption("svgname")) {
             svgFileName = cmd.getOptionValue("svgname");
-        } else {
-            svgFileName = filenameCut + ".svg";
         }
 
         if (cmd.hasOption("xmlname")) {
             xmlFileName = cmd.getOptionValue("xmlname");
-        } else {
-            xmlFileName = filenameCut + ".xml";
         }
 
         return 0;
     }
 
-    public void updateItinerary() {
+    public void setXmlFileName(String xmlFileName) {
+        this.xmlFileName = xmlFileName;
+    }
 
+    public String getKmlFileName() {
+        return kmlFileName;
+    }
+
+    public void setKmlFileName(String kmlFileName) {
+        this.kmlFileName = kmlFileName;
+    }
+
+    public String getHtmlFileName() {
+        return htmlFileName;
+    }
+
+    public void setHtmlFileName(String htmlFileName) {
+        this.htmlFileName = htmlFileName;
     }
 
     public boolean isGUIOn() {
