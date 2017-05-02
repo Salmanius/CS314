@@ -48,7 +48,13 @@ public class Presenter {
         }
         view.setTotalMileage(trip.getTotalMileage());
 
-        String svgFile = view.printFiles(showID, showDistance, showNames);
+        String stringUnits = "";
+        if(units){
+            stringUnits = "Kilometers";
+        }else{
+            stringUnits = "Miles";
+        }
+        String svgFile = view.printFiles(showID, showNames, showDistance, stringUnits);
 
         view.updateItinerary();
         guiController.displaySVG(svgFile);

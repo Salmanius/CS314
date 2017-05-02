@@ -47,6 +47,7 @@ public class TripCo extends Application{
         //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("TripCo");
         primaryStage.setScene(new Scene(root, 700, 500));
+        primaryStage.setMaximized(true);
         primaryStage.show();
 
         model = new Model();

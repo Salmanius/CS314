@@ -27,6 +27,8 @@ public class TripFileCreator {
     public static final double FILE_WIDTH = RAW_WIDTH*(FILE_SCALE/(RAW_WIDTH/360));
     public static final double FILE_HEIGHT = RAW_HEIGHT*(FILE_SCALE/(RAW_HEIGHT/180));
 
+    protected String units;
+
 
     public static final String BACKGROUND_FILE_NAME = "World4.svg";
 
@@ -129,9 +131,12 @@ public class TripFileCreator {
         double milePosition = (FILE_HEIGHT) - 20;
         double stateMid = ((FILE_WIDTH) / 2.0);
 
+
+
         //write the titles to the file
         writer.println("<g>");
-        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"distance\" y=\"" + milePosition + "\" x=\"" + stateMid + "\">" + totalMileage + "</text>");
+        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"distance\" y=\""
+                + milePosition + "\" x=\"" + stateMid + "\">" + totalMileage + " " + units + "</text>");
         writer.println("</g>");
     }
 
@@ -212,12 +217,13 @@ public class TripFileCreator {
         }
     }
     //creates the svg file
-    public void printSVGFile(String filename, boolean showID, boolean showName, boolean showMileage, boolean useBGMap) {
+    public void printSVGFile(String filename, boolean showID, boolean showName, boolean showMileage, String units) {
 
         this.showID = showID;
         this.showName = showName;
         this.showMileage = showMileage;
         this.useBGMap = useBGMap;
+        this.units = units;
 
         String svgName = filename;
 
@@ -225,11 +231,7 @@ public class TripFileCreator {
         try {
             PrintWriter writer = new PrintWriter(svgName, "UTF-8");
 
-            if(useBGMap){
-                writeBackground(writer);
-            }else{
-                writeHeader(writer);
-            }
+            writeBackground(writer);
 
             //write the legs to the file
             writeLegsToSVG(writer);
@@ -298,6 +300,33 @@ public class TripFileCreator {
             e.printStackTrace();
         }
     }
+
+    protected void printKMLFile(String fileName){
+        //creates the name of the kml file
+        //writes to the kml file
+        try {
+            PrintWriter writer = new PrintWriter(fileName, "UTF-8");
+            writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");  //required part of xml style files
+            writer.println("<kml xmlns=\"http://www.opengis.net/kml/2.2\">"); //required for kml files
+            for (int i = 0; i < mileages.size(); i++){
+                writer.println("    <Placemark>");
+                writer.println("        <name>"+names.get(i)+"</name>"); //ADD THE NAME OF THE POINT
+                writer.println("        <description"+"ID:"+IDs.get(i)+"</description>"); //ADD NAME OF DESCRIPTION IF NEEDED
+                writer.println("        <Point>");
+                writer.println("            <coordinates>"+xList.get(i)+","+yList.get(i)+","+'0'+"</coordinates>"); //lat,long,altitude
+                writer.println("        </Point>");
+                writer.println("    </Placemark>");
+            }
+
+            writer.println("</kml>");
+            writer.close();
+
+        } catch (Exception e) {
+            System.out.println("An error has occurred while writing to the kml files.");
+            e.printStackTrace();
+        }
+    }
+
 
     public boolean wrapAround(int x1, int x2){
         int half = (int)FILE_WIDTH/2;
