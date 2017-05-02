@@ -35,10 +35,9 @@ public class View {
         tripFileCreator.addLocation(name, ID, longitude, latitude, mileageToNextLoc);
     }
 
-
-    public String printFiles(boolean showID, boolean showName, boolean showMileage) {
+    public String printFiles(boolean showID, boolean showName, boolean showMileage, String units) {
         tripFileCreator.setTotalMileage(totalMileage);
-        tripFileCreator.printSVGFile(svgFileName, showID, showName, showMileage, useBGMap);
+        tripFileCreator.printSVGFile(svgFileName, showID, showName, showMileage, units);
         tripFileCreator.printXMLFile(xmlFileName);
         kmlFileName = (xmlFileName.length() - 3) + "kml";
         tripFileCreator.printKMLFile(kmlFileName);
