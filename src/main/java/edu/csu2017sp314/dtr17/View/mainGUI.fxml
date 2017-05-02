@@ -210,7 +210,8 @@
 
                    <Pane GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
 
-                   <Button fx:id="showMapButton" onAction="#showMapButtonPressed" prefWidth="75" text="Show Map" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+                   <Button fx:id="showItineraryButton" onAction="#showItineraryButtonPressed" prefWidth="100" text="Show Itinerary" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+                   <Button fx:id="showMapButton" onAction="#showMapButtonPressed" prefWidth="75" text="Show Map" GridPane.columnIndex="5" GridPane.rowIndex="0" />
             <columnConstraints>
                <ColumnConstraints />
                <ColumnConstraints />

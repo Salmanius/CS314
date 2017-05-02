@@ -305,6 +305,55 @@ public class TripFileCreator {
         }
     }
 
+    protected void printHTMLFile(String fileName){
+        //creates the name of the xml file
+        itineraryStrings = new String[mileages.size()];
+        //writes to the xml file
+        try {
+            PrintWriter writer = new PrintWriter(fileName, "UTF-8");
+            writer.println("<!DOCTYPE html> \n  <html>\n <head>\n <meta charset='UTF-8'>\n <title>HTML Itinerary</title>\n " +
+		    "</head>\n <body>\n	<table border=1>\n <thead>\n <tr>\n <th>sequence</th>\n	<th>start</th>\n <th>finish</th>\n <th>mileage</th>\n " +
+			"</tr>\n </thead>\n <tbody>\n");
+
+            /*<tr>
+                <td>1</td>
+                <td>Kaufana Airport</td>
+				<td>Greenthorpe Airport</td>
+                <td>2389</td>
+            </tr>*/
+
+            for (int i = 0; i < mileages.size(); i++) {
+                String secondName;
+                String itineraryString = "";
+                if (i + 1 >= names.size()) {
+                    secondName = names.get(0);
+                } else {
+                    secondName = names.get(i + 1);
+                }
+
+                writer.println("<tr>");
+                writer.println("<td>" + (i + 1) + "</td>");
+                writer.println("<td>" + names.get(i) + "</td>");
+                writer.println("<td>" + secondName + "</td>");
+                writer.println("<td>" + mileages.get(i) + "</td>");
+                writer.println("</tr>");
+
+                //data pulled from xml for itinerary
+                itineraryString = itineraryString
+                        + (i + 1) + " "
+                        + names.get(i) + " to "
+                        + secondName + ", "
+                        + mileages.get(i) + " miles";
+                itineraryStrings[i] = itineraryString;
+            }
+            writer.println("</tbody> \n </table> \n</body> \n</html>");
+
+        } catch (Exception e) {
+            System.out.println("An error has occurred while writing to the html files.");
+            e.printStackTrace();
+        }
+    }
+
     protected void printKMLFile(String fileName){
         //creates the name of the kml file
         //writes to the kml file
