@@ -309,7 +309,7 @@ public class TripFileCreator {
             for (int i = 0; i < mileages.size(); i++){
                 writer.println("    <Placemark>");
                 writer.println("        <name>"+names.get(i)+"</name>"); //ADD THE NAME OF THE POINT
-                writer.println("        <description"+"ID:"+IDs.get(i)+"</description>"); //ADD NAME OF DESCRIPTION IF NEEDED
+                writer.println("        <description>"+"ID: "+IDs.get(i)+"</description>"); //ADD NAME OF DESCRIPTION IF NEEDED
                 writer.println("        <Point>");
                 writer.println("            <coordinates>"+xList.get(i)+","+yList.get(i)+","+'0'+"</coordinates>"); //lat,long,altitude
                 writer.println("        </Point>");
