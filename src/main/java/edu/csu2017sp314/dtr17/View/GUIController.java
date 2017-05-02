@@ -23,7 +23,14 @@ import main.java.edu.csu2017sp314.dtr17.Model.DatabaseFetcher;
 import main.java.edu.csu2017sp314.dtr17.Model.XMLParser;
 import main.java.edu.csu2017sp314.dtr17.Presenter.Presenter;
 
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +63,7 @@ public class GUIController {
     public CheckBox distanceCheckBox;
     public CheckBox namesCheckBox;
     public Button showMapButton;
+    public Button showItineraryButton;
 
     protected String selectedContinentID = "";
     protected String selectedISOCountry = "";
@@ -387,5 +395,32 @@ public class GUIController {
 
         presenter.createSVGButtonPressed(selectedAirportIDs, twoOp,threeOp, units, idCheckBox.isSelected(),
                 distanceCheckBox.isSelected(), namesCheckBox.isSelected());
+    }
+
+    public void showItineraryButtonPressed(ActionEvent actionEvent) {
+        WebView wv = new WebView();
+        wv.getEngine().setCreatePopupHandler(new Callback<PopupFeatures, WebEngine>() {
+
+            @Override
+            public WebEngine call(PopupFeatures p) {
+                Stage stage = new Stage(StageStyle.UTILITY);
+                WebView wv2 = new WebView();
+                stage.setScene(new Scene(wv2, 2000, 1000));
+                stage.show();
+                return wv2.getEngine();
+            }
+        });
+
+        StackPane root = new StackPane();
+        root.getChildren().add(wv);
+
+        Scene scene = new Scene(root, 300, 250);
+
+        final Stage stage = new Stage();
+        stage.setTitle("Trip Map");
+        stage.setScene(scene);
+        stage.show();
+        stage.setMaximized(true);
+        wv.getEngine().load("CompanyInfo.html");
     }
 }

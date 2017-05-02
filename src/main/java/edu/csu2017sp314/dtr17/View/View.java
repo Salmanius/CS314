@@ -39,6 +39,7 @@ public class View {
         tripFileCreator.setTotalMileage(totalMileage);
         tripFileCreator.printSVGFile(svgFileName, showID, showName, showMileage, units);
         tripFileCreator.printXMLFile(xmlFileName);
+        tripFileCreator.printHTMLFile(xmlFileName.substring(0,xmlFileName.length() - 3) + "html");
         kmlFileName = xmlFileName.substring(0,xmlFileName.length() - 3) + "kml";
         tripFileCreator.printKMLFile(kmlFileName);
 
