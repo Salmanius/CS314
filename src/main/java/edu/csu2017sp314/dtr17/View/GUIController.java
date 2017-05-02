@@ -1,8 +1,15 @@
 package main.java.edu.csu2017sp314.dtr17.View;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.PopupFeatures;
 import javafx.scene.web.WebEngine;
@@ -84,11 +91,29 @@ public class GUIController {
                 WebView wv2 = new WebView();
                 stage.setScene(new Scene(wv2, 2000, 1000));
                 stage.show();
-                stage.setMaximized(true);
                 return wv2.getEngine();
             }
         });
 
+        final DoubleProperty zoomProperty = new SimpleDoubleProperty(1);
+
+        zoomProperty.addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable arg0) {
+                wv.setZoom(zoomProperty.get());
+            }
+        });
+
+        wv.addEventFilter(ScrollEvent.ANY, new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                if (event.getDeltaY() > 0) {
+                    zoomProperty.set(zoomProperty.get() * 1.1);
+                } else if (event.getDeltaY() < 0) {
+                    zoomProperty.set(zoomProperty.get() / 1.1);
+                }
+            }
+        });
 
         StackPane root = new StackPane();
         root.getChildren().add(wv);
@@ -99,6 +124,7 @@ public class GUIController {
         stage.setTitle("Trip Map");
         stage.setScene(scene);
         stage.show();
+        stage.setMaximized(true);
         wv.getEngine().load(url);
     }
 
