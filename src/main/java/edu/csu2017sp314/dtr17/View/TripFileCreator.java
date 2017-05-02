@@ -27,6 +27,8 @@ public class TripFileCreator {
     public static final double FILE_WIDTH = RAW_WIDTH*(FILE_SCALE/(RAW_WIDTH/360));
     public static final double FILE_HEIGHT = RAW_HEIGHT*(FILE_SCALE/(RAW_HEIGHT/180));
 
+    protected String units;
+
 
     public static final String BACKGROUND_FILE_NAME = "World4.svg";
 
@@ -129,9 +131,12 @@ public class TripFileCreator {
         double milePosition = (FILE_HEIGHT) - 20;
         double stateMid = ((FILE_WIDTH) / 2.0);
 
+
+
         //write the titles to the file
         writer.println("<g>");
-        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"distance\" y=\"" + milePosition + "\" x=\"" + stateMid + "\">" + totalMileage + "</text>");
+        writer.println("<text text-anchor=\"middle\" font-family=\"Sans-serif\" font-size=\"24\" id=\"distance\" y=\""
+                + milePosition + "\" x=\"" + stateMid + "\">" + totalMileage + " " + units + "</text>");
         writer.println("</g>");
     }
 
@@ -212,12 +217,13 @@ public class TripFileCreator {
         }
     }
     //creates the svg file
-    public void printSVGFile(String filename, boolean showID, boolean showName, boolean showMileage, boolean useBGMap) {
+    public void printSVGFile(String filename, boolean showID, boolean showName, boolean showMileage, String units) {
 
         this.showID = showID;
         this.showName = showName;
         this.showMileage = showMileage;
         this.useBGMap = useBGMap;
+        this.units = units;
 
         String svgName = filename;
 
@@ -225,11 +231,7 @@ public class TripFileCreator {
         try {
             PrintWriter writer = new PrintWriter(svgName, "UTF-8");
 
-            if(useBGMap){
-                writeBackground(writer);
-            }else{
-                writeHeader(writer);
-            }
+            writeBackground(writer);
 
             //write the legs to the file
             writeLegsToSVG(writer);
@@ -309,7 +311,7 @@ public class TripFileCreator {
             for (int i = 0; i < mileages.size(); i++){
                 writer.println("    <Placemark>");
                 writer.println("        <name>"+names.get(i)+"</name>"); //ADD THE NAME OF THE POINT
-                writer.println("        <description"+"ID:"+IDs.get(i)+"</description>"); //ADD NAME OF DESCRIPTION IF NEEDED
+                writer.println("        <description>"+IDs.get(i)+"</description>"); //ADD NAME OF DESCRIPTION IF NEEDED
                 writer.println("        <Point>");
                 writer.println("            <coordinates>"+xList.get(i)+","+yList.get(i)+","+'0'+"</coordinates>"); //lat,long,altitude
                 writer.println("        </Point>");

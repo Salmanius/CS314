@@ -47,9 +47,15 @@ public class Presenter {
                     loc.getDblLongitude(), loc.getDblLatitude(), (int) trip.calculateDistanceBetween(trip.getLoc(i), trip.getLoc(i+1), units)); //THIS HAS GOTTA BE UPDATED!!!!!!!!!!!!!
         }
         view.setTotalMileage(trip.getTotalMileage());
-
-        String svgFile = view.printFiles(showID, showNames, showDistance);
-
+      
+        String stringUnits = "";
+        if(units){
+            stringUnits = "Kilometers";
+        }else{
+            stringUnits = "Miles";
+        }
+        String svgFile = view.printFiles(showID, showNames, showDistance, stringUnits);
+      
         view.updateItinerary();
         guiController.displaySVG(svgFile);
     }
