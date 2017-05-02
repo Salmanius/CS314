@@ -7,19 +7,38 @@ public class Airport {
     protected String name;
     protected String ID;
     protected String continent;
+    protected String fullContinent;
     protected String longitude;
     protected String latitude;
     protected String elevation;
-    protected String iso_country;
-    protected String iso_region;
+    protected String isoCountry;
+    protected String countryName;
+    protected String isoRegion;
     protected String municipality;
-    protected String scheduled_service;
-    protected String gps_code;
-    protected String iata_code;
-    protected String local_code;
-    protected String home_link;
-    protected String wikipedia_link;
+    protected String scheduledService;
+    protected String gpsCode;
+    protected String iataCode;
+    protected String localCode;
+    protected String homeLink;
+    protected String wikipediaLink;
     protected String keywords;
+    protected String type;
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getID() {
         return ID;
@@ -43,6 +62,7 @@ public class Airport {
 
     public void setContinent(String continent) {
         this.continent = continent;
+        convertToFullContinent();
     }
 
     public String getLongitude() {
@@ -69,20 +89,20 @@ public class Airport {
         this.elevation = elevation;
     }
 
-    public String getIso_country() {
-        return iso_country;
+    public String getIsoCountry() {
+        return isoCountry;
     }
 
-    public void setIso_country(String iso_country) {
-        this.iso_country = iso_country;
+    public void setIsoCountry(String iso_country) {
+        this.isoCountry = iso_country;
     }
 
-    public String getIso_region() {
-        return iso_region;
+    public String getIsoRegion() {
+        return isoRegion;
     }
 
-    public void setIso_region(String iso_region) {
-        this.iso_region = iso_region;
+    public void setIsoRegion(String iso_region) {
+        this.isoRegion = iso_region;
     }
 
     public String getMunicipality() {
@@ -93,52 +113,52 @@ public class Airport {
         this.municipality = municipality;
     }
 
-    public String getScheduled_service() {
-        return scheduled_service;
+    public String getScheduledService() {
+        return scheduledService;
     }
 
-    public void setScheduled_service(String scheduled_service) {
-        this.scheduled_service = scheduled_service;
+    public void setScheduledService(String scheduledService) {
+        this.scheduledService = scheduledService;
     }
 
-    public String getGps_code() {
-        return gps_code;
+    public String getGpsCode() {
+        return gpsCode;
     }
 
-    public void setGps_code(String gps_code) {
-        this.gps_code = gps_code;
+    public void setGps_code(String gpsCode) {
+        this.gpsCode = gpsCode;
     }
 
-    public String getIata_code() {
-        return iata_code;
+    public String getIataCode() {
+        return iataCode;
     }
 
-    public void setIata_code(String iata_code) {
-        this.iata_code = iata_code;
+    public void setIataCode(String iataCode) {
+        this.iataCode = iataCode;
     }
 
-    public String getLocal_code() {
-        return local_code;
+    public String getLocalCode() {
+        return localCode;
     }
 
-    public void setLocal_code(String local_code) {
-        this.local_code = local_code;
+    public void setLocalCode(String localCode) {
+        this.localCode = localCode;
     }
 
-    public String getHome_link() {
-        return home_link;
+    public String getHomeLink() {
+        return homeLink;
     }
 
-    public void setHome_link(String home_link) {
-        this.home_link = home_link;
+    public void setHomeLink(String homeLink) {
+        this.homeLink = homeLink;
     }
 
-    public String getWikipedia_link() {
-        return wikipedia_link;
+    public String getWikipediaLink() {
+        return wikipediaLink;
     }
 
-    public void setWikipedia_link(String wikipedia_link) {
-        this.wikipedia_link = wikipedia_link;
+    public void setWikipediaLink(String wikipediaLink) {
+        this.wikipediaLink = wikipediaLink;
     }
 
     public String getKeywords() {
@@ -147,5 +167,30 @@ public class Airport {
 
     public void setKeywords(String keywords) {
         this.keywords = keywords;
+    }
+
+    public String getFullContinent() {
+        return fullContinent;
+    }
+
+    public void setFullContinent(String fullContinent) {
+        this.fullContinent = fullContinent;
+    }
+
+    protected void convertToFullContinent(){
+        if(continent.equals("NA"))
+            fullContinent = "North America";
+        else if(continent.equals("AF"))
+            fullContinent = "Africa";
+        else if(continent.equals("AN"))
+            fullContinent = "Antarctica";
+        else if(continent.equals("AS"))
+            fullContinent = "Asia";
+        else if(continent.equals("EU"))
+            fullContinent = "Europe";
+        else if(continent.equals("OC"))
+            fullContinent = "Oceania";
+        else if(continent.equals("SA"))
+            fullContinent = "South America";
     }
 }

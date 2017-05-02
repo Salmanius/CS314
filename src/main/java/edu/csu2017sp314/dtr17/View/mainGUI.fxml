@@ -18,8 +18,8 @@
 <HBox alignment="TOP_LEFT" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.edu.csu2017sp314.dtr17.View.GUIController">
     <GridPane HBox.hgrow="ALWAYS">
        <children>
-           <GridPane hgap="10.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
-               <GridPane GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
+           <GridPane hgap="10.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.rowIndex="0">
+               <GridPane GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.rowIndex="0">
                    <GridPane alignment="CENTER" hgap="10" vgap="10" GridPane.columnIndex="1">
                        <ComboBox fx:id="airportTypePicker" onAction="#airportTypeChanged" prefWidth="150" promptText="Airport Type" GridPane.hgrow="NEVER" GridPane.rowIndex="1">
                            <items>
@@ -90,7 +90,7 @@
                </GridPane>
 
 
-               <GridPane hgap="10" vgap="10" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
+               <GridPane hgap="10" vgap="10" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.rowIndex="0">
                    <ListView fx:id="selectionListBox" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
                    <Button fx:id="selectButton" onAction="#selectButtonPressed" prefWidth="75" text="Select" GridPane.columnIndex="0" GridPane.rowIndex="1" />
                 <columnConstraints>
@@ -105,7 +105,7 @@
                </padding>
                </GridPane>
 
-               <GridPane hgap="10" vgap="10" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
+               <GridPane hgap="10" vgap="10" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.rowIndex="0">
                    <ListView fx:id="selectedListBox" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
                    <GridPane alignment="center" hgap="5" vgap="10" GridPane.columnIndex="0" GridPane.rowIndex="1">
                        <Button fx:id="clearButton" onAction="#clearButtonPressed" prefWidth="75" text="Clear" GridPane.columnIndex="0" GridPane.rowIndex="0" />
@@ -210,7 +210,7 @@
 
                    <Pane GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
 
-                   <Button fx:id="showMapButton" onAction="#showMapButtonPressed" prefWidth="75" style="-fx-background-color: #ADD8E6;" text="Show Map" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+                   <Button fx:id="showMapButton" onAction="#showMapButtonPressed" prefWidth="75" text="Show Map" GridPane.columnIndex="4" GridPane.rowIndex="0" />
             <columnConstraints>
                <ColumnConstraints />
                <ColumnConstraints />
