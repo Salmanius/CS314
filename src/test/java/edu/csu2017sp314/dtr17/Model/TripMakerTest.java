@@ -70,8 +70,7 @@ public class TripMakerTest {
         Location A = new Location("0","testA", "40.578629","-105.085226");
         Location B = new Location("1","testB","40.017238", "-105.281881");
 
-        //assertEquals(-105.085226, A.getDblLongitude(), .001);
-        assertEquals(40, test.calculateDistanceBetween(A,B));
+        assertEquals(40.1601, test.calculateDistanceBetween(A,B), 0.001);
     }
 
     @Test

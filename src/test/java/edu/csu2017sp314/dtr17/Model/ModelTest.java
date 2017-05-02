@@ -11,11 +11,6 @@ import static org.junit.Assert.*;
  */
 public class ModelTest {
     @Test
-    public void parseCSV() throws Exception {
-
-    }
-
-    @Test
     public void getTrip() throws Exception {
 
     }
