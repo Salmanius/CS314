@@ -19,6 +19,8 @@ public class TripFileCreator {
     private ArrayList<String> IDs = new ArrayList<String>();
     private ArrayList<Integer> xList = new ArrayList<Integer>();
     private ArrayList<Integer> yList = new ArrayList<Integer>();
+    private ArrayList<Double> xRaw = new ArrayList<Double>();
+    private ArrayList<Double> yRaw = new ArrayList<Double>();
     private ArrayList<Integer> mileages = new ArrayList<Integer>();
 
     public static final double FILE_SCALE = 4.0;
@@ -53,6 +55,8 @@ public class TripFileCreator {
     public void addLocation(String name, String ID, double longitude, double latitude, int mileageToNextLoc) {
         names.add(name);
         IDs.add(ID);
+        xRaw.add(longitude);
+        yRaw.add(latitude);
 
         int pixLong = longToPix(longitude);
         xList.add(pixLong);
@@ -357,16 +361,37 @@ public class TripFileCreator {
             PrintWriter writer = new PrintWriter(fileName, "UTF-8");
             writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");  //required part of xml style files
             writer.println("<kml xmlns=\"http://www.opengis.net/kml/2.2\">"); //required for kml files
-            for (int i = 0; i < mileages.size(); i++){
-                writer.println("    <Placemark>");
-                writer.println("        <name>"+names.get(i)+"</name>"); //ADD THE NAME OF THE POINT
-                writer.println("        <description>"+IDs.get(i)+"</description>"); //ADD NAME OF DESCRIPTION IF NEEDED
-                writer.println("        <Point>");
-                writer.println("            <coordinates>"+xList.get(i)+","+yList.get(i)+","+'0'+"</coordinates>"); //lat,long,altitude
-                writer.println("        </Point>");
-                writer.println("    </Placemark>");
-            }
+            writer.println("    <Document>");
+            writer.println("        <name>"+"Generated Map"+"</name>");
+            writer.println("        <Style id=\"transBluePoly\">\n" +
+                    "         <LineStyle>\n" +
+                    "            <width>1.5</width>\n" +
+                    "        </LineStyle>\n" +
+                    "        <PolyStyle>\n" +
+                    "         <color>7dff0000</color>\n" +
+                    "        </PolyStyle>\n" +
+                    "        </Style>");
 
+            writer.println("     <Placemark>");
+            writer.println("        <LineString>");
+            writer.print("          <coordinates>");
+            for (int i = 0; i < mileages.size(); i++){
+                writer.print(xRaw.get(i)+","+yRaw.get(i)+","+'0'+" ");
+            }
+            writer.print(xRaw.get(0)+","+yRaw.get(0)+","+'0');
+            writer.print("</coordinates>");
+            writer.println("        </LineString>");
+            writer.println("     </Placemark>");
+            for (int i = 0; i < mileages.size(); i++){
+                writer.println("     <Placemark>");
+                writer.println("            <name>"+names.get(i)+"</name>"); //ADD THE NAME OF THE POINT
+                writer.println("            <description>"+IDs.get(i)+"</description>"); //ADD NAME OF DESCRIPTION IF NEEDED
+                writer.println("           <Point>");
+                writer.println("               <coordinates>"+xRaw.get(i)+","+yRaw.get(i)+","+'0'+"</coordinates>"); //lat,long,altitude
+                writer.println("           </Point>");
+                writer.println("     </Placemark>");
+            }
+            writer.println("    </Document>");
             writer.println("</kml>");
             writer.close();
 

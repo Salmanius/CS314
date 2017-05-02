@@ -31,6 +31,9 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -349,6 +352,35 @@ public class GUIController {
     }
 
     public void saveButtonPressed(ActionEvent actionEvent) {
+        if (selectedAirportIDs.size() == 0){
+            return;
+        }
+        String filename = "savedTrip_" + selectedAirportIDs.size() + "items.xml";
+        try {
+            PrintWriter writer = new PrintWriter(filename,"UTF-8");
+            writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            writer.println("<selection>");
+            writer.println("<title>"+selectedAirportIDs.size()+" airports</title>");
+            writer.println("<filename>"+filename+"</filename>");
+            writer.println("<destinations>");
+            for (int i = 0; i < selectedAirportIDs.size(); i++){
+                writer.println("<id>"+selectedAirportIDs.get(i)+"</id>");
+            }
+            writer.println("</destinations>");
+            writer.println("</selection>");
+            writer.close();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Save Complete!");
+            alert.setHeaderText(null);
+            alert.setContentText("Your selection has been successfully saved to the main DTR directory as "+ filename);
+            alert.showAndWait();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("An error has occurred while writing to the same selection xml file.");
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     public void unitsChanged(ActionEvent actionEvent) {
