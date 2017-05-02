@@ -1,14 +1,5 @@
 package main.java.edu.csu2017sp314.dtr17.View;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.web.WebView;
-import javafx.stage.Stage;
-import main.java.edu.csu2017sp314.dtr17.Model.Model;
 import main.java.edu.csu2017sp314.dtr17.Presenter.Presenter;
 
 import org.apache.commons.cli.*;
@@ -25,6 +16,7 @@ public class View {
     protected String csvFileName;
     protected String svgFileName;
     protected String xmlFileName;
+    protected String kmlFileName;
 
     protected int totalMileage;
 
@@ -48,6 +40,8 @@ public class View {
         tripFileCreator.setTotalMileage(totalMileage);
         tripFileCreator.printSVGFile(svgFileName, showID, showName, showMileage, useBGMap);
         tripFileCreator.printXMLFile(xmlFileName);
+        kmlFileName = (xmlFileName.length() - 3) + "kml";
+        tripFileCreator.printKMLFile(kmlFileName);
 
         tripFileCreator.clear();
 
