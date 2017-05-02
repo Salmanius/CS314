@@ -44,10 +44,10 @@ public class Presenter {
             Location loc = trip.getLoc(i);
 
             view.addLocation(loc.getName(), loc.getId() ,
-                    loc.getDblLongitude(), loc.getDblLatitude(), 0); //THIS HAS GOTTA BE UPDATED!!!!!!!!!!!!!
+                    loc.getDblLongitude(), loc.getDblLatitude(), (int) trip.calculateDistanceBetween(trip.getLoc(i), trip.getLoc(i+1), units)); //THIS HAS GOTTA BE UPDATED!!!!!!!!!!!!!
         }
         view.setTotalMileage(trip.getTotalMileage());
-
+      
         String stringUnits = "";
         if(units){
             stringUnits = "Kilometers";
@@ -55,7 +55,7 @@ public class Presenter {
             stringUnits = "Miles";
         }
         String svgFile = view.printFiles(showID, showNames, showDistance, stringUnits);
-
+      
         view.updateItinerary();
         guiController.displaySVG(svgFile);
     }

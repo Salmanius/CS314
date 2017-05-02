@@ -81,6 +81,30 @@ public class Trip {
         }
     }
 
+    public double calculateDistanceBetween(Location A, Location B, boolean unitSelect){
+        double distance; //http://www.movable-type.co.uk/scripts/latlong.html
+        double earthsRadius;
+        if(unitSelect){
+            earthsRadius = 6372.8;
+        }
+        else{
+            earthsRadius = 3959.87433;
+        }
+        double latARadians = Math.toRadians(A.getDblLatitude());
+        double latBRadians = Math.toRadians(B.getDblLatitude());
+        double changeInLat = Math.toRadians(B.getDblLatitude() - A.getDblLatitude());
+        double changeInLong = Math.toRadians((B.getDblLongitude() - A.getDblLongitude()));
+
+        double a = Math.sin(changeInLat/2) * Math.sin(changeInLat/2)
+                + Math.cos(latARadians) * Math.cos(latBRadians)
+                * Math.sin(changeInLong/2) * Math.sin(changeInLong/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        distance = (earthsRadius * c);
+
+        return distance;
+    }
+
     public int getMileage(){
         return totalMileage;
     }
