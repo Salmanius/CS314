@@ -22,17 +22,17 @@ public class TripFileCreatorTest {
     @Test
     public void longToPix(){
         TripFileCreator t = new TripFileCreator();
-        assertEquals(1078,t.longToPix(35.5), .001);
-        assertEquals(1595,t.longToPix(139), .001);
-        assertEquals(1395,t.longToPix(99), .001);
+        assertEquals(862,t.longToPix(35.5), .001);
+        assertEquals(1276,t.longToPix(139), .001);
+        assertEquals(1116,t.longToPix(99), .001);
     }
 
     @Test
     public void latToPix(){
         TripFileCreator t = new TripFileCreator();
-        assertEquals(272,t.latToPix(35.5), .001);
-        assertEquals(-245,t.latToPix(139), .001);
-        assertEquals(-45,t.latToPix(99), .001);
+        assertEquals(218,t.latToPix(35.5), .001);
+        assertEquals(-196,t.latToPix(139), .001);
+        assertEquals(-36,t.latToPix(99), .001);
     }
 
     @Test
