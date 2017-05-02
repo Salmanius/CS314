@@ -139,6 +139,40 @@ public class GUIController {
         wv.getEngine().load(url);
     }
 
+    public void showItinerary(String htmlFileName){
+        String url = "";
+        try {
+            url = new File(htmlFileName).toURI().toURL().toString();
+        }catch (MalformedURLException exception){
+            url = "";
+        }
+
+        WebView wv = new WebView();
+        wv.getEngine().setCreatePopupHandler(new Callback<PopupFeatures, WebEngine>() {
+
+            @Override
+            public WebEngine call(PopupFeatures p) {
+                Stage stage = new Stage(StageStyle.UTILITY);
+                WebView wv2 = new WebView();
+                stage.setScene(new Scene(wv2, 2000, 1000));
+                stage.show();
+                return wv2.getEngine();
+            }
+        });
+
+        StackPane root = new StackPane();
+        root.getChildren().add(wv);
+
+        Scene scene = new Scene(root, 300, 250);
+
+        final Stage stage = new Stage();
+        stage.setTitle("Itinerary");
+        stage.setScene(scene);
+        stage.show();
+        stage.setMaximized(true);
+        wv.getEngine().load(url);
+    }
+
     public void loadMapPressed(ActionEvent actionEvent) {
     }
 
@@ -430,29 +464,31 @@ public class GUIController {
     }
 
     public void showItineraryButtonPressed(ActionEvent actionEvent) {
-        WebView wv = new WebView();
-        wv.getEngine().setCreatePopupHandler(new Callback<PopupFeatures, WebEngine>() {
-
-            @Override
-            public WebEngine call(PopupFeatures p) {
-                Stage stage = new Stage(StageStyle.UTILITY);
-                WebView wv2 = new WebView();
-                stage.setScene(new Scene(wv2, 2000, 1000));
-                stage.show();
-                return wv2.getEngine();
+        boolean twoOp = false;
+        boolean threeOp = false;
+        if (optimizationPicker.getSelectionModel().isEmpty()) {
+            twoOp = false;
+            threeOp = false;
+        } else {
+            if (optimizationPicker.getValue().toString().equals("Two-Op")) {
+                twoOp = true;
+            } else if (optimizationPicker.getValue().toString().equals("Three-Op")) {
+                threeOp = true;
             }
-        });
+        }
 
-        StackPane root = new StackPane();
-        root.getChildren().add(wv);
+        boolean units = false;
+        if (unitPicker.getSelectionModel().isEmpty()) {
+            units = false;
+        } else {
+            if (unitPicker.getValue().toString().equals("Miles")) {
+                units = false;
+            } else if (unitPicker.getValue().toString().equals("Kilometers")) {
+                units = true;
+            }
+        }
 
-        Scene scene = new Scene(root, 300, 250);
-
-        final Stage stage = new Stage();
-        stage.setTitle("Trip Map");
-        stage.setScene(scene);
-        stage.show();
-        stage.setMaximized(true);
-        wv.getEngine().load("CompanyInfo.html");
+        presenter.showItineraryButtonPressed(selectedAirportIDs, twoOp, threeOp, units, idCheckBox.isSelected(),
+                distanceCheckBox.isSelected(), namesCheckBox.isSelected());
     }
 }

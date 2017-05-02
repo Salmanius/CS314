@@ -125,7 +125,7 @@ public class TripFileCreator {
             } else {
                 writer.println("<line id=\"leg1\" y2=\"" + secondY + "\" x2=\""
                         + secondX + "\" y1=\"" + yList.get(i) + "\" x1=\""
-                        + xList.get(i) + "\" stroke-width=\"3\" stroke=\"#999999\"/>");
+                        + xList.get(i) + "\" stroke-width=\"1.7\" stroke=\"#999999\"/>");
             }
         }
         writer.println("</g>");
@@ -134,8 +134,6 @@ public class TripFileCreator {
     protected void writeTitlesToSVG(PrintWriter writer){
         double milePosition = (FILE_HEIGHT) - 20;
         double stateMid = ((FILE_WIDTH) / 2.0);
-
-
 
         //write the titles to the file
         writer.println("<g>");
@@ -150,11 +148,11 @@ public class TripFileCreator {
         writer.println("<title>Locations</title>");
         if (showID) {
             for (int i = 0; i < IDs.size(); i++) {
-                writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"id1\" y=\"" + yList.get(i) + "\" x=\"" + xList.get(i) + "\">" + IDs.get(i) + "</text>");
+                writer.println("<text font-family=\"Sans-serif\" font-size=\"4\" id=\"id1\" y=\"" + yList.get(i) + "\" x=\"" + xList.get(i) + "\">" + IDs.get(i) + "</text>");
             }
         } else if (showName) {
             for (int i = 0; i < names.size(); i++) {
-                writer.println("<text font-family=\"Sans-serif\" font-size=\"16\" id=\"id1\" y=\"" + yList.get(i) + "\" x=\"" + xList.get(i) + "\">" + names.get(i) + "</text>");
+                writer.println("<text font-family=\"Sans-serif\" font-size=\"4\" id=\"id1\" y=\"" + yList.get(i) + "\" x=\"" + xList.get(i) + "\">" + names.get(i) + "</text>");
             }
         }
         writer.println("</g>");
@@ -311,9 +309,9 @@ public class TripFileCreator {
         //writes to the xml file
         try {
             PrintWriter writer = new PrintWriter(fileName, "UTF-8");
-            writer.println("<!DOCTYPE html> \n  <html>\n <head>\n <meta charset='UTF-8'>\n <title>HTML Itinerary</title>\n " +
-		    "</head>\n <body>\n	<table border=1>\n <thead>\n <tr>\n <th>sequence</th>\n	<th>start</th>\n <th>finish</th>\n <th>mileage</th>\n " +
-			"</tr>\n </thead>\n <tbody>\n");
+            writer.println("<!DOCTYPE html>\n <html>\n<head>\n<meta charset='UTF-8'>\n<title>HTML Itinerary</title>\n" +
+		    "</head>\n<body>\n<table border=1>\n <thead>\n <tr>\n<th>sequence</th>\n<th>start</th>\n<th>finish</th>\n<th>mileage</th>\n" +
+			"</tr>\n</thead>\n<tbody>\n");
 
             /*<tr>
                 <td>1</td>
@@ -346,7 +344,7 @@ public class TripFileCreator {
                         + mileages.get(i) + " miles";
                 itineraryStrings[i] = itineraryString;
             }
-            writer.println("</tbody> \n </table> \n</body> \n</html>");
+            writer.println("</tbody>\n</table>\n</body>\n</html>");
 
         } catch (Exception e) {
             System.out.println("An error has occurred while writing to the html files.");
@@ -413,13 +411,13 @@ public class TripFileCreator {
     public void printRightWrap(PrintWriter writer, int rx, int ry, int lx, int ly){
         writer.println("<line id=\"leg1\" y2=\"" + ry + "\" x2=\""
                 + rx + "\" y1=\"" + ly + "\" x1=\""
-                + (FILE_WIDTH+lx) + "\" stroke-width=\"3\" stroke=\"#999999\"/>");
+                + (FILE_WIDTH+lx) + "\" stroke-width=\"1.7\" stroke=\"#999999\"/>");
     }
 
     public void printLeftWrap(PrintWriter writer, int lx, int ly, int rx, int ry){
         writer.println("<line id=\"leg1\" y2=\"" + ly + "\" x2=\""
                 + lx + "\" y1=\"" + ry + "\" x1=\""
-                + (0-(FILE_WIDTH-rx)) + "\" stroke-width=\"3\" stroke=\"#999999\"/>");
+                + (0-(FILE_WIDTH-rx)) + "\" stroke-width=\"1.7\" stroke=\"#999999\"/>");
     }
 
     public String[] getItineraryStrings(){
